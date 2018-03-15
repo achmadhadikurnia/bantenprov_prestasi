@@ -6,7 +6,7 @@
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
           <button class="btn btn-primary btn-sm" role="button" @click="createRow">
-          	<i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
         </li>
       </ul>
@@ -38,9 +38,9 @@
           @vuetable:loaded="onLoaded">
           <template slot="actions" slot-scope="props">
             <div class="btn-group pull-right" role="group" style="display:flex;">
-              <!--<button class="btn btn-info btn-sm" role="button" @click="viewRow(props.rowData)">
+              <button class="btn btn-info btn-sm" role="button" @click="viewRow(props.rowData)">
                 <span class="fa fa-eye"></span>
-              </button>-->
+              </button>
               <button class="btn btn-warning btn-sm" role="button" @click="editRow(props.rowData)">
                 <span class="fa fa-pencil"></span>
               </button>
