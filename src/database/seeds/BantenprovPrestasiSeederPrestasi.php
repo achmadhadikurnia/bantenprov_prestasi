@@ -20,13 +20,45 @@ class BantenprovPrestasiSeederPrestasi extends Seeder
 
         $prestasis = (object) [
             (object) [
-                'label' => 'Prestasi 1',
-                'description' => 'Prestasi 1',
+                'label' => 'Sektor Sarana dan Prasarana',
+                'description' => '',
             ],
             (object) [
-                'label' => 'Prestasi 2',
-                'description' => 'Prestasi 2',
-            ]
+                'label' => 'Sektor Pemerintahan',
+                'description' => '',
+            ],
+            (object) [
+                'label' => 'Sektor Pembangunan',
+                'description' => '',
+            ],
+            (object) [
+                'label' => 'Sektor Pelayanan',
+                'description' => '',
+            ],
+            (object) [
+                'label' => 'Sektor Legislatif',
+                'description' => '',
+            ],
+            (object) [
+                'label' => 'Sektor Kewilayahan',
+                'description' => '',
+            ],
+            (object) [
+                'label' => 'Sektor Keuangan',
+                'description' => '',
+            ],
+            (object) [
+                'label' => 'Sektor Kepegawaian',
+                'description' => '',
+            ],
+            (object) [
+                'label' => 'Sektor Kemasyarakatan',
+                'description' => '',
+            ],
+            (object) [
+                'label' => 'Sektor Administrasi dan Manajemen',
+                'description' => '',
+            ],
         ];
 
         foreach ($prestasis as $prestasi) {

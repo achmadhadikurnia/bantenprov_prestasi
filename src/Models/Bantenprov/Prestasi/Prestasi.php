@@ -17,6 +17,6 @@ class Prestasi extends Model
     ];
     protected $fillable = [
         'label',
-        'description'
+        'description',
     ];
 }

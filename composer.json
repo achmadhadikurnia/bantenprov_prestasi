@@ -1,21 +1,30 @@
 {
     "name": "bantenprov/prestasi",
-    "description": "Nama Prestasi",
+    "description": "Prestasi",
+    "type": "library",
+    "homepage": "https://github.com/bantenprov/prestasi",
     "authors": [
         {
             "name": "bantenprov",
-            "email": "developer.bantenprov@gmail.com"
+            "email": "developer.bantenprov@gmail.com",
+            "homepage": "http://dev.bantenprov",
+            "role": "developer"
         }
     ],
     "license": "MIT",
     "support": {
-      "source": "https://github.com/bantenprov/prestasi,",
-      "issues": "https://github.com/bantenprov/prestasi/issues",
-      "wiki": "https://github.com/bantenprov/prestasi/wiki"
+        "source": "https://github.com/bantenprov/prestasi",
+        "issues": "https://github.com/bantenprov/prestasi/issues",
+        "wiki": "https://github.com/bantenprov/prestasi/wiki"
     },
     "require": {
         "php": ">=5.6.4",
-        "illuminate/support": "5.4.*"
+        "illuminate/support": "5.4.*",
+        "laravel/framework": "5.4.*",
+        "laravel/tinker": "~1.0"
+    },
+    "require-dev": {
+        "doctrine/dbal": "^2.5"
     },
     "autoload": {
         "files": [

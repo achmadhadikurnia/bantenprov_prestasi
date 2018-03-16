@@ -10,8 +10,6 @@
 [![Monthly Downloads](https://poser.pugx.org/bantenprov/prestasi/d/monthly)](https://packagist.org/packages/bantenprov/prestasi)
 [![Daily Downloads](https://poser.pugx.org/bantenprov/prestasi/d/daily)](https://packagist.org/packages/bantenprov/prestasi)
 
-
-# Prestasi
 Prestasi
 
 ### Install via composer
@@ -23,6 +21,10 @@ $ composer require bantenprov/prestasi:dev-master
 ```
 
 - Latest release:
+
+```bash
+$ composer require bantenprov/prestasi
+```
 
 ### Download via github
 
@@ -36,29 +38,19 @@ $ git clone https://github.com/bantenprov/prestasi.git
 'providers' => [
 
     /*
-    * Laravel Framework Service Providers...
-    */
-    Illuminate\Auth\AuthServiceProvider::class,
-    Illuminate\Broadcasting\BroadcastServiceProvider::class,
-    Illuminate\Bus\BusServiceProvider::class,
-    Illuminate\Cache\CacheServiceProvider::class,
-    Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-    Illuminate\Cookie\CookieServiceProvider::class,
+     * Package Service Providers...
+     */
+    Laravel\Tinker\TinkerServiceProvider::class,
     //....
     Bantenprov\Prestasi\PrestasiServiceProvider::class,
 ```
 
-#### Lakukan migrate :
-
-```bash
-$ php artisan migrate
-```
-
-#### Publish database seeder :
+#### Publish vendor :
 
 ```bash
 $ php artisan vendor:publish --tag=prestasi-seeds
-
+$ php artisan vendor:publish --tag=prestasi-assets
+$ php artisan vendor:publish --tag=prestasi-public
 ```
 
 #### Lakukan auto dump :
@@ -67,18 +59,18 @@ $ php artisan vendor:publish --tag=prestasi-seeds
 $ composer dump-autoload
 ```
 
+#### Lakukan migrate :
+
+```bash
+$ php artisan migrate
+```
+
 #### Lakukan seeding :
 
 ```bash
 $ php artisan db:seed --class=BantenprovPrestasiSeeder
 ```
 
-#### Lakukan publish component vue :
-
-```bash
-$ php artisan vendor:publish --tag=prestasi-assets
-$ php artisan vendor:publish --tag=prestasi-public
-```
 #### Tambahkan route di dalam file : `resources/assets/js/routes.js` :
 
 ```javascript
@@ -88,17 +80,17 @@ $ php artisan vendor:publish --tag=prestasi-public
     component: layout('Default'),
     children: [
         //== ...
-       {
-        path: '/dashboard/prestasi',
-        components: {
-            main: resolve => require(['./components/views/bantenprov/prestasi/DashboardPrestasi.vue'], resolve),
-            navbar: resolve => require(['./components/Navbar.vue'], resolve),
-            sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+        {
+            path: '/dashboard/prestasi',
+            components: {
+                main: resolve => require(['./components/views/bantenprov/prestasi/DashboardPrestasi.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Prestasi"
+            }
         },
-        meta: {
-            title: "Prestasi"
-        }
-      }
         //== ...
     ]
 },
@@ -130,7 +122,7 @@ $ php artisan vendor:publish --tag=prestasi-public
                 sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
             },
             meta: {
-                title: "Prestasi"
+                title: "Add Prestasi"
             }
         },
         {
@@ -141,7 +133,7 @@ $ php artisan vendor:publish --tag=prestasi-public
                 sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
             },
             meta: {
-                title: "Prestasi"
+                title: "View Prestasi"
             }
         },
         {
@@ -152,7 +144,7 @@ $ php artisan vendor:publish --tag=prestasi-public
                 sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
             },
             meta: {
-                title: "Prestasi"
+                title: "Edit Prestasi"
             }
         },
         //== ...
@@ -169,10 +161,10 @@ $ php artisan vendor:publish --tag=prestasi-public
     childItem: [
         //== ...
         {
-          name: 'Prestasi',
-          link: '/dashboard/prestasi',
-          icon: 'fa fa-angle-double-right'
-      }
+            name: 'Prestasi',
+            link: '/dashboard/prestasi',
+            icon: 'fa fa-angle-double-right'
+        },
         //== ...
     ]
 },
@@ -189,7 +181,7 @@ $ php artisan vendor:publish --tag=prestasi-public
             name: 'Prestasi',
             link: '/admin/prestasi',
             icon: 'fa fa-angle-double-right'
-          }
+        },
         //== ...
     ]
 },
@@ -198,22 +190,19 @@ $ php artisan vendor:publish --tag=prestasi-public
 #### Tambahkan components `resources/assets/js/components.js` :
 
 ```javascript
-
-//== Example Vuetable
-
 import Prestasi from './components/bantenprov/prestasi/Prestasi.chart.vue';
 Vue.component('echarts-prestasi', Prestasi);
 
 import PrestasiKota from './components/bantenprov/prestasi/PrestasiKota.chart.vue';
-Vue.component('echarts-dpp-bank-dinia-kota', PrestasiKota);
+Vue.component('echarts-prestasi-kota', PrestasiKota);
 
 import PrestasiTahun from './components/bantenprov/prestasi/PrestasiTahun.chart.vue';
-Vue.component('echarts-dpp-bank-dinia-tahun', PrestasiTahun);
+Vue.component('echarts-prestasi-tahun', PrestasiTahun);
 
 import PrestasiAdminShow from './components/bantenprov/prestasi/PrestasiAdmin.show.vue';
 Vue.component('admin-view-prestasi-tahun', PrestasiAdminShow);
 
-//== Echarts Prestasi
+//== Echarts Angka Partisipasi Kasar
 
 import PrestasiBar01 from './components/views/bantenprov/prestasi/PrestasiBar01.vue';
 Vue.component('prestasi-bar-01', PrestasiBar01);
@@ -234,3 +223,4 @@ Vue.component('prestasi-pie-02', PrestasiPie02);
 //== mini pie charts
 import PrestasiPie03 from './components/views/bantenprov/prestasi/PrestasiPie03.vue';
 Vue.component('prestasi-pie-03', PrestasiPie03);
+```

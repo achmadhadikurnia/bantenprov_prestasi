@@ -25,7 +25,7 @@
         <div class="card h-100" style="color: #fff; background-color: #009688;">
           <div class="card-header">
             <i class="fa fa-bar-chart" aria-hidden="true"></i>
-            Prestasi Berdasarkan Wilayah
+            Anggaran dan Penyereapan Berdasarkan OPD
           </div>
           <div class="card-body">
             <prestasi-bar-01></prestasi-bar-01>
@@ -36,7 +36,7 @@
         <div class="card h-100" style="color: #fff; background-color: #FF9800;">
           <div class="card-header">
             <i class="fa fa-pie-chart" aria-hidden="true"></i>
-            Prestasi Berdasarkan Tahun
+            Anggaran dan Penyereapan Berdasarkan OPD
           </div>
           <div class="card-body">
             <prestasi-pie-01></prestasi-pie-01>
@@ -52,7 +52,7 @@
         <div class="card h-100" style="color: #fff; background-color: #F44336;">
           <div class="card-header">
             <i class="fa fa-pie-chart" aria-hidden="true"></i>
-            Prestasi Berdasarkan Wilayah
+            Anggaran dan penyerapan per bulan tiap OPD
           </div>
           <div class="card-body">
             <prestasi-pie-02></prestasi-pie-02>
@@ -63,7 +63,7 @@
         <div class="card text-white bg-dark h-100">
           <div class="card-header">
             <i class="fa fa-bar-chart" aria-hidden="true"></i>
-            Prestasi Berdasarkan Tahun
+            Anggaran dan penyerapan per bulan tiap OPD
           </div>
           <div class="card-body">
             <prestasi-bar-02></prestasi-bar-02>

@@ -38,8 +38,8 @@ class PrestasiController extends Controller
      */
     public function index(Request $request)
     {
-        if (request()->has('sort')) {
-            list($sortCol, $sortDir) = explode('|', request()->sort);
+        if ($request->has('sort')) {
+            list($sortCol, $sortDir) = explode('|', $request->sort);
 
             $query = $this->prestasi->orderBy($sortCol, $sortDir);
         } else {
@@ -54,7 +54,7 @@ class PrestasiController extends Controller
             });
         }
 
-        $perPage = request()->has('per_page') ? (int) request()->per_page : null;
+        $perPage = $request->has('per_page') ? (int) $request->per_page : null;
         $response = $query->paginate($perPage);
 
         return response()->json($response)
@@ -69,12 +69,15 @@ class PrestasiController extends Controller
      */
     public function create()
     {
-        $prestasi = $this->prestasi;
+        $prestasi                 = $this->prestasi;
+        $prestasi->id             = null;
+        $prestasi->label          = null;
+        $prestasi->description    = null;
 
         $response['prestasi'] = $prestasi;
-        $response['status'] = true;
+        $response['loaded'] = true;
 
-        return response()->json($prestasi);
+        return response()->json($response);
     }
 
     /**
@@ -88,31 +91,23 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi;
 
         $validator = Validator::make($request->all(), [
-            'label' => 'required|max:16|unique:prestasis,label',
-            'description' => 'max:255',
+            'label'         => 'required|max:16|unique:prestasis,label,NULL,id,deleted_at,NULL',
+            'description'   => 'required|max:255',
         ]);
 
         if($validator->fails()){
-            $check = $prestasi->where('label',$request->label)->whereNull('deleted_at')->count();
-
-            if ($check > 0) {
-                $response['message'] = 'Failed, label ' . $request->label . ' already exists';
-            } else {
-                $prestasi->label = $request->input('label');
-                $prestasi->description = $request->input('description');
-                $prestasi->save();
-
-                $response['message'] = 'success';
-            }
+            $response['error'] = true;
+            $response['message'] = $validator->errors()->first();
         } else {
-            $prestasi->label = $request->input('label');
-            $prestasi->description = $request->input('description');
+            $prestasi->label          = $request->label;
+            $prestasi->description    = $request->description;
             $prestasi->save();
 
-            $response['message'] = 'success';
+            $response['error'] = false;
+            $response['message'] = 'Success';
         }
 
-        $response['status'] = true;
+        $response['loaded'] = true;
 
         return response()->json($response);
     }
@@ -128,7 +123,7 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi->findOrFail($id);
 
         $response['prestasi'] = $prestasi;
-        $response['status'] = true;
+        $response['loaded'] = true;
 
         return response()->json($response);
     }
@@ -144,7 +139,7 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi->findOrFail($id);
 
         $response['prestasi'] = $prestasi;
-        $response['status'] = true;
+        $response['loaded'] = true;
 
         return response()->json($response);
     }
@@ -160,40 +155,24 @@ class PrestasiController extends Controller
     {
         $prestasi = $this->prestasi->findOrFail($id);
 
-        if ($request->input('old_label') == $request->input('label'))
-        {
-            $validator = Validator::make($request->all(), [
-                'label' => 'required|max:16',
-                'description' => 'max:255',
-            ]);
+        $validator = Validator::make($request->all(), [
+            'label'         => 'required|max:16|unique:prestasis,label,'.$id.',id,deleted_at,NULL',
+            'description'   => 'required|max:255',
+        ]);
+
+        if($validator->fails()){
+            $response['error'] = true;
+            $response['message'] = $validator->errors()->first();
         } else {
-            $validator = Validator::make($request->all(), [
-                'label' => 'required|max:16|unique:prestasis,label',
-                'description' => 'max:255',
-            ]);
-        }
-
-        if ($validator->fails()) {
-            $check = $prestasi->where('label',$request->label)->whereNull('deleted_at')->count();
-
-            if ($check > 0) {
-                $response['message'] = 'Failed, label ' . $request->label . ' already exists';
-            } else {
-                $prestasi->label = $request->input('label');
-                $prestasi->description = $request->input('description');
-                $prestasi->save();
-
-                $response['message'] = 'success';
-            }
-        } else {
-            $prestasi->label = $request->input('label');
-            $prestasi->description = $request->input('description');
+            $prestasi->label          = $request->label;
+            $prestasi->description    = $request->description;
             $prestasi->save();
 
-            $response['message'] = 'success';
+            $response['error'] = false;
+            $response['message'] = 'Success';
         }
 
-        $response['status'] = true;
+        $response['loaded'] = true;
 
         return response()->json($response);
     }
@@ -209,9 +188,9 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi->findOrFail($id);
 
         if ($prestasi->delete()) {
-            $response['status'] = true;
+            $response['loaded'] = true;
         } else {
-            $response['status'] = false;
+            $response['loaded'] = false;
         }
 
         return json_encode($response);
