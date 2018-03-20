@@ -14,15 +14,28 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-        <div class="form-row">
+
+        <div class="form-row mt-4">
           <div class="col-md">
-            <b>Label :</b> {{ model.label }}
+            <b>Username :</b> {{ model.user.name }}
           </div>
         </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Description :</b> {{ model.description }}
+            <b>Master Prestasi :</b> {{ model.master_prestasi_id }}
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>Nomor UN :</b> {{ model.nomor_un }}
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>Nama Lomba :</b> {{ model.nama_lomba }}
           </div>
         </div>
 
@@ -39,9 +52,10 @@ export default {
     axios.get('api/prestasi/' + this.$route.params.id)
       .then(response => {
         if (response.data.status == true) {
-          this.model.label = response.data.prestasi.label;
-          this.model.old_label = response.data.prestasi.label;
-          this.model.description = response.data.prestasi.description;
+          this.model.user = response.data.user;
+          this.model.master_prestasi_id = response.data.prestasi.master_prestasi_id;
+          this.model.nomor_un = response.data.prestasi.nomor_un;
+          this.model.nama_lomba = response.data.prestasi.nama_lomba;
         } else {
           alert('Failed');
         }
@@ -56,11 +70,12 @@ export default {
     return {
       state: {},
       model: {
-        label: "",
-        description: "",
-        prestasi: "",
+        user: "",
+        master_prestasi_id: "",
+        nomor_un: "",
+        nama_lomba: "",
       },
-      prestasi: []
+      user: []
     }
   },
   methods: {
@@ -71,10 +86,10 @@ export default {
         return;
       } else {
         axios.put('api/prestasi/' + this.$route.params.id, {
-            label: this.model.label,
-            description: this.model.description,
-            old_label: this.model.old_label,
-            prestasi_id: this.model.prestasi.id
+            master_prestasi_id: this.model.master_prestasi_id,
+            nomor_un: this.model.nomor_un,
+            nama_lomba: this.model.old_label,
+            user_id: this.model.prestasi.id
           })
           .then(response => {
             if (response.data.status == true) {

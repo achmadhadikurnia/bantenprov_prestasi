@@ -14,34 +14,62 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-        <div class="form-row">
+
+    <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <input class="form-control" v-model="model.label" required autofocus name="label" type="text" placeholder="Label">
+            <label for="user_id">Username</label>
+            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
 
-              <field-messages name="label" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
-              </field-messages>
+            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">username is a required field</small>
+            </field-messages>
             </validate>
           </div>
+        </div>
 
+    <validate tag="div">
+          <div class="form-group">
+            <label for="model-master_prestasi_id">Master Prestasi ID</label>
+            <input type="text" class="form-control" id="model-master_prestasi_id" v-model="model.master_prestasi_id" name="master_prestasi_id" placeholder="Master Prestasi ID" required autofocus>
+            <field-messages name="master_prestasi_id" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
+         <validate tag="div">
+          <div class="form-group">
+            <label for="model-nomor_un">Nomor UN</label>
+            <input type="text" class="form-control" id="model-nomor_un" v-model="model.nomor_un" name="nomor_un" placeholder="Nomor UN" required autofocus>
+            <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
+         <validate tag="div">
+          <div class="form-group">
+            <label for="model-nama_lomba">Nama Lomba</label>
+            <input type="text" class="form-control" id="model-nama_lomba" v-model="model.nama_lomba" name="nama_lomba" placeholder="Nama Lomba" required autofocus>
+            <field-messages name="nama_lomba" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
+         <div class="form-row mt-4">
           <div class="col-md">
-            <validate tag="div">
-              <input class="form-control" v-model="model.description" name="description" type="text" placeholder="Description">
-
-              <field-messages name="description" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-              </field-messages>
-            </validate>
-          </div>
-
-          <div class="col-auto">
             <button type="submit" class="btn btn-primary">Submit</button>
 
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
+
       </vue-form>
     </div>
   </div>
@@ -49,13 +77,27 @@
 
 <script>
 export default {
+  mounted(){
+    axios.get('api/prestasi/create')
+    .then(response => {
+        response.data.user.forEach(user_element => {
+            this.user.push(user_element);
+        });
+    })
+    .catch(function(response) {
+      alert('Break');
+    });
+  },
   data() {
     return {
       state: {},
       model: {
-        label: "",
-        description: ""
-      }
+        master_prestasi_id: "",
+        user: "",
+        nomor_un: "",
+        nama_lomba: "",
+      },
+      user: []
     }
   },
   methods: {
@@ -66,8 +108,10 @@ export default {
         return;
       } else {
         axios.post('api/prestasi', {
-            label: this.model.label,
-            description: this.model.description
+            user_id: this.model.user.id,
+            master_prestasi_id: this.model.master_prestasi_id,
+            nomor_un: this.model.nomor_un,
+            nama_lomba: this.model.nama_lomba            
           })
           .then(response => {
             if (response.data.status == true) {
@@ -88,8 +132,9 @@ export default {
     },
     reset() {
       this.model = {
-          label: "",
-          description: ""
+          master_prestasi_id: "",
+          nomor_un: "",
+          nama_lomba: ""
       };
     },
     back() {

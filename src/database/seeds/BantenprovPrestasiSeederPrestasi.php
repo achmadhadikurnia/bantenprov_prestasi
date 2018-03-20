@@ -20,25 +20,31 @@ class BantenprovPrestasiSeederPrestasi extends Seeder
 
         $prestasis = (object) [
             (object) [
-                'label' => 'Prestasi 1',
-                'description' => 'Prestasi 1',
+                'user_id' => '1',
+                'master_prestasi_id' => '1',
+                'nomor_un' => '1',
+                'nama_lomba' => 'Lomba 2'              
             ],
             (object) [
-                'label' => 'Prestasi 2',
-                'description' => 'Prestasi 2',
+                'user_id' => '2',
+                'master_prestasi_id' => '2',
+                'nomor_un' => '2',
+                'nama_lomba' => 'Lomba 2'
             ]
         ];
 
         foreach ($prestasis as $prestasi) {
             $model = Prestasi::updateOrCreate(
                 [
-                    'label' => $prestasi->label,
-                ],
-                [
-                    'description' => $prestasi->description,
+                   'user_id' => $prestasi->user_id,
+                   'master_prestasi_id' => $prestasi->master_prestasi_id,
+                   'nomor_un' => $prestasi->nomor_un,
+                   'nama_lomba' => $prestasi->nama_lomba,
                 ]
             );
             $model->save();
         }
 	}
 }
+
+
