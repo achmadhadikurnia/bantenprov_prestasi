@@ -16,7 +16,14 @@ class Prestasi extends Model
         'deleted_at'
     ];
     protected $fillable = [
-        'label',
-        'description'
+        'user_id',
+        'master_prestasi_id',
+        'nomor_un',
+        'nama_lomba'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
 }

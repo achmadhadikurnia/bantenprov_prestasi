@@ -92,15 +92,27 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'label',
-          title: 'Label',
-          sortField: 'label',
+          name: 'user.name',
+          title: 'Username',
+          sortField: 'user_id',
           titleClass: 'center aligned'
         },
         {
-          name: 'description',
-          title: 'Description',
-          sortField: 'description',
+          name: 'master_prestasi_id',
+          title: 'Master Prestasi',
+          sortField: 'master_prestasi_id',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'nomor_un',
+          title: 'Nomor UN',
+          sortField: 'nomor_un',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'nama_lomba',
+          title: 'Nama Lomba',
+          sortField: 'nama_lomba',
           titleClass: 'center aligned'
         },
         {
@@ -111,7 +123,7 @@ export default {
         },
       ],
       sortOrder: [{
-        field: 'label',
+        field: 'id',
         direction: 'asc'
       }],
       moreParams: {},

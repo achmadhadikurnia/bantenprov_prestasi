@@ -14,35 +14,68 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-        <div class="form-row">
+
+        <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <input type="hidden" v-model="model.old_label" name="old_label">
-              <input class="form-control" v-model="model.label" required autofocus name="label" type="text" placeholder="Label">
+            <label for="user_id">Username</label>
+            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
 
-              <field-messages name="label" show="$invalid && $submitted" class="text-danger">
+            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Username is a required field</small>
+            </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <input class="form-control" v-model="model.master_prestasi_id" required autofocus name="master_prestasi_id" type="text" placeholder="Master Prestasi">
+
+              <field-messages name="master_prestasi_id" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Master Prestasi is a required field</small>
               </field-messages>
             </validate>
           </div>
+        </div>
 
+        <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <input class="form-control" v-model="model.description" name="description" type="text" placeholder="Description">
+              <input class="form-control" v-model="model.nomor_un" required autofocus name="nomor_un" type="text" placeholder="Nomor UN">
 
-              <field-messages name="description" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Nomor UN is a required field</small>
               </field-messages>
             </validate>
           </div>
+        </div>
 
-          <div class="col-auto">
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <input class="form-control" v-model="model.nama_lomba" required autofocus name="nama_lomba" type="text" placeholder="Nama Lomba">
+
+              <field-messages name="nama_lomba" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Nama Lomba is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
             <button type="submit" class="btn btn-primary">Submit</button>
 
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
+
       </vue-form>
     </div>
   </div>
@@ -54,9 +87,10 @@ export default {
     axios.get('api/prestasi/' + this.$route.params.id + '/edit')
       .then(response => {
         if (response.data.status == true) {
-          this.model.label = response.data.prestasi.label;
-          this.model.old_label = response.data.prestasi.label;
-          this.model.description = response.data.prestasi.description;
+          this.model.user = response.data.user,
+          this.model.master_prestasi_id = response.data.prestasi.master_prestasi_id;
+          this.model.nomor_un = response.data.prestasi.nomor_un;
+          this.model.nama_lomba = response.data.prestasi.nama_lomba;
         } else {
           alert('Failed');
         }
@@ -64,15 +98,28 @@ export default {
       .catch(function(response) {
         alert('Break');
         window.location.href = '#/admin/prestasi';
-      });
+      }),
+
+      axios.get('api/prestasi/create')
+      .then(response => {
+          response.data.user.forEach(user_element => {
+            this.user.push(user_element);
+          });
+      })
+      .catch(function(response) {
+        alert('Break');
+      })
   },
   data() {
     return {
       state: {},
       model: {
-        label: "",
-        description: ""
-      }
+        user: "",
+        master_prestasi_id: "",
+        nomor_un: "",
+        nama_lomba: "",
+      },
+      user: []
     }
   },
   methods: {
@@ -83,9 +130,10 @@ export default {
         return;
       } else {
         axios.put('api/prestasi/' + this.$route.params.id, {
-            label: this.model.label,
-            description: this.model.description,
-            old_label: this.model.old_label
+            user_id: this.model.user.id,
+            master_prestasi_id: this.model.master_prestasi_id,
+            nomor_un: this.model.nomor_un,
+            nama_lomba: this.model.nama_lomba
           })
           .then(response => {
             if (response.data.status == true) {
@@ -108,8 +156,9 @@ export default {
       axios.get('api/prestasi/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
-            this.model.label = response.data.prestasi.label;
-            this.model.description = response.data.prestasi.description;
+            this.model.master_prestasi_id = response.data.prestasi.master_prestasi_id;
+            this.model.nomor_un = response.data.prestasi.nomor_un;
+            this.model.nama_lomba = response.data.prestasi.nama_lomba;
           } else {
             alert('Failed');
           }

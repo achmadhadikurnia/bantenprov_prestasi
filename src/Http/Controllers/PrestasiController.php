@@ -9,6 +9,7 @@ use Bantenprov\Prestasi\Facades\PrestasiFacade;
 
 /* Models */
 use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\Prestasi;
+use App\User;
 
 /* Etc */
 use Validator;
@@ -26,9 +27,13 @@ class PrestasiController extends Controller
      *
      * @return void
      */
-    public function __construct(Prestasi $prestasi)
+    protected $prestasi;
+    protected $user;
+
+    public function __construct(Prestasi $prestasi, User $user)
     {
         $this->prestasi = $prestasi;
+        $this->user = $user;
     }
 
     /**
@@ -49,13 +54,17 @@ class PrestasiController extends Controller
         if ($request->exists('filter')) {
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
-                $q->where('label', 'like', $value)
-                    ->orWhere('description', 'like', $value);
+                $q->where('nomor_un', 'like', $value)
+                    ->orWhere('nama_lomba', 'like', $value);
             });
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
         $response = $query->paginate($perPage);
+
+        foreach($response as $user){
+            array_set($response->data, 'user', $user->user->name);
+        }
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -67,14 +76,19 @@ class PrestasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        $prestasi = $this->prestasi;
+        $users = $this->user->all();
 
-        $response['prestasi'] = $prestasi;
+        foreach($users as $user){
+            array_set($user, 'label', $user->name);
+        }
+
+        $response['user'] = $users;
         $response['status'] = true;
 
-        return response()->json($prestasi);
+        return response()->json($response);
     }
 
     /**
@@ -88,8 +102,10 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi;
 
         $validator = Validator::make($request->all(), [
-            'label' => 'required|max:16|unique:prestasis,label',
-            'description' => 'max:255',
+            'user_id' => 'required',
+            'master_prestasi_id' => 'required',
+            'nomor_un' => 'required',
+            'nama_lomba' => 'required|max:255',
         ]);
 
         if($validator->fails()){
@@ -98,16 +114,20 @@ class PrestasiController extends Controller
             if ($check > 0) {
                 $response['message'] = 'Failed, label ' . $request->label . ' already exists';
             } else {
-                $prestasi->label = $request->input('label');
-                $prestasi->description = $request->input('description');
+                $prestasi->user_id = $request->input('user_id');
+                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
+                $prestasi->nomor_un = $request->input('nomor_un');
+                $prestasi->nama_lomba = $request->input('nama_lomba');
                 $prestasi->save();
 
                 $response['message'] = 'success';
             }
         } else {
-            $prestasi->label = $request->input('label');
-            $prestasi->description = $request->input('description');
-            $prestasi->save();
+                $prestasi->user_id = $request->input('user_id');
+                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
+                $prestasi->nomor_un = $request->input('nomor_un');
+                $prestasi->nama_lomba = $request->input('nama_lomba');
+                $prestasi->save();
 
             $response['message'] = 'success';
         }
@@ -126,7 +146,8 @@ class PrestasiController extends Controller
     public function show($id)
     {
         $prestasi = $this->prestasi->findOrFail($id);
-
+        
+        $response['user'] = $prestasi->user;
         $response['prestasi'] = $prestasi;
         $response['status'] = true;
 
@@ -139,11 +160,15 @@ class PrestasiController extends Controller
      * @param  \App\Prestasi  $prestasi
      * @return \Illuminate\Http\Response
      */
+
     public function edit($id)
     {
         $prestasi = $this->prestasi->findOrFail($id);
 
+        array_set($prestasi->user, 'label', $prestasi->user->name);
+
         $response['prestasi'] = $prestasi;
+        $response['user'] = $prestasi->user;
         $response['status'] = true;
 
         return response()->json($response);
@@ -160,35 +185,44 @@ class PrestasiController extends Controller
     {
         $prestasi = $this->prestasi->findOrFail($id);
 
-        if ($request->input('old_label') == $request->input('label'))
+        if ($request->input('master_prestasi_id') == $request->input('master_prestasi_id'))
         {
             $validator = Validator::make($request->all(), [
-                'label' => 'required|max:16',
-                'description' => 'max:255',
+                'user_id' => 'required',
+                'master_prestasi_id' => 'required',
+                'nomor_un' => 'required',
+                'nama_lomba' => 'required|max:255',
+                
             ]);
         } else {
             $validator = Validator::make($request->all(), [
-                'label' => 'required|max:16|unique:prestasis,label',
-                'description' => 'max:255',
+                'user_id' => 'required',
+                'master_prestasi_id' => 'required',
+                'nomor_un' => 'required',
+                'nama_lomba' => 'required|max:255',
             ]);
         }
 
         if ($validator->fails()) {
-            $check = $prestasi->where('label',$request->label)->whereNull('deleted_at')->count();
+            $check = $prestasi->where('master_prestasi_id',$request->master_prestasi_id)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed, label ' . $request->label . ' already exists';
+                $response['message'] = 'Failed, master_prestasi_id ' . $request->master_prestasi_id . ' already exists';
             } else {
-                $prestasi->label = $request->input('label');
-                $prestasi->description = $request->input('description');
+                $prestasi->user_id = $request->input('user_id');
+                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
+                $prestasi->nomor_un = $request->input('nomor_un');
+                $prestasi->nama_lomba = $request->input('nama_lomba');
                 $prestasi->save();
 
                 $response['message'] = 'success';
             }
         } else {
-            $prestasi->label = $request->input('label');
-            $prestasi->description = $request->input('description');
-            $prestasi->save();
+                $prestasi->user_id = $request->input('user_id');
+                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
+                $prestasi->nomor_un = $request->input('nomor_un');
+                $prestasi->nama_lomba = $request->input('nama_lomba');
+                $prestasi->save();
 
             $response['message'] = 'success';
         }
