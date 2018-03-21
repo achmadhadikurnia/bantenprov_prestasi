@@ -71,6 +71,7 @@ $ composer dump-autoload
 
 ```bash
 $ php artisan db:seed --class=BantenprovPrestasiSeeder
+
 ```
 
 #### Lakukan publish component vue :
@@ -98,7 +99,19 @@ $ php artisan vendor:publish --tag=prestasi-public
         meta: {
             title: "Prestasi"
         }
-      }
+      },
+
+       {
+        path: '/dashboard/master-prestasi',
+        components: {
+            main: resolve => require(['./components/views/bantenprov/prestasi/master-prestasi/DashboardMasterPrestasi.vue'], resolve),
+            navbar: resolve => require(['./components/Navbar.vue'], resolve),
+            sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+        },
+        meta: {
+            title: "Master Prestasi"
+        }
+      },
         //== ...
     ]
 },
@@ -155,6 +168,52 @@ $ php artisan vendor:publish --tag=prestasi-public
                 title: "Prestasi"
             }
         },
+
+        {
+            path: '/admin/master-prestasi',
+            components: {
+                main: resolve => require(['./components/bantenprov/prestasi/master-prestasi/MasterPrestasi.index.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Master Prestasi"
+            }
+        },
+        {
+            path: '/admin/master-prestasi/create',
+            components: {
+                main: resolve => require(['./components/bantenprov/prestasi/master-prestasi/MasterPrestasi.add.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Add Master Prestasi"
+            }
+        },
+        {
+            path: '/admin/master-prestasi/:id',
+            components: {
+                main: resolve => require(['./components/bantenprov/prestasi/master-prestasi/MasterPrestasi.show.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Show Master Prestasi"
+            }
+        },
+        {
+            path: '/admin/master-prestasi/:id/edit',
+            components: {
+                main: resolve => require(['./components/bantenprov/prestasi/master-prestasi/MasterPrestasi.edit.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Edit Master Prestasi"
+            }
+        },
+
         //== ...
     ]
 },
@@ -172,7 +231,13 @@ $ php artisan vendor:publish --tag=prestasi-public
           name: 'Prestasi',
           link: '/dashboard/prestasi',
           icon: 'fa fa-angle-double-right'
-      }
+      },
+
+      {
+          name: 'Master Prestasi',
+          link: '/dashboard/master-prestasi',
+          icon: 'fa fa-angle-double-right'
+      },
         //== ...
     ]
 },
@@ -189,7 +254,12 @@ $ php artisan vendor:publish --tag=prestasi-public
             name: 'Prestasi',
             link: '/admin/prestasi',
             icon: 'fa fa-angle-double-right'
-          }
+          },
+          {
+          name: 'Master Prestasi',
+          link: '/admin/master-prestasi',
+          icon: 'fa fa-angle-double-right'
+      },
         //== ...
     ]
 },
