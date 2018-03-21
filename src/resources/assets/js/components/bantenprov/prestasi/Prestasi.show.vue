@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Show Prestasi {{ model.label }}
+      <i class="fa fa-table" aria-hidden="true"></i> Show Prestasi 
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -23,7 +23,7 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Master Prestasi :</b> {{ model.master_prestasi_id }}
+            <b>Master Prestasi :</b> {{ model.master_prestasi.juara }}
           </div>
         </div>
 
@@ -53,7 +53,7 @@ export default {
       .then(response => {
         if (response.data.status == true) {
           this.model.user = response.data.user;
-          this.model.master_prestasi_id = response.data.prestasi.master_prestasi_id;
+          this.model.master_prestasi = response.data.master_prestasi;
           this.model.nomor_un = response.data.prestasi.nomor_un;
           this.model.nama_lomba = response.data.prestasi.nama_lomba;
         } else {
@@ -71,11 +71,12 @@ export default {
       state: {},
       model: {
         user: "",
-        master_prestasi_id: "",
+        master_prestasi: "",
         nomor_un: "",
         nama_lomba: "",
       },
-      user: []
+      user: [],
+      master_prestasi: []
     }
   },
   methods: {
@@ -86,7 +87,7 @@ export default {
         return;
       } else {
         axios.put('api/prestasi/' + this.$route.params.id, {
-            master_prestasi_id: this.model.master_prestasi_id,
+            master_prestasi_id: this.model.master_prestasi.id,
             nomor_un: this.model.nomor_un,
             nama_lomba: this.model.old_label,
             user_id: this.model.prestasi.id

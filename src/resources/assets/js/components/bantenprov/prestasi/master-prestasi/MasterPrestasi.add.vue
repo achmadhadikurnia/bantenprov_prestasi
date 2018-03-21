@@ -29,6 +29,20 @@
           </div>
         </div>
 
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="jenis_prestasi">Jenis Prestasi</label>
+            <v-select name="jenis_prestasi" v-model="model.jenis_prestasi" :options="jenis_prestasi" class="mb-4"></v-select>
+
+            <field-messages name="jenis_prestasi" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Jenis Prestasi is a required field</small>
+            </field-messages>
+            </validate>
+          </div>
+        </div>
+
     <validate tag="div">
           <div class="form-group">
             <label for="model-juara">Juara</label>
@@ -94,6 +108,9 @@ export default {
         response.data.user.forEach(user_element => {
             this.user.push(user_element);
         });
+        response.data.jenis_prestasi.forEach(element => {
+          this.jenis_prestasi.push(element);
+        });
     })
     .catch(function(response) {
       alert('Break');
@@ -104,12 +121,14 @@ export default {
       state: {},
       model: {
         juara: "",
+        jenis_prestasi: "",
         user: "",
         tingkat: "",
         nilai: "",
         bobot: "",
       },
-      user: []
+      user: [],
+      jenis_prestasi: []
     }
   },
   methods: {
@@ -121,6 +140,7 @@ export default {
       } else {
         axios.post('api/master-prestasi/', {
             user_id: this.model.user.id,
+            jenis_prestasi_id: this.model.jenis_prestasi.id,
             juara: this.model.juara,
             tingkat: this.model.tingkat,
             nilai: this.model.nilai,

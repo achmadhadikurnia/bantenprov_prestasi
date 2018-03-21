@@ -32,12 +32,13 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <input class="form-control" v-model="model.master_prestasi_id" required autofocus name="master_prestasi_id" type="text" placeholder="Master Prestasi">
+            <label for="master_prestasi">Master Prestasi</label>
+            <v-select name="master_prestasi" v-model="model.master_prestasi" :options="master_prestasi" class="mb-4"></v-select>
 
-              <field-messages name="master_prestasi_id" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Master Prestasi is a required field</small>
-              </field-messages>
+            <field-messages name="master_prestasi" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Master Prestasi is a required field</small>
+            </field-messages>
             </validate>
           </div>
         </div>
@@ -88,7 +89,7 @@ export default {
       .then(response => {
         if (response.data.status == true) {
           this.model.user = response.data.user,
-          this.model.master_prestasi_id = response.data.prestasi.master_prestasi_id;
+          this.model.master_prestasi = response.data.master_prestasi;
           this.model.nomor_un = response.data.prestasi.nomor_un;
           this.model.nama_lomba = response.data.prestasi.nama_lomba;
         } else {
@@ -102,6 +103,9 @@ export default {
 
       axios.get('api/prestasi/create')
       .then(response => {
+        response.data.master_prestasi.forEach(element => {
+            this.master_prestasi.push(element);
+          });
           response.data.user.forEach(user_element => {
             this.user.push(user_element);
           });
@@ -115,11 +119,12 @@ export default {
       state: {},
       model: {
         user: "",
-        master_prestasi_id: "",
+        master_prestasi: "",
         nomor_un: "",
         nama_lomba: "",
       },
-      user: []
+      user: [],
+      master_prestasi: []
     }
   },
   methods: {
@@ -131,7 +136,7 @@ export default {
       } else {
         axios.put('api/prestasi/' + this.$route.params.id, {
             user_id: this.model.user.id,
-            master_prestasi_id: this.model.master_prestasi_id,
+            master_prestasi_id: this.model.master_prestasi.id,
             nomor_un: this.model.nomor_un,
             nama_lomba: this.model.nama_lomba
           })
@@ -156,7 +161,6 @@ export default {
       axios.get('api/prestasi/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
-            this.model.master_prestasi_id = response.data.prestasi.master_prestasi_id;
             this.model.nomor_un = response.data.prestasi.nomor_un;
             this.model.nama_lomba = response.data.prestasi.nama_lomba;
           } else {

@@ -17,12 +17,18 @@ class MasterPrestasi extends Model
     ];
     protected $fillable = [
         'user_id',
+        'jenis_prestasi_id',
         'juara',
         'tingkat',
         'nama_lomba',
         'nilai',
         'bobot'
     ];
+
+    public function jenis_prestasi()
+    {
+        return $this->belongsTo('Bantenprov\Prestasi\Models\Bantenprov\Prestasi\JenisPrestasi','jenis_prestasi_id');
+    }
 
     public function user()
     {

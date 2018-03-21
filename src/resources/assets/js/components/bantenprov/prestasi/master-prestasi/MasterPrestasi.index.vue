@@ -26,7 +26,7 @@
 
       <div class="table-responsive">
         <vuetable ref="vuetable"
-          api-url="/api/master-prestasi"
+          api-url="/api/master-prestasi/"
           :fields="fields"
           :sort-order="sortOrder"
           :css="css.table"
@@ -95,6 +95,12 @@ export default {
           name: 'user.name',
           title: 'Username',
           sortField: 'user_id',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'jenis_prestasi.nama_jenis_prestasi',
+          title: 'Jenis Prestasi',
+          sortField: 'jenis_prestasi_id',
           titleClass: 'center aligned'
         },
         {

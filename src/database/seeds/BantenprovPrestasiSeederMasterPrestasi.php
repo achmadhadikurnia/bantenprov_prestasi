@@ -21,6 +21,7 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
         $master_prestasis = (object) [
             (object) [
                 'user_id' => '1',
+                'jenis_prestasi_id' => '1',
                 'juara' => '1',
                 'tingkat' => '1',
                 'nilai' => '10',              
@@ -28,6 +29,7 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
             ],
             (object) [
                 'user_id' => '1',
+                'jenis_prestasi_id' => '2',
                 'juara' => '2',
                 'tingkat' => '2',
                 'nilai' => '20', 
@@ -39,6 +41,7 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
             $model = MasterPrestasi::updateOrCreate(
                 [
                    'user_id' => $master_prestasi->user_id,
+                   'jenis_prestasi_id' => $master_prestasi->jenis_prestasi_id,
                    'juara' => $master_prestasi->juara,
                    'tingkat' => $master_prestasi->tingkat,
                    'nilai' => $master_prestasi->nilai,

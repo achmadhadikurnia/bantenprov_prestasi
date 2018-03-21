@@ -9,6 +9,7 @@ use Bantenprov\Prestasi\Facades\PrestasiFacade;
 
 /* Models */
 use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\Prestasi;
+use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi;
 use App\User;
 
 /* Etc */
@@ -28,11 +29,13 @@ class PrestasiController extends Controller
      * @return void
      */
     protected $prestasi;
+    protected $master_prestasi;
     protected $user;
 
-    public function __construct(Prestasi $prestasi, User $user)
+    public function __construct(Prestasi $prestasi, MasterPrestasi $master_prestasi, User $user)
     {
         $this->prestasi = $prestasi;
+        $this->master_prestasi = $master_prestasi;
         $this->user = $user;
     }
 
@@ -62,6 +65,10 @@ class PrestasiController extends Controller
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
         $response = $query->paginate($perPage);
 
+        foreach($response as $master_prestasi){
+            array_set($response->data, 'master_prestasi', $master_prestasi->master_prestasi->juara);
+        }
+
         foreach($response as $user){
             array_set($response->data, 'user', $user->user->name);
         }
@@ -80,11 +87,17 @@ class PrestasiController extends Controller
     public function create()
     {
         $users = $this->user->all();
+        $master_prestasis = $this->master_prestasi->all();
 
         foreach($users as $user){
             array_set($user, 'label', $user->name);
         }
 
+        foreach($master_prestasis as $master_prestasi){
+            array_set($master_prestasi, 'label', $master_prestasi->juara);
+        }
+        
+        $response['master_prestasi'] = $master_prestasis;
         $response['user'] = $users;
         $response['status'] = true;
 
@@ -102,17 +115,17 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi;
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
+            'user_id' => 'required|unique:prestasis,user_id',
             'master_prestasi_id' => 'required',
             'nomor_un' => 'required',
             'nama_lomba' => 'required|max:255',
         ]);
 
         if($validator->fails()){
-            $check = $prestasi->where('label',$request->label)->whereNull('deleted_at')->count();
+            $check = $prestasi->where('user_id',$request->user_id)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed, label ' . $request->label . ' already exists';
+                $response['message'] = 'Failed, Username ' . $request->user_id . ' already exists';
             } else {
                 $prestasi->user_id = $request->input('user_id');
                 $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
@@ -148,6 +161,7 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi->findOrFail($id);
         
         $response['user'] = $prestasi->user;
+        $response['master_prestasi'] = $prestasi->master_prestasi;
         $response['prestasi'] = $prestasi;
         $response['status'] = true;
 
@@ -166,7 +180,9 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi->findOrFail($id);
 
         array_set($prestasi->user, 'label', $prestasi->user->name);
-
+        array_set($prestasi->master_prestasi, 'label', $prestasi->master_prestasi->juara);
+        
+        $response['master_prestasi'] = $prestasi->master_prestasi;
         $response['prestasi'] = $prestasi;
         $response['user'] = $prestasi->user;
         $response['status'] = true;

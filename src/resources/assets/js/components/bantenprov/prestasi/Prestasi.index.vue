@@ -98,7 +98,7 @@ export default {
           titleClass: 'center aligned'
         },
         {
-          name: 'master_prestasi_id',
+          name: 'master_prestasi.juara',
           title: 'Master Prestasi',
           sortField: 'master_prestasi_id',
           titleClass: 'center aligned'

@@ -29,16 +29,19 @@
           </div>
         </div>
 
-    <validate tag="div">
-          <div class="form-group">
-            <label for="model-master_prestasi_id">Master Prestasi ID</label>
-            <input type="text" class="form-control" id="model-master_prestasi_id" v-model="model.master_prestasi_id" name="master_prestasi_id" placeholder="Master Prestasi ID" required autofocus>
-            <field-messages name="master_prestasi_id" show="$invalid && $submitted" class="text-danger">
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="master_prestasi">Master Prestasi ID</label>
+            <v-select name="master_prestasi" v-model="model.master_prestasi" :options="master_prestasi" class="mb-4"></v-select>
+
+            <field-messages name="master_prestasi" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
+              <small class="form-text text-danger" slot="required">Jenis Prestasi is a required field</small>
             </field-messages>
+            </validate>
           </div>
-        </validate>
+        </div>
 
          <validate tag="div">
           <div class="form-group">
@@ -83,6 +86,9 @@ export default {
         response.data.user.forEach(user_element => {
             this.user.push(user_element);
         });
+        response.data.master_prestasi.forEach(element => {
+          this.master_prestasi.push(element);
+        });
     })
     .catch(function(response) {
       alert('Break');
@@ -92,12 +98,13 @@ export default {
     return {
       state: {},
       model: {
-        master_prestasi_id: "",
+        master_prestasi: "",
         user: "",
         nomor_un: "",
         nama_lomba: "",
       },
-      user: []
+      user: [],
+      master_prestasi: []
     }
   },
   methods: {
@@ -109,7 +116,7 @@ export default {
       } else {
         axios.post('api/prestasi', {
             user_id: this.model.user.id,
-            master_prestasi_id: this.model.master_prestasi_id,
+            master_prestasi_id: this.model.master_prestasi.id,
             nomor_un: this.model.nomor_un,
             nama_lomba: this.model.nama_lomba            
           })
@@ -132,7 +139,6 @@ export default {
     },
     reset() {
       this.model = {
-          master_prestasi_id: "",
           nomor_un: "",
           nama_lomba: ""
       };

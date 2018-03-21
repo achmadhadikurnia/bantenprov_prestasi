@@ -17,7 +17,7 @@ class CreateMasterPrestasisTable extends Migration
             $table->increments('id');
             $table->string('juara');
             $table->string('tingkat');
-            //$table->integer('jenis_prestasi_id');
+            $table->integer('jenis_prestasi_id');
             $table->integer('nilai');
             $table->integer('bobot');
             $table->integer('user_id');
