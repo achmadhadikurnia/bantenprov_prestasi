@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Master Prestasi
+      <i class="fa fa-table" aria-hidden="true"></i> Jenis Prestasi
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -26,7 +26,7 @@
 
       <div class="table-responsive">
         <vuetable ref="vuetable"
-          api-url="/api/master-prestasi/"
+          api-url="/api/jenis-prestasi"
           :fields="fields"
           :sort-order="sortOrder"
           :css="css.table"
@@ -98,27 +98,9 @@ export default {
           titleClass: 'center aligned'
         },
         {
-          name: 'jenis_prestasi.nama_jenis_prestasi',
-          title: 'Jenis Prestasi',
-          sortField: 'jenis_prestasi_id',
-          titleClass: 'center aligned'
-        },
-        {
-          name: 'juara',
-          title: 'Juara',
-          sortField: 'juara',
-          titleClass: 'center aligned'
-        },
-        {
-          name: 'nilai',
-          title: 'Nilai',
-          sortField: 'nilai',
-          titleClass: 'center aligned'
-        },
-        {
-          name: 'bobot',
-          title: 'Bobot',
-          sortField: 'bobot',
+          name: 'nama_jenis_prestasi',
+          title: 'Nama Jenis Prestasi',
+          sortField: 'nama_jenis_prestasi',
           titleClass: 'center aligned'
         },
         {
@@ -157,19 +139,19 @@ export default {
   },
   methods: {
     createRow() {
-      window.location = '#/admin/master-prestasi/create';
+      window.location = '#/admin/jenis-prestasi/create';
     },
     viewRow(rowData) {
-      window.location = '#/admin/master-prestasi/' + rowData.id;
+      window.location = '#/admin/jenis-prestasi/' + rowData.id;
     },
     editRow(rowData) {
-      window.location = '#/admin/master-prestasi/' + rowData.id + '/edit';
+      window.location = '#/admin/jenis-prestasi/' + rowData.id + '/edit';
     },
     deleteRow(rowData) {
       let app = this;
 
       if (confirm('Do you really want to delete it?')) {
-        axios.delete('/api/master-prestasi/' + rowData.id)
+        axios.delete('/api/jenis-prestasi/' + rowData.id)
           .then(function(response) {
             if (response.data.status == true) {
               app.$refs.vuetable.reload()

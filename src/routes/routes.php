@@ -41,5 +41,27 @@ Route::group(['prefix' => 'api/master-prestasi', 'middleware' => ['web']], funct
     Route::get('/{id}/edit',    $controllers->edit)->name('master-prestasi.edit');
     Route::put('/{id}',         $controllers->update)->name('master-prestasi.update');
     Route::delete('/{id}',      $controllers->destroy)->name('master-prestasi.destroy');
+
+    });
+
+Route::group(['prefix' => 'api/jenis-prestasi', 'middleware' => ['web']], function() {
+    $controllers = (object) [
+        'index'     => 'Bantenprov\Prestasi\Http\Controllers\JenisPrestasiController@index',
+        'create'    => 'Bantenprov\Prestasi\Http\Controllers\JenisPrestasiController@create',
+        'show'      => 'Bantenprov\Prestasi\Http\Controllers\JenisPrestasiController@show',
+        'store'     => 'Bantenprov\Prestasi\Http\Controllers\JenisPrestasiController@store',
+        'edit'      => 'Bantenprov\Prestasi\Http\Controllers\JenisPrestasiController@edit',
+        'update'    => 'Bantenprov\Prestasi\Http\Controllers\JenisPrestasiController@update',
+        'destroy'   => 'Bantenprov\Prestasi\Http\Controllers\JenisPrestasiController@destroy',
+
+    ];
+
+    Route::get('/',             $controllers->index)->name('jenis-prestasi.index');
+    Route::get('/create',       $controllers->create)->name('jenis-prestasi.create');
+    Route::get('/{id}',         $controllers->show)->name('jenis-prestasi.show');
+    Route::post('/',            $controllers->store)->name('jenis-prestasi.store');
+    Route::get('/{id}/edit',    $controllers->edit)->name('jenis-prestasi.edit');
+    Route::put('/{id}',         $controllers->update)->name('jenis-prestasi.update');
+    Route::delete('/{id}',      $controllers->destroy)->name('jenis-prestasi.destroy');
     
 });

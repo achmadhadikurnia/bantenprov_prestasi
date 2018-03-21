@@ -9,6 +9,7 @@ use Bantenprov\Prestasi\Facades\PrestasiFacade;
 
 /* Models */
 use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi;
+use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\JenisPrestasi;
 use App\User;
 
 /* Etc */
@@ -28,11 +29,13 @@ class MasterPrestasiController extends Controller
      * @return void
      */
     protected $master_prestasi;
+    protected $jenis_prestasi;
     protected $user;
 
-    public function __construct(MasterPrestasi $master_prestasi, User $user)
+    public function __construct(MasterPrestasi $master_prestasi, JenisPrestasi $jenis_prestasi, User $user)
     {
         $this->master_prestasi = $master_prestasi;
+        $this->jenis_prestasi = $jenis_prestasi;
         $this->user = $user;
     }
 
@@ -62,6 +65,10 @@ class MasterPrestasiController extends Controller
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
         $response = $query->paginate($perPage);
 
+        foreach($response as $jenis_prestasi){
+            array_set($response->data, 'jenis_prestasi', $jenis_prestasi->jenis_prestasi->nama_jenis_prestasi);
+        }
+
         foreach($response as $user){
             array_set($response->data, 'user', $user->user->name);
         }
@@ -80,11 +87,17 @@ class MasterPrestasiController extends Controller
     public function create()
     {
         $users = $this->user->all();
+        $jenis_prestasis = $this->jenis_prestasi->all();
 
         foreach($users as $user){
             array_set($user, 'label', $user->name);
         }
 
+        foreach($jenis_prestasis as $jenis_prestasi){
+            array_set($jenis_prestasi, 'label', $jenis_prestasi->nama_jenis_prestasi);
+        }
+        
+        $response['jenis_prestasi'] = $jenis_prestasis;
         $response['user'] = $users;
         $response['status'] = true;
 
@@ -103,6 +116,7 @@ class MasterPrestasiController extends Controller
 
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
+            'jenis_prestasi_id' => 'required',
             'juara' => 'required|max:255',
             'tingkat' => 'required|max:255',
             'nilai' => 'required',
@@ -115,6 +129,7 @@ class MasterPrestasiController extends Controller
             if ($check > 0) {
                 $response['message'] = 'Failed, juara ' . $request->juara . ' already exists';
             } else {
+                $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->juara = $request->input('juara');
                 $master_prestasi->tingkat = $request->input('tingkat');
@@ -125,6 +140,7 @@ class MasterPrestasiController extends Controller
                 $response['message'] = 'success';
             }
         } else {
+                $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->juara = $request->input('juara');
                 $master_prestasi->tingkat = $request->input('tingkat');
@@ -151,6 +167,7 @@ class MasterPrestasiController extends Controller
         $master_prestasi = $this->master_prestasi->findOrFail($id);
         
         $response['user'] = $master_prestasi->user;
+        $response['jenis_prestasi'] = $master_prestasi->jenis_prestasi;
         $response['master_prestasi'] = $master_prestasi;
         $response['status'] = true;
 
@@ -169,8 +186,10 @@ class MasterPrestasiController extends Controller
         $master_prestasi = $this->master_prestasi->findOrFail($id);
 
         array_set($master_prestasi->user, 'label', $master_prestasi->user->name);
+        array_set($master_prestasi->jenis_prestasi, 'label', $master_prestasi->jenis_prestasi->nama_jenis_prestasi);
 
         $response['master_prestasi'] = $master_prestasi;
+        $response['jenis_prestasi'] = $master_prestasi->jenis_prestasi;
         $response['user'] = $master_prestasi->user;
         $response['status'] = true;
 
@@ -192,6 +211,7 @@ class MasterPrestasiController extends Controller
         {
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required',
+                'jenis_prestasi_id' => 'required',
                 'juara' => 'required|max:255',
                 'tingkat' => 'required|max:255',
                 'nilai' => 'required',
@@ -201,6 +221,7 @@ class MasterPrestasiController extends Controller
         } else {
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required',
+                'jenis_prestasi_id' => 'required',
                 'juara' => 'required|max:255',
                 'tingkat' => 'required|max:255',
                 'nilai' => 'required',
@@ -209,12 +230,13 @@ class MasterPrestasiController extends Controller
         }
 
         if ($validator->fails()) {
-            $check = $master_prestasi->where('juara',$request->juara)->whereNull('deleted_at')->count();
+            $check = $master_prestasi->where('user_id',$request->user)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed, juara ' . $request->juara . ' already exists';
+                $response['message'] = 'Failed, user_id ' . $request->user . ' already exists';
             } else {
                 $master_prestasi->user_id = $request->input('user_id');
+                $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->juara = $request->input('juara');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');
@@ -225,6 +247,7 @@ class MasterPrestasiController extends Controller
             }
         } else {
                 $master_prestasi->user_id = $request->input('user_id');
+                $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->juara = $request->input('juara');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');

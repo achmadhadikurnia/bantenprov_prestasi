@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Add Prestasi
+      <i class="fa fa-table" aria-hidden="true"></i> Add Jenis Prestasi
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -29,36 +29,11 @@
           </div>
         </div>
 
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-            <label for="master_prestasi">Master Prestasi ID</label>
-            <v-select name="master_prestasi" v-model="model.master_prestasi" :options="master_prestasi" class="mb-4"></v-select>
-
-            <field-messages name="master_prestasi" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Jenis Prestasi is a required field</small>
-            </field-messages>
-            </validate>
-          </div>
-        </div>
-
-         <validate tag="div">
+    <validate tag="div">
           <div class="form-group">
-            <label for="model-nomor_un">Nomor UN</label>
-            <input type="text" class="form-control" id="model-nomor_un" v-model="model.nomor_un" name="nomor_un" placeholder="Nomor UN" required autofocus>
-            <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
-
-         <validate tag="div">
-          <div class="form-group">
-            <label for="model-nama_lomba">Nama Lomba</label>
-            <input type="text" class="form-control" id="model-nama_lomba" v-model="model.nama_lomba" name="nama_lomba" placeholder="Nama Lomba" required autofocus>
-            <field-messages name="nama_lomba" show="$invalid && $submitted" class="text-danger">
+            <label for="model-nama_jenis_prestasi">Nama Jenis Prestasi</label>
+            <input type="text" class="form-control" id="model-nama_jenis_prestasi" v-model="model.nama_jenis_prestasi" name="nama_jenis_prestasi" placeholder="Nama Jenis Prestasi" required autofocus>
+            <field-messages name="nama_jenis_prestasi" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">This field is a required field</small>
             </field-messages>
@@ -81,13 +56,10 @@
 <script>
 export default {
   mounted(){
-    axios.get('api/prestasi/create')
+    axios.get('api/jenis-prestasi/create')
     .then(response => {
         response.data.user.forEach(user_element => {
             this.user.push(user_element);
-        });
-        response.data.master_prestasi.forEach(element => {
-          this.master_prestasi.push(element);
         });
     })
     .catch(function(response) {
@@ -98,13 +70,10 @@ export default {
     return {
       state: {},
       model: {
-        master_prestasi: "",
+        nama_jenis_prestasi: "",
         user: "",
-        nomor_un: "",
-        nama_lomba: "",
       },
-      user: [],
-      master_prestasi: []
+      user: []
     }
   },
   methods: {
@@ -114,11 +83,9 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.post('api/prestasi', {
+        axios.post('api/jenis-prestasi', {
             user_id: this.model.user.id,
-            master_prestasi_id: this.model.master_prestasi.id,
-            nomor_un: this.model.nomor_un,
-            nama_lomba: this.model.nama_lomba            
+            nama_jenis_prestasi: this.model.nama_jenis_prestasi,            
           })
           .then(response => {
             if (response.data.status == true) {
@@ -139,12 +106,11 @@ export default {
     },
     reset() {
       this.model = {
-          nomor_un: "",
-          nama_lomba: ""
+          nama_jenis_prestasi: ""
       };
     },
     back() {
-      window.location = '#/admin/prestasi';
+      window.location = '#/admin/jenis-prestasi';
     }
   }
 }

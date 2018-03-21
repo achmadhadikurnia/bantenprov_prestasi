@@ -22,6 +22,11 @@ class Prestasi extends Model
         'nama_lomba'
     ];
 
+    public function master_prestasi()
+    {
+        return $this->belongsTo('Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi','master_prestasi_id');
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User','user_id');

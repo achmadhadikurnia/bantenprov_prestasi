@@ -112,6 +112,18 @@ $ php artisan vendor:publish --tag=prestasi-public
             title: "Master Prestasi"
         }
       },
+      
+       {
+        path: '/dashboard/jenis-prestasi',
+        components: {
+            main: resolve => require(['./components/views/bantenprov/prestasi/jenis-prestasi/DashboardJenisPrestasi.vue'], resolve),
+            navbar: resolve => require(['./components/Navbar.vue'], resolve),
+            sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+        },
+        meta: {
+            title: "Jenis Prestasi"
+        }
+      },
         //== ...
     ]
 },
@@ -213,7 +225,51 @@ $ php artisan vendor:publish --tag=prestasi-public
                 title: "Edit Master Prestasi"
             }
         },
-
+         
+        {
+            path: '/admin/jenis-prestasi',
+            components: {
+                main: resolve => require(['./components/bantenprov/prestasi/jenis-prestasi/JenisPrestasi.index.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Jenis Prestasi"
+            }
+        },
+        {
+            path: '/admin/jenis-prestasi/create',
+            components: {
+                main: resolve => require(['./components/bantenprov/prestasi/jenis-prestasi/JenisPrestasi.add.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Add Jenis Prestasi"
+            }
+        },
+        {
+            path: '/admin/jenis-prestasi/:id',
+            components: {
+                main: resolve => require(['./components/bantenprov/prestasi/jenis-prestasi/JenisPrestasi.show.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Show Jenis Prestasi"
+            }
+        },
+        {
+            path: '/admin/jenis-prestasi/:id/edit',
+            components: {
+                main: resolve => require(['./components/bantenprov/prestasi/jenis-prestasi/JenisPrestasi.edit.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Edit Jenis Prestasi"
+            }
+        },
         //== ...
     ]
 },
@@ -238,6 +294,12 @@ $ php artisan vendor:publish --tag=prestasi-public
           link: '/dashboard/master-prestasi',
           icon: 'fa fa-angle-double-right'
       },
+      
+      {
+          name: 'Jenis Prestasi',
+          link: '/dashboard/jenis-prestasi',
+          icon: 'fa fa-angle-double-right'
+      },
         //== ...
     ]
 },
@@ -258,6 +320,11 @@ $ php artisan vendor:publish --tag=prestasi-public
           {
           name: 'Master Prestasi',
           link: '/admin/master-prestasi',
+          icon: 'fa fa-angle-double-right'
+      },
+          {
+          name: 'Jenis Prestasi',
+          link: '/admin/jenis-prestasi',
           icon: 'fa fa-angle-double-right'
       },
         //== ...

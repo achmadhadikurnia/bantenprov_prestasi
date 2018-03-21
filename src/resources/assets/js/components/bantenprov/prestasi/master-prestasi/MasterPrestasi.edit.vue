@@ -32,6 +32,20 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
+            <label for="jenis_prestasi">Jenis Prestasi</label>
+            <v-select name="jenis_prestasi" v-model="model.jenis_prestasi" :options="jenis_prestasi" class="mb-4"></v-select>
+
+            <field-messages name="jenis_prestasi" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Jenis is a required field</small>
+            </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
               <label for="model-juara">Juara</label>
               <input class="form-control" v-model="model.juara" required autofocus name="juara" type="text" placeholder="Juara">
 
@@ -105,6 +119,7 @@ export default {
       .then(response => {
         if (response.data.status == true) {
           this.model.user = response.data.user,
+          this.model.jenis_prestasi = response.data.jenis_prestasi;
           this.model.juara = response.data.master_prestasi.juara;
           this.model.tingkat = response.data.master_prestasi.tingkat;
           this.model.nilai = response.data.master_prestasi.nilai;
@@ -120,6 +135,9 @@ export default {
 
       axios.get('api/master-prestasi/create')
       .then(response => {
+        response.data.jenis_prestasi.forEach(element => {
+            this.jenis_prestasi.push(element);
+          });
           response.data.user.forEach(user_element => {
             this.user.push(user_element);
           });
@@ -133,12 +151,14 @@ export default {
       state: {},
       model: {
         user: "",
+        jenis_prestasi: "",
         juara: "",
         tingkat: "",
         nilai: "",
         bobot: "",
       },
-      user: []
+      user: [],
+      jenis_prestasi: []
     }
   },
   methods: {
@@ -150,6 +170,7 @@ export default {
       } else {
         axios.put('api/master-prestasi/' + this.$route.params.id, {
             user_id: this.model.user.id,
+            jenis_prestasi_id: this.model.jenis_prestasi.id,
             juara: this.model.juara,
             tingkat: this.model.tingkat,
             nilai: this.model.nilai,

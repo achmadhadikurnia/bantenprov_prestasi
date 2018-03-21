@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Show Prestasi 
+      <i class="fa fa-table" aria-hidden="true"></i> Show Jenis Prestasi 
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -23,23 +23,9 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Master Prestasi :</b> {{ model.master_prestasi.juara }}
+            <b>Nama Jenis Prestasi :</b> {{ model.nama_jenis_prestasi }}
           </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Nomor UN :</b> {{ model.nomor_un }}
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Nama Lomba :</b> {{ model.nama_lomba }}
-          </div>
-        </div>
-
-        
+        </div>     
         
       </vue-form>
     </div>
@@ -49,20 +35,18 @@
 <script>
 export default {
   mounted() {
-    axios.get('api/prestasi/' + this.$route.params.id)
+    axios.get('api/jenis-prestasi/' + this.$route.params.id)
       .then(response => {
         if (response.data.status == true) {
           this.model.user = response.data.user;
-          this.model.master_prestasi = response.data.master_prestasi;
-          this.model.nomor_un = response.data.prestasi.nomor_un;
-          this.model.nama_lomba = response.data.prestasi.nama_lomba;
+          this.model.nama_jenis_prestasi = response.data.jenis_prestasi.nama_jenis_prestasi;
         } else {
           alert('Failed');
         }
       })
       .catch(function(response) {
         alert('Break');
-        window.location.href = '#/admin/prestasi';
+        window.location.href = '#/admin/jenis-prestasi/';
       })
 
   },
@@ -71,12 +55,9 @@ export default {
       state: {},
       model: {
         user: "",
-        master_prestasi: "",
-        nomor_un: "",
-        nama_lomba: "",
+        nama_jenis_prestasi: ""
       },
-      user: [],
-      master_prestasi: []
+      user: []
     }
   },
   methods: {
@@ -86,11 +67,9 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.put('api/prestasi/' + this.$route.params.id, {
-            master_prestasi_id: this.model.master_prestasi.id,
-            nomor_un: this.model.nomor_un,
-            nama_lomba: this.model.old_label,
-            user_id: this.model.prestasi.id
+        axios.put('api/jenis-prestasi/' + this.$route.params.id, {
+            nama_jenis_prestasi: this.model.nama_jenis_prestasi,
+            user_id: this.model.jenis_prestasi.id
           })
           .then(response => {
             if (response.data.status == true) {
@@ -110,7 +89,7 @@ export default {
       }
     },
     reset() {
-      axios.get('api/prestasi/' + this.$route.params.id + '/edit')
+      axios.get('api/jenis-prestasi/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
             this.model.label = response.data.prestasi.label;
@@ -124,7 +103,7 @@ export default {
         });
     },
     back() {
-      window.location = '#/admin/prestasi';
+      window.location = '#/admin/jenis-prestasi/';
     }
   }
 }
