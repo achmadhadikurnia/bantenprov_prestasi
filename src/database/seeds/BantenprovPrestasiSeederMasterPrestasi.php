@@ -18,21 +18,19 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
 	{
         Model::unguard();
 
-        $prestasis = (object) [
+        $master_prestasis = (object) [
             (object) [
                 'user_id' => '1',
                 'juara' => '1',
                 'tingkat' => '1',
-                'nama_lomba' => 'Lomba 1'              
-                'nilai' => '12' 
+                'nilai' => '10',              
                 'bobot' => '1'                           
             ],
             (object) [
                 'user_id' => '1',
                 'juara' => '2',
                 'tingkat' => '2',
-                'nama_lomba' => 'Lomba 2'
-                'nilai' => '13'  
+                'nilai' => '20', 
                 'bobot' => '2'                          
             ]
         ];
@@ -44,7 +42,6 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
                    'juara' => $master_prestasi->juara,
                    'tingkat' => $master_prestasi->tingkat,
                    'nilai' => $master_prestasi->nilai,
-                   'nama_lomba' => $master_prestasi->nama_lomba,
                    'bobot' => $master_prestasi->bobot,
 
                 ]

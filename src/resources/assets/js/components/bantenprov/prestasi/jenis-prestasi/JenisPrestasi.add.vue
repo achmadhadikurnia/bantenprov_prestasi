@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Add Master Prestasi
+      <i class="fa fa-table" aria-hidden="true"></i> Add Jenis Prestasi
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -31,42 +31,9 @@
 
     <validate tag="div">
           <div class="form-group">
-            <label for="model-juara">Juara</label>
-            <input type="text" class="form-control" id="model-juara" v-model="model.juara" name="juara" placeholder="Juara" required autofocus>
-            <field-messages name="juara" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
-
-         <validate tag="div">
-          <div class="form-group">
-            <label for="model-tingkat">Tingkat</label>
-            <input type="text" class="form-control" id="model-tingkat" v-model="model.tingkat" name="tingkat" placeholder="Tingkat" required autofocus>
-            <field-messages name="tingkat" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
-
-         <validate tag="div">
-          <div class="form-group">
-            <label for="model-nilai">Nilai</label>
-            <input type="text" class="form-control" id="model-nilai" v-model="model.nilai" name="nilai" placeholder="Nilai" required autofocus>
-            <field-messages name="nilai" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
-
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-bobot">Bobot</label>
-            <input type="text" class="form-control" id="model-bobot" v-model="model.bobot" name="bobot" placeholder="Bobot" required autofocus>
-            <field-messages name="bobot" show="$invalid && $submitted" class="text-danger">
+            <label for="model-nama_jenis_prestasi">Nama Jenis Prestasi</label>
+            <input type="text" class="form-control" id="model-nama_jenis_prestasi" v-model="model.nama_jenis_prestasi" name="nama_jenis_prestasi" placeholder="Nama Jenis Prestasi" required autofocus>
+            <field-messages name="nama_jenis_prestasi" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">This field is a required field</small>
             </field-messages>
@@ -89,7 +56,7 @@
 <script>
 export default {
   mounted(){
-    axios.get('api/master-prestasi/create')
+    axios.get('api/jenis-prestasi/create')
     .then(response => {
         response.data.user.forEach(user_element => {
             this.user.push(user_element);
@@ -103,11 +70,8 @@ export default {
     return {
       state: {},
       model: {
-        juara: "",
+        nama_jenis_prestasi: "",
         user: "",
-        tingkat: "",
-        nilai: "",
-        bobot: "",
       },
       user: []
     }
@@ -119,12 +83,9 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.post('api/master-prestasi/', {
+        axios.post('api/jenis-prestasi', {
             user_id: this.model.user.id,
-            juara: this.model.juara,
-            tingkat: this.model.tingkat,
-            nilai: this.model.nilai,
-            bobot: this.model.bobot,             
+            nama_jenis_prestasi: this.model.nama_jenis_prestasi,            
           })
           .then(response => {
             if (response.data.status == true) {
@@ -145,14 +106,11 @@ export default {
     },
     reset() {
       this.model = {
-          juara: "",
-          tingkat: "",
-          nilai: "",
-          bobot: ""
+          nama_jenis_prestasi: ""
       };
     },
     back() {
-      window.location = '#/admin/master-prestasi/';
+      window.location = '#/admin/jenis-prestasi';
     }
   }
 }

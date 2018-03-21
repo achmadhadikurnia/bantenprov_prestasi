@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Show Master Prestasi 
+      <i class="fa fa-table" aria-hidden="true"></i> Show Jenis Prestasi 
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -23,29 +23,9 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Juara :</b> {{ model.juara }}
+            <b>Nama Jenis Prestasi :</b> {{ model.nama_jenis_prestasi }}
           </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Tingkat :</b> {{ model.tingkat }}
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Nilai :</b> {{ model.nilai }}
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Bobot :</b> {{ model.bobot }}
-          </div>
-        </div>
-
-        
+        </div>     
         
       </vue-form>
     </div>
@@ -55,21 +35,18 @@
 <script>
 export default {
   mounted() {
-    axios.get('api/master-prestasi/' + this.$route.params.id)
+    axios.get('api/jenis-prestasi/' + this.$route.params.id)
       .then(response => {
         if (response.data.status == true) {
           this.model.user = response.data.user;
-          this.model.juara = response.data.master_prestasi.juara;
-          this.model.tingkat = response.data.master_prestasi.tingkat;
-          this.model.nilai = response.data.master_prestasi.nilai;
-          this.model.bobot = response.data.master_prestasi.bobot;
+          this.model.nama_jenis_prestasi = response.data.jenis_prestasi.nama_jenis_prestasi;
         } else {
           alert('Failed');
         }
       })
       .catch(function(response) {
         alert('Break');
-        window.location.href = '#/admin/master-prestasi/';
+        window.location.href = '#/admin/jenis-prestasi/';
       })
 
   },
@@ -78,10 +55,7 @@ export default {
       state: {},
       model: {
         user: "",
-        juara: "",
-        tingkat: "",
-        nilai: "",
-        bobot: "",
+        nama_jenis_prestasi: ""
       },
       user: []
     }
@@ -93,12 +67,9 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.put('api/master-prestasi/' + this.$route.params.id, {
-            juara: this.model.juara,
-            tingkat: this.model.tingkat,
-            nilai: this.model.nilai,
-            bobot: this.model.bobot,
-            user_id: this.model.master_prestasi.id
+        axios.put('api/jenis-prestasi/' + this.$route.params.id, {
+            nama_jenis_prestasi: this.model.nama_jenis_prestasi,
+            user_id: this.model.jenis_prestasi.id
           })
           .then(response => {
             if (response.data.status == true) {
@@ -118,7 +89,7 @@ export default {
       }
     },
     reset() {
-      axios.get('api/master-prestasi/' + this.$route.params.id + '/edit')
+      axios.get('api/jenis-prestasi/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
             this.model.label = response.data.prestasi.label;
@@ -132,7 +103,7 @@ export default {
         });
     },
     back() {
-      window.location = '#/admin/master-prestasi/';
+      window.location = '#/admin/jenis-prestasi/';
     }
   }
 }

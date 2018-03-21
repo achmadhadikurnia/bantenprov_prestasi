@@ -13,5 +13,6 @@ class BantenprovPrestasiSeeder extends Seeder
     {
          $this->call(BantenprovPrestasiSeederPrestasi::class);
          $this->call(BantenprovPrestasiSeederMasterPrestasi::class);
+         $this->call(BantenprovPrestasiSeederJenisPrestasi::class);
     }
 }
