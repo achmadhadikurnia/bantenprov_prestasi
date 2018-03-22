@@ -102,15 +102,15 @@ class JenisPrestasiController extends Controller
         $jenis_prestasi = $this->jenis_prestasi;
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
+            'user_id' => 'required|unique:prestasis,user_id',
             'nama_jenis_prestasi' => 'required|max:255',
         ]);
 
         if($validator->fails()){
-            $check = $jenis_prestasi->where('nama_jenis_prestasi',$request->nama_jenis_prestasi)->whereNull('deleted_at')->count();
+            $check = $jenis_prestasi->where('user_id',$request->user_id)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed, nama_jenis_prestasi ' . $request->nama_jenis_prestasi . ' already exists';
+                $response['message'] = 'Failed, Username ' . $request->user_id . ' already exists';
             } else {
                 $jenis_prestasi->user_id = $request->input('user_id');
                 $jenis_prestasi->nama_jenis_prestasi = $request->input('nama_jenis_prestasi');

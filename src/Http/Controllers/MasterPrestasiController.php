@@ -115,7 +115,7 @@ class MasterPrestasiController extends Controller
         $master_prestasi = $this->master_prestasi;
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
+            'user_id' => 'required|unique:prestasis,user_id',
             'jenis_prestasi_id' => 'required',
             'juara' => 'required|max:255',
             'tingkat' => 'required|max:255',
@@ -124,10 +124,10 @@ class MasterPrestasiController extends Controller
         ]);
 
         if($validator->fails()){
-            $check = $master_prestasi->where('juara',$request->juara)->whereNull('deleted_at')->count();
+            $check = $master_prestasi->where('user_id',$request->user_id)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed, juara ' . $request->juara . ' already exists';
+                $response['message'] = 'Failed, Username ' . $request->user_id . ' already exists';
             } else {
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->user_id = $request->input('user_id');
