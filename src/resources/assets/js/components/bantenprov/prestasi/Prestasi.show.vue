@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Show Prestasi 
+      <i class="fa fa-table" aria-hidden="true"></i> Prestasi 
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -32,30 +32,20 @@
             <b>Nama Lomba :</b> {{ model.nama_lomba }}
           </div>
         </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>Username :</b> {{ model.user.name }}
+          </div>
+        </div>        
         
       </vue-form>
     </div>
-
-    <div class="card-footer text-muted">
-        <div class="form-row mt-6">
-            <div class="col-md">
-              <b>Nama Lomba :</b> {{ model.nama_lomba }}
-            </div>
-          </div>
-          <div class="form-row mt-6">
-          <div class="form-row mt-12">
-            <div class="col-md">
-              Dibuat : {{ model.created_at }}
-            </div>
-          </div>
-          <div class="form-row mt-12">
-            <div class="col-md">
-              Diperbaiki : {{ model.updated_at }}
-            </div>
-          </div>
-        </div>
-    </div>
-
+<div class="card-footer text-muted">
+        <div class="row">
+          <div class="col-md-6">Dibuat : {{ model.created_at }}</div>
+          <div class="col-md-6 text-right">Diperbaiki : {{ model.updated_at }}</div>
+        </div></div>
   </div>
 </template>
 
@@ -69,6 +59,8 @@ export default {
           this.model.master_prestasi = response.data.master_prestasi;
           this.model.nomor_un = response.data.prestasi.nomor_un;
           this.model.nama_lomba = response.data.prestasi.nama_lomba;
+          this.model.created_at = response.data.prestasi.created_at;
+          this.model.updated_at = response.data.prestasi.updated_at;
         } else {
           alert('Failed');
         }
@@ -87,6 +79,8 @@ export default {
         master_prestasi: "",
         nomor_un: "",
         nama_lomba: "",
+        created_at:       "",
+        updated_at:       "",
       },
       user: [],
       master_prestasi: []

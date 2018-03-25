@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Show Master Prestasi 
+      <i class="fa fa-table" aria-hidden="true"></i> Master Prestasi 
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -14,12 +14,6 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Username :</b> {{ model.user.name }}
-          </div>
-        </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
@@ -51,10 +45,19 @@
           </div>
         </div>
 
-        
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>Username :</b> {{ model.user.name }}
+          </div>
+        </div>        
         
       </vue-form>
     </div>
+<div class="card-footer text-muted">
+        <div class="row">
+          <div class="col-md-6">Dibuat : {{ model.created_at }}</div>
+          <div class="col-md-6 text-right">Diperbaiki : {{ model.updated_at }}</div>
+        </div></div>
   </div>
 </template>
 
@@ -70,6 +73,8 @@ export default {
           this.model.tingkat = response.data.master_prestasi.tingkat;
           this.model.nilai = response.data.master_prestasi.nilai;
           this.model.bobot = response.data.master_prestasi.bobot;
+          this.model.created_at = response.data.master_prestasi.created_at;
+          this.model.updated_at = response.data.master_prestasi.updated_at;
         } else {
           alert('Failed');
         }

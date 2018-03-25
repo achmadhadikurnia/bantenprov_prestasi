@@ -140,7 +140,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/prestasi/prestasi-030.json').then(response => {
+    axios.get('/json/bantenprov/prestasi/master-prestasi/master-prestasi-030.json').then(response => {
 
       let ke = 0;
 
