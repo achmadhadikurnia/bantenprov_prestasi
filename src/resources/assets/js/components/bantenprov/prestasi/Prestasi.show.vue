@@ -17,12 +17,6 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Username :</b> {{ model.user.name }}
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
             <b>Master Prestasi :</b> {{ model.master_prestasi.juara }}
           </div>
         </div>
@@ -38,11 +32,23 @@
             <b>Nama Lomba :</b> {{ model.nama_lomba }}
           </div>
         </div>
-
-        
         
       </vue-form>
     </div>
+
+    <div class="card-footer text-muted">
+        <div class="form-row mt-6">
+          <div class="col-md">
+            Dibuat : {{ model.created_at }}
+          </div>
+        </div>
+        <div class="form-row mt-6">
+          <div class="col-md">
+            Diperbaiki : {{ model.updated_at }}
+          </div>
+        </div>
+    </div>
+
   </div>
 </template>
 
