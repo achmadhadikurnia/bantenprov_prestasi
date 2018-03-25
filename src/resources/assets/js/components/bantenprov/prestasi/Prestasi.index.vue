@@ -92,12 +92,6 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'user.name',
-          title: 'Username',
-          sortField: 'user_id',
-          titleClass: 'center aligned'
-        },
-        {
           name: 'master_prestasi.juara',
           title: 'Master Prestasi',
           sortField: 'master_prestasi_id',
@@ -113,6 +107,12 @@ export default {
           name: 'nama_lomba',
           title: 'Nama Lomba',
           sortField: 'nama_lomba',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'user.name',
+          title: 'Username',
+          sortField: 'user_id',
           titleClass: 'center aligned'
         },
         {

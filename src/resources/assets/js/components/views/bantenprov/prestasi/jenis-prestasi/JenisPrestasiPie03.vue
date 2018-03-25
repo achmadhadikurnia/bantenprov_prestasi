@@ -104,7 +104,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/prestasi/prestasi-pie-030.json').then(response => {
+    axios.get('/json/bantenprov/prestasi/jenis-prestasi/jenis-prestasi-pie-030.json').then(response => {
 
       let ke = 0;
 

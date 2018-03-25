@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Show Jenis Prestasi 
+      <i class="fa fa-table" aria-hidden="true"></i> Jenis Prestasi 
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -12,23 +12,28 @@
       </ul>
     </div>
 
-    <div class="card-body">
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>Nama Jenis Prestasi :</b> {{ model.nama_jenis_prestasi }}
+          </div>
+        </div>   
+
+        <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
 
         <div class="form-row mt-4">
           <div class="col-md">
             <b>Username :</b> {{ model.user.name }}
           </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Nama Jenis Prestasi :</b> {{ model.nama_jenis_prestasi }}
-          </div>
-        </div>     
+        </div>  
         
       </vue-form>
     </div>
+<div class="card-footer text-muted">
+        <div class="row">
+          <div class="col-md-6">Dibuat : {{ model.created_at }}</div>
+          <div class="col-md-6 text-right">Diperbaiki : {{ model.updated_at }}</div>
+        </div></div>
   </div>
 </template>
 
@@ -40,6 +45,8 @@ export default {
         if (response.data.status == true) {
           this.model.user = response.data.user;
           this.model.nama_jenis_prestasi = response.data.jenis_prestasi.nama_jenis_prestasi;
+          this.model.created_at = response.data.jenis_prestasi.created_at;
+          this.model.updated_at = response.data.jenis_prestasi.updated_at;
         } else {
           alert('Failed');
         }
@@ -55,7 +62,9 @@ export default {
       state: {},
       model: {
         user: "",
-        nama_jenis_prestasi: ""
+        nama_jenis_prestasi: "",
+        created_at:       "",
+        updated_at:       "",
       },
       user: []
     }

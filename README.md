@@ -371,3 +371,76 @@ Vue.component('prestasi-pie-02', PrestasiPie02);
 //== mini pie charts
 import PrestasiPie03 from './components/views/bantenprov/prestasi/PrestasiPie03.vue';
 Vue.component('prestasi-pie-03', PrestasiPie03);
+
+//== Jenis Prestasi
+import JenisPrestasi from './components/bantenprov/prestasi/jenis-prestasi/JenisPrestasi.chart.vue';
+Vue.component('echarts-jenis-prestasi', JenisPrestasi);
+
+import JenisPrestasiKota from './components/bantenprov/prestasi/jenis-prestasi/JenisPrestasiKota.chart.vue';
+Vue.component('echarts-jenis-prestasi-kota', JenisPrestasiKota);
+
+import JenisPrestasiTahun from './components/bantenprov/prestasi/jenis-prestasi/JenisPrestasiTahun.chart.vue';
+Vue.component('echarts-jenis-prestasi-tahun', JenisPrestasiTahun);
+
+import JenisPrestasiAdminShow from './components/bantenprov/prestasi/jenis-prestasi/JenisPrestasiAdmin.show.vue';
+Vue.component('admin-view-jenis-prestasi-tahun', JenisPrestasiAdminShow);
+
+//== Echarts Prestasi
+
+import JenisPrestasiBar01 from './components/views/bantenprov/prestasi/jenis-prestasi/JenisPrestasiBar01.vue';
+Vue.component('jenis-prestasi-bar-01', JenisPrestasiBar01);
+
+import JenisPrestasiBar02 from './components/views/bantenprov/prestasi/jenis-prestasi/JenisPrestasiBar02.vue';
+Vue.component('jenis-prestasi-bar-02', JenisPrestasiBar02);
+
+//== mini bar charts
+import JenisPrestasiBar03 from './components/views/bantenprov/prestasi/jenis-prestasi/JenisPrestasiBar03.vue';
+Vue.component('jenis-prestasi-bar-03', JenisPrestasiBar03);
+
+import JenisPrestasiPie01 from './components/views/bantenprov/prestasi/jenis-prestasi/JenisPrestasiPie01.vue';
+Vue.component('jenis-prestasi-pie-01', JenisPrestasiPie01);
+
+import JenisPrestasiPie02 from './components/views/bantenprov/prestasi/jenis-prestasi/JenisPrestasiPie02.vue';
+Vue.component('jenis-prestasi-pie-02', JenisPrestasiPie02);
+
+//== mini pie charts
+import JenisPrestasiPie03 from './components/views/bantenprov/prestasi/jenis-prestasi/JenisPrestasiPie03.vue';
+Vue.component('jenis-prestasi-pie-03', JenisPrestasiPie03);
+
+//== Master Prestasi
+
+import MasterPrestasi from './components/bantenprov/prestasi/master-prestasi/MasterPrestasi.chart.vue';
+Vue.component('echarts-master-prestasi', MasterPrestasi);
+
+import MasterPrestasiKota from './components/bantenprov/prestasi/master-prestasi/MasterPrestasiKota.chart.vue';
+Vue.component('echarts-master-prestasi-kota', MasterPrestasiKota);
+
+import MasterPrestasiTahun from './components/bantenprov/prestasi/master-prestasi/MasterPrestasiTahun.chart.vue';
+Vue.component('echarts-master-prestasi-tahun', MasterPrestasiTahun);
+
+import MasterPrestasiAdminShow from './components/bantenprov/prestasi/master-prestasi/MasterPrestasiAdmin.show.vue';
+Vue.component('admin-view-master-prestasi-tahun', MasterPrestasiAdminShow);
+
+//== Echarts Prestasi
+
+import MasterPrestasiBar01 from './components/views/bantenprov/prestasi/master-prestasi/MasterPrestasiBar01.vue';
+Vue.component('master-prestasi-bar-01', MasterPrestasiBar01);
+
+import MasterPrestasiBar02 from './components/views/bantenprov/prestasi/master-prestasi/MasterPrestasiBar02.vue';
+Vue.component('master-prestasi-bar-02', MasterPrestasiBar02);
+
+//== mini bar charts
+import MasterPrestasiBar03 from './components/views/bantenprov/prestasi/master-prestasi/MasterPrestasiBar03.vue';
+Vue.component('master-prestasi-bar-03', MasterPrestasiBar03);
+
+import MasterPrestasiPie01 from './components/views/bantenprov/prestasi/master-prestasi/MasterPrestasiPie01.vue';
+Vue.component('master-prestasi-pie-01', MasterPrestasiPie01);
+
+import MasterPrestasiPie02 from './components/views/bantenprov/prestasi/master-prestasi/MasterPrestasiPie02.vue';
+Vue.component('master-prestasi-pie-02', MasterPrestasiPie02);
+
+//== mini pie charts
+import MasterPrestasiPie03 from './components/views/bantenprov/prestasi/master-prestasi/MasterPrestasiPie03.vue';
+Vue.component('master-prestasi-pie-03', MasterPrestasiPie03);
+
+```
