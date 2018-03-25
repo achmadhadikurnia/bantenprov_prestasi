@@ -38,13 +38,20 @@
 
     <div class="card-footer text-muted">
         <div class="form-row mt-6">
-          <div class="col-md">
-            Dibuat : {{ model.created_at }}
+            <div class="col-md">
+              <b>Nama Lomba :</b> {{ model.nama_lomba }}
+            </div>
           </div>
-        </div>
-        <div class="form-row mt-6">
-          <div class="col-md">
-            Diperbaiki : {{ model.updated_at }}
+          <div class="form-row mt-6">
+          <div class="form-row mt-12">
+            <div class="col-md">
+              Dibuat : {{ model.created_at }}
+            </div>
+          </div>
+          <div class="form-row mt-12">
+            <div class="col-md">
+              Diperbaiki : {{ model.updated_at }}
+            </div>
           </div>
         </div>
     </div>
