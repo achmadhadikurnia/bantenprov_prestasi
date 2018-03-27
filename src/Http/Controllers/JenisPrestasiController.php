@@ -60,11 +60,7 @@ class JenisPrestasiController extends Controller
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->paginate($perPage);
-
-        foreach($response as $user){
-            array_set($response->data, 'user', $user->user->name);
-        }
+        $response = $query->with('user')->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -102,15 +98,16 @@ class JenisPrestasiController extends Controller
         $jenis_prestasi = $this->jenis_prestasi;
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:prestasis,user_id',
-            'nama_jenis_prestasi' => 'required|max:255',
+            /*'user_id' => 'required|unique:jenis_prestasis,user_id',*/
+            'user_id' => 'required',
+            'nama_jenis_prestasi' => 'required',
         ]);
 
         if($validator->fails()){
-            $check = $jenis_prestasi->where('user_id',$request->user_id)->whereNull('deleted_at')->count();
+            $check = $jenis_prestasi->where('label',$request->label)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed, Username ' . $request->user_id . ' already exists';
+                $response['message'] = 'Failed ! Username, already exists';
             } else {
                 $jenis_prestasi->user_id = $request->input('user_id');
                 $jenis_prestasi->nama_jenis_prestasi = $request->input('nama_jenis_prestasi');
@@ -176,27 +173,30 @@ class JenisPrestasiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        $response = array();
+        $message  = array();
         $jenis_prestasi = $this->jenis_prestasi->findOrFail($id);
 
-        if ($request->input('nama_jenis_prestasi') == $request->input('nama_jenis_prestasi'))
-        {
             $validator = Validator::make($request->all(), [
+                /*'user_id' => 'required|unique:jenis_prestasis,user_id,'.$id,*/
                 'user_id' => 'required',
-                'nama_jenis_prestasi' => 'required|max:255',
+                'nama_jenis_prestasi' => 'required',
+
             ]);
-        } else {
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required',
-                'nama_jenis_prestasi' => 'required|max:255',
-            ]);
-        }
 
         if ($validator->fails()) {
-            $check = $jenis_prestasi->where('nama_jenis_prestasi',$request->nama_jenis_prestasi)->whereNull('deleted_at')->count();
 
-            if ($check > 0) {
-                $response['message'] = 'Failed, nama_jenis_prestasi ' . $request->nama_jenis_prestasi . ' already exists';
+            foreach($validator->messages()->getMessages() as $key => $error){
+                        foreach($error AS $error_get) {
+                            array_push($message, $error_get);
+                        }                
+                    } 
+
+             $check_user = $this->jenis_prestasi->where('id','!=', $id)->where('label', $request->label);
+
+             if($check_user->count() > 0){
+                  $response['message'] = implode("\n",$message);
             } else {
                 $jenis_prestasi->user_id = $request->input('user_id');
                 $jenis_prestasi->nama_jenis_prestasi = $request->input('nama_jenis_prestasi');

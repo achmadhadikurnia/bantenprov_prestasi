@@ -16,8 +16,8 @@ class CreatePrestasisTable extends Migration
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->integer('master_prestasi_id');
-			$table->integer('nomor_un');
-			$table->string('nama_lomba', 255)->nullable();
+			$table->bigInteger('nomor_un');
+			$table->string('nama_lomba');
 			$table->timestamps();
 			$table->softDeletes();
 		});
