@@ -63,15 +63,7 @@ class PrestasiController extends Controller
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->paginate($perPage);
-
-        foreach($response as $master_prestasi){
-            array_set($response->data, 'master_prestasi', $master_prestasi->master_prestasi->juara);
-        }
-
-        foreach($response as $user){
-            array_set($response->data, 'user', $user->user->name);
-        }
+        $response = $query->with('user')->with('master_prestasi')->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -117,15 +109,15 @@ class PrestasiController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|unique:prestasis,user_id',
             'master_prestasi_id' => 'required',
-            'nomor_un' => 'required',
-            'nama_lomba' => 'required|max:255',
+            'nomor_un' => 'required|unique:prestasis,nomor_un',
+            'nama_lomba' => 'required',
         ]);
 
         if($validator->fails()){
-            $check = $prestasi->where('user_id',$request->user_id)->whereNull('deleted_at')->count();
+            $check = $prestasi->where('user_id',$request->user_id)->orWhere('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed, Username ' . $request->user_id . ' already exists';
+                $response['message'] = 'Failed ! Username, Nomor UN, already exists';
             } else {
                 $prestasi->user_id = $request->input('user_id');
                 $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
@@ -198,32 +190,32 @@ class PrestasiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        $response = array();
+        $message  = array();
         $prestasi = $this->prestasi->findOrFail($id);
 
-        if ($request->input('master_prestasi_id') == $request->input('master_prestasi_id'))
-        {
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required',
+                'user_id' => 'required|unique:prestasis,user_id,'.$id,
                 'master_prestasi_id' => 'required',
-                'nomor_un' => 'required',
-                'nama_lomba' => 'required|max:255',
+                'nomor_un' => 'required|unique:prestasis,nomor_un,'.$id,
+                'nama_lomba' => 'required',
                 
             ]);
-        } else {
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required',
-                'master_prestasi_id' => 'required',
-                'nomor_un' => 'required',
-                'nama_lomba' => 'required|max:255',
-            ]);
-        }
 
         if ($validator->fails()) {
-            $check = $prestasi->where('master_prestasi_id',$request->master_prestasi_id)->whereNull('deleted_at')->count();
 
-            if ($check > 0) {
-                $response['message'] = 'Failed, master_prestasi_id ' . $request->master_prestasi_id . ' already exists';
+            foreach($validator->messages()->getMessages() as $key => $error){
+                        foreach($error AS $error_get) {
+                            array_push($message, $error_get);
+                        }                
+                    } 
+
+             $check_user     = $this->prestasi->where('id','!=', $id)->where('user_id', $request->user_id);
+             $check_nomor_un = $this->prestasi->where('id','!=', $id)->where('nomor_un', $request->nomor_un);
+
+             if($check_user->count() > 0 || $check_nomor_un->count() > 0){
+                  $response['message'] = implode("\n",$message);
             } else {
                 $prestasi->user_id = $request->input('user_id');
                 $prestasi->master_prestasi_id = $request->input('master_prestasi_id');

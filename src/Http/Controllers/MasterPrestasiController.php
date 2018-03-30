@@ -63,15 +63,8 @@ class MasterPrestasiController extends Controller
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->paginate($perPage);
+        $response = $query->with('user')->with('jenis_prestasi')->paginate($perPage);
 
-        foreach($response as $jenis_prestasi){
-            array_set($response->data, 'jenis_prestasi', $jenis_prestasi->jenis_prestasi->nama_jenis_prestasi);
-        }
-
-        foreach($response as $user){
-            array_set($response->data, 'user', $user->user->name);
-        }
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -115,19 +108,20 @@ class MasterPrestasiController extends Controller
         $master_prestasi = $this->master_prestasi;
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:prestasis,user_id',
+            /*'user_id' => 'required|unique:master_prestasis,user_id',*/
+            'user_id' => 'required',
             'jenis_prestasi_id' => 'required',
-            'juara' => 'required|max:255',
-            'tingkat' => 'required|max:255',
+            'juara' => 'required',
+            'tingkat' => 'required',
             'nilai' => 'required',
             'bobot' => 'required',
         ]);
 
         if($validator->fails()){
-            $check = $master_prestasi->where('user_id',$request->user_id)->whereNull('deleted_at')->count();
+            $check = $jenis_prestasi->where('label',$request->label)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed, Username ' . $request->user_id . ' already exists';
+                $response['message'] = 'Failed ! Username, already exists';
             } else {
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->user_id = $request->input('user_id');
@@ -204,36 +198,35 @@ class MasterPrestasiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        $response = array();
+        $message  = array();
         $master_prestasi = $this->master_prestasi->findOrFail($id);
 
-        if ($request->input('juara') == $request->input('juara'))
-        {
             $validator = Validator::make($request->all(), [
+                /*'user_id' => 'required|unique:sktms,user_id,'.$id,*/
                 'user_id' => 'required',
                 'jenis_prestasi_id' => 'required',
-                'juara' => 'required|max:255',
-                'tingkat' => 'required|max:255',
+                'juara' => 'required',
+                'tingkat' => 'required',
                 'nilai' => 'required',
                 'bobot' => 'required',
                 
             ]);
-        } else {
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required',
-                'jenis_prestasi_id' => 'required',
-                'juara' => 'required|max:255',
-                'tingkat' => 'required|max:255',
-                'nilai' => 'required',
-                'bobot' => 'required',
-            ]);
-        }
 
         if ($validator->fails()) {
-            $check = $master_prestasi->where('user_id',$request->user)->whereNull('deleted_at')->count();
 
-            if ($check > 0) {
-                $response['message'] = 'Failed, user_id ' . $request->user . ' already exists';
+            foreach($validator->messages()->getMessages() as $key => $error){
+                        foreach($error AS $error_get) {
+                            array_push($message, $error_get);
+                        }                
+                    } 
+
+            $check_user = $this->master_prestasi->where('id','!=', $id)->where('label', $request->label);
+
+             if($check_user->count() > 0){
+                  $response['message'] = implode("\n",$message);
+
             } else {
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
