@@ -110,9 +110,9 @@ export default {
           titleClass: 'center aligned'
         },
         {
-          name: 'bobot',
-          title: 'Bobot',
-          sortField: 'bobot',
+          name: 'tingkat',
+          title: 'Tingkat',
+          sortField: 'tingkat',
           titleClass: 'center aligned'
         },
         {

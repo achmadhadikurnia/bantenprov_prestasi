@@ -12,8 +12,19 @@
       </ul>
     </div>
 
-    <div class="card-body">
-      <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
+    <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="siswa_id">Nama Siswa</label>
+            <v-select name="siswa_id" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
+
+            <field-messages name="siswa_id" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Nama Siswa is a required field</small>
+            </field-messages>
+            </validate>
+          </div>
+        </div>  
 
         <div class="form-row mt-4">
           <div class="col-md">
@@ -39,19 +50,6 @@
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Master Prestasi is a required field</small>
             </field-messages>
-            </validate>
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-              <input class="form-control" v-model="model.nomor_un" required autofocus name="nomor_un" type="text" placeholder="Nomor UN">
-
-              <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Nomor UN is a required field</small>
-              </field-messages>
             </validate>
           </div>
         </div>
@@ -90,7 +88,7 @@ export default {
         if (response.data.status == true) {
           this.model.user = response.data.user,
           this.model.master_prestasi = response.data.master_prestasi;
-          this.model.nomor_un = response.data.prestasi.nomor_un;
+          this.model.siswa = response.data.siswa;
           this.model.nama_lomba = response.data.prestasi.nama_lomba;
         } else {
           alert('Failed');
@@ -103,8 +101,11 @@ export default {
 
       axios.get('api/prestasi/create')
       .then(response => {
-        response.data.master_prestasi.forEach(element => {
+         response.data.master_prestasi.forEach(element => {
             this.master_prestasi.push(element);
+          });
+         response.data.siswa.forEach(element => {
+            this.siswa.push(element);
           });
           response.data.user.forEach(user_element => {
             this.user.push(user_element);
@@ -120,11 +121,12 @@ export default {
       model: {
         user: "",
         master_prestasi: "",
-        nomor_un: "",
-        nama_lomba: "",
+        siswa: "",
+        nama_lomba: ""
       },
       user: [],
-      master_prestasi: []
+      master_prestasi: [],
+      siswa: []
     }
   },
   methods: {
@@ -137,7 +139,7 @@ export default {
         axios.put('api/prestasi/' + this.$route.params.id, {
             user_id: this.model.user.id,
             master_prestasi_id: this.model.master_prestasi.id,
-            nomor_un: this.model.nomor_un,
+            siswa_id: this.model.siswa.id,
             nama_lomba: this.model.nama_lomba
           })
           .then(response => {
@@ -161,7 +163,6 @@ export default {
       axios.get('api/prestasi/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
-            this.model.nomor_un = response.data.prestasi.nomor_un;
             this.model.nama_lomba = response.data.prestasi.nama_lomba;
           } else {
             alert('Failed');

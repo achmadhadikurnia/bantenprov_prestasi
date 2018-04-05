@@ -92,15 +92,15 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'master_prestasi.juara',
-          title: 'Master Prestasi',
-          sortField: 'master_prestasi_id',
+          name: 'siswa.nama_siswa',
+          title: 'Nama Siswa',
+          sortField: 'siswa_id',
           titleClass: 'center aligned'
         },
         {
-          name: 'nomor_un',
-          title: 'Nomor UN',
-          sortField: 'nomor_un',
+          name: 'master_prestasi.juara',
+          title: 'Master Prestasi',
+          sortField: 'master_prestasi_id',
           titleClass: 'center aligned'
         },
         {

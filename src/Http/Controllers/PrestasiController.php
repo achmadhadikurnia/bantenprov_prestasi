@@ -10,6 +10,7 @@ use Bantenprov\Prestasi\Facades\PrestasiFacade;
 /* Models */
 use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\Prestasi;
 use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi;
+use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
 use App\User;
 
 /* Etc */
@@ -30,12 +31,14 @@ class PrestasiController extends Controller
      */
     protected $prestasi;
     protected $master_prestasi;
+    protected $siswa;
     protected $user;
 
-    public function __construct(Prestasi $prestasi, MasterPrestasi $master_prestasi, User $user)
+    public function __construct(Prestasi $prestasi, MasterPrestasi $master_prestasi, User $user, Siswa $siswa)
     {
         $this->prestasi = $prestasi;
         $this->master_prestasi = $master_prestasi;
+        $this->siswa = $siswa;
         $this->user = $user;
     }
 
@@ -57,13 +60,13 @@ class PrestasiController extends Controller
         if ($request->exists('filter')) {
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
-                $q->where('nomor_un', 'like', $value)
+                $q->where('siswa_id', 'like', $value)
                     ->orWhere('nama_lomba', 'like', $value);
             });
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->with('user')->with('master_prestasi')->paginate($perPage);
+        $response = $query->with('user')->with('master_prestasi')->with('siswa')->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -80,6 +83,7 @@ class PrestasiController extends Controller
     {
         $users = $this->user->all();
         $master_prestasis = $this->master_prestasi->all();
+        $siswas = $this->siswa->all();
 
         foreach($users as $user){
             array_set($user, 'label', $user->name);
@@ -88,8 +92,13 @@ class PrestasiController extends Controller
         foreach($master_prestasis as $master_prestasi){
             array_set($master_prestasi, 'label', $master_prestasi->juara);
         }
+
+        foreach($siswas as $siswa){
+            array_set($siswa, 'label', $siswa->nama_siswa);
+        }
         
         $response['master_prestasi'] = $master_prestasis;
+        $response['siswa'] = $siswas;
         $response['user'] = $users;
         $response['status'] = true;
 
@@ -109,19 +118,19 @@ class PrestasiController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|unique:prestasis,user_id',
             'master_prestasi_id' => 'required',
-            'nomor_un' => 'required|unique:prestasis,nomor_un',
+            'siswa_id' => 'required|unique:prestasis,siswa_id',
             'nama_lomba' => 'required',
         ]);
 
         if($validator->fails()){
-            $check = $prestasi->where('user_id',$request->user_id)->orWhere('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
+            $check = $prestasi->where('user_id',$request->user_id)->orWhere('siswa_id',$request->siswa_id)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed ! Username, Nomor UN, already exists';
+                $response['message'] = 'Failed ! Username, Nama Siswa, already exists';
             } else {
                 $prestasi->user_id = $request->input('user_id');
                 $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
-                $prestasi->nomor_un = $request->input('nomor_un');
+                $prestasi->siswa_id = $request->input('siswa_id');
                 $prestasi->nama_lomba = $request->input('nama_lomba');
                 $prestasi->save();
 
@@ -130,7 +139,7 @@ class PrestasiController extends Controller
         } else {
                 $prestasi->user_id = $request->input('user_id');
                 $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
-                $prestasi->nomor_un = $request->input('nomor_un');
+                $prestasi->siswa_id = $request->input('siswa_id');
                 $prestasi->nama_lomba = $request->input('nama_lomba');
                 $prestasi->save();
 
@@ -154,6 +163,7 @@ class PrestasiController extends Controller
         
         $response['user'] = $prestasi->user;
         $response['master_prestasi'] = $prestasi->master_prestasi;
+        $response['siswa'] = $prestasi->siswa;
         $response['prestasi'] = $prestasi;
         $response['status'] = true;
 
@@ -173,8 +183,10 @@ class PrestasiController extends Controller
 
         array_set($prestasi->user, 'label', $prestasi->user->name);
         array_set($prestasi->master_prestasi, 'label', $prestasi->master_prestasi->juara);
+        array_set($prestasi->siswa, 'label', $prestasi->siswa->nama_siswa);
         
         $response['master_prestasi'] = $prestasi->master_prestasi;
+        $response['siswa'] = $prestasi->siswa;
         $response['prestasi'] = $prestasi;
         $response['user'] = $prestasi->user;
         $response['status'] = true;
@@ -193,12 +205,13 @@ class PrestasiController extends Controller
     {   
         $response = array();
         $message  = array();
+
         $prestasi = $this->prestasi->findOrFail($id);
 
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required|unique:prestasis,user_id,'.$id,
                 'master_prestasi_id' => 'required',
-                'nomor_un' => 'required|unique:prestasis,nomor_un,'.$id,
+                'siswa_id' => 'required|unique:prestasis,siswa_id,'.$id,
                 'nama_lomba' => 'required',
                 
             ]);
@@ -211,15 +224,15 @@ class PrestasiController extends Controller
                         }                
                     } 
 
-             $check_user     = $this->prestasi->where('id','!=', $id)->where('user_id', $request->user_id);
-             $check_nomor_un = $this->prestasi->where('id','!=', $id)->where('nomor_un', $request->nomor_un);
+             $check_user = $this->prestasi->where('id','!=', $id)->where('user_id', $request->user_id);
+             $check_siswa = $this->prestasi->where('id','!=', $id)->where('siswa_id', $request->siswa_id);
 
-             if($check_user->count() > 0 || $check_nomor_un->count() > 0){
+             if($check_user->count() > 0 || $check_siswa->count() > 0){
                   $response['message'] = implode("\n",$message);
             } else {
                 $prestasi->user_id = $request->input('user_id');
                 $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
-                $prestasi->nomor_un = $request->input('nomor_un');
+                $prestasi->siswa_id = $request->input('siswa_id');
                 $prestasi->nama_lomba = $request->input('nama_lomba');
                 $prestasi->save();
 
@@ -228,7 +241,7 @@ class PrestasiController extends Controller
         } else {
                 $prestasi->user_id = $request->input('user_id');
                 $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
-                $prestasi->nomor_un = $request->input('nomor_un');
+                $prestasi->siswa_id = $request->input('siswa_id');
                 $prestasi->nama_lomba = $request->input('nama_lomba');
                 $prestasi->save();
 

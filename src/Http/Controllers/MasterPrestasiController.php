@@ -58,7 +58,7 @@ class MasterPrestasiController extends Controller
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
                 $q->where('nilai', 'like', $value)
-                    ->orWhere('bobot', 'like', $value);
+                    ->orWhere('id', 'like', $value);
             });
         }
 
@@ -112,23 +112,23 @@ class MasterPrestasiController extends Controller
             'user_id' => 'required',
             'jenis_prestasi_id' => 'required',
             'juara' => 'required',
+            'kode_prestasi' => 'required|unique:master_prestasis,kode_prestasi',
             'tingkat' => 'required',
-            'nilai' => 'required',
-            'bobot' => 'required',
+            'nilai' => 'required'
         ]);
 
         if($validator->fails()){
-            $check = $jenis_prestasi->where('label',$request->label)->whereNull('deleted_at')->count();
+            $check = $master_prestasi->where('kode_prestasi',$request->kode_prestasi)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed ! Username, already exists';
+                $response['message'] = 'Failed ! Kode Prestasi, already exists';
             } else {
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->juara = $request->input('juara');
+                $master_prestasi->kode_prestasi = $request->input('kode_prestasi');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');
-                $master_prestasi->bobot = $request->input('bobot');
                 $master_prestasi->save();
 
                 $response['message'] = 'success';
@@ -137,9 +137,9 @@ class MasterPrestasiController extends Controller
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->juara = $request->input('juara');
+                $master_prestasi->kode_prestasi = $request->input('kode_prestasi');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');
-                $master_prestasi->bobot = $request->input('bobot');
                 $master_prestasi->save();
 
             $response['message'] = 'success';
@@ -208,9 +208,9 @@ class MasterPrestasiController extends Controller
                 'user_id' => 'required',
                 'jenis_prestasi_id' => 'required',
                 'juara' => 'required',
+                'kode_prestasi' => 'required|unique:master_prestasis,kode_prestasi',
                 'tingkat' => 'required',
-                'nilai' => 'required',
-                'bobot' => 'required',
+                'nilai' => 'required'
                 
             ]);
 
@@ -222,18 +222,18 @@ class MasterPrestasiController extends Controller
                         }                
                     } 
 
-            $check_user = $this->master_prestasi->where('id','!=', $id)->where('label', $request->label);
+            $check_kode_prestasi = $this->master_prestasi->where('id','!=', $id)->where('kode_prestasi', $request->kode_prestasi);
 
-             if($check_user->count() > 0){
+             if($check_kode_prestasi->count() > 0){
                   $response['message'] = implode("\n",$message);
 
             } else {
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->juara = $request->input('juara');
+                $master_prestasi->kode_prestasi = $request->input('kode_prestasi');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');
-                $master_prestasi->bobot = $request->input('bobot');
                 $master_prestasi->save();
 
                 $response['message'] = 'success';
@@ -242,9 +242,9 @@ class MasterPrestasiController extends Controller
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->juara = $request->input('juara');
+                $master_prestasi->kode_prestasi = $request->input('kode_prestasi');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');
-                $master_prestasi->bobot = $request->input('bobot');
                 $master_prestasi->save();
 
             $response['message'] = 'success';

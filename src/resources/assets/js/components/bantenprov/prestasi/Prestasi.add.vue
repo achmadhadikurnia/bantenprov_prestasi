@@ -15,7 +15,21 @@
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
 
-    <div class="form-row mt-4">
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="siswa_id">Nama Siswa</label>
+            <v-select name="siswa_id" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
+
+            <field-messages name="siswa_id" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Nama Siswa is a required field</small>
+            </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
             <label for="user_id">Username</label>
@@ -32,27 +46,16 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="master_prestasi">Master Prestasi ID</label>
-            <v-select name="master_prestasi" v-model="model.master_prestasi" :options="master_prestasi" class="mb-4"></v-select>
+            <label for="master_prestasi_id">Master Prestasi</label>
+            <v-select name="master_prestasi_id" v-model="model.master_prestasi" :options="master_prestasi" class="mb-4"></v-select>
 
-            <field-messages name="master_prestasi" show="$invalid && $submitted" class="text-danger">
+            <field-messages name="master_prestasi_id" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Jenis Prestasi is a required field</small>
+              <small class="form-text text-danger" slot="required">Master Prestasi is a required field</small>
             </field-messages>
             </validate>
           </div>
         </div>
-
-         <validate tag="div">
-          <div class="form-group">
-            <label for="model-nomor_un">Nomor UN</label>
-            <input type="text" class="form-control" id="model-nomor_un" v-model="model.nomor_un" name="nomor_un" placeholder="Nomor UN" required autofocus>
-            <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
 
          <validate tag="div">
           <div class="form-group">
@@ -89,6 +92,9 @@ export default {
         response.data.master_prestasi.forEach(element => {
           this.master_prestasi.push(element);
         });
+        response.data.siswa.forEach(element => {
+          this.siswa.push(element);
+        });
     })
     .catch(function(response) {
       alert('Break');
@@ -99,12 +105,13 @@ export default {
       state: {},
       model: {
         master_prestasi: "",
+        siswa: "",
         user: "",
-        nomor_un: "",
-        nama_lomba: "",
+        nama_lomba: ""
       },
       user: [],
-      master_prestasi: []
+      master_prestasi: [],
+      siswa: []
     }
   },
   methods: {
@@ -117,7 +124,7 @@ export default {
         axios.post('api/prestasi', {
             user_id: this.model.user.id,
             master_prestasi_id: this.model.master_prestasi.id,
-            nomor_un: this.model.nomor_un,
+            siswa_id: this.model.siswa.id,
             nama_lomba: this.model.nama_lomba            
           })
           .then(response => {
@@ -139,7 +146,6 @@ export default {
     },
     reset() {
       this.model = {
-          nomor_un: "",
           nama_lomba: ""
       };
     },

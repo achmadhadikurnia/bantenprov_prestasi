@@ -37,7 +37,21 @@
 
             <field-messages name="jenis_prestasi" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Jenis is a required field</small>
+              <small class="form-text text-danger" slot="required">Jenis Prestasi is a required field</small>
+            </field-messages>
+            </validate>
+          </div>
+        </div>
+
+         <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="juara">Juara</label>
+            <v-select v-model="model.juara" :options="optionsJuara" class="mb-4"></v-select>
+
+            <field-messages name="juara" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Juara is a required field</small>
             </field-messages>
             </validate>
           </div>
@@ -46,27 +60,13 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="model-juara">Juara</label>
-              <input class="form-control" v-model="model.juara" required autofocus name="juara" type="text" placeholder="Juara">
+            <label for="tingkat">Tingkat</label>
+            <v-select v-model="model.tingkat" :options="optionsTingkat" class="mb-4"></v-select>
 
-              <field-messages name="juara" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Juara is a required field</small>
-              </field-messages>
-            </validate>
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-              <label for="model-tingkat">Tingkat</label>
-              <input class="form-control" v-model="model.tingkat" required autofocus name="tingkat" type="text" placeholder="Tingkat">
-
-              <field-messages name="tingkat" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Tingkat is a required field</small>
-              </field-messages>
+            <field-messages name="tingkat" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Tingkat is a required field</small>
+            </field-messages>
             </validate>
           </div>
         </div>
@@ -88,12 +88,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="model-bobot">Bobot</label>
-              <input class="form-control" v-model="model.bobot" required autofocus name="bobot" type="text" placeholder="Bobot">
+              <label for="model-kode_prestasi">Kode Prestasi</label>
+              <input class="form-control" v-model="model.kode_prestasi" required autofocus name="kode_prestasi" type="text" placeholder="Kode Prestasi">
 
-              <field-messages name="bobot" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="Kode Prestasi" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Bobot is a required field</small>
+                <small class="form-text text-danger" slot="required">Kode Prestasi is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -121,9 +121,9 @@ export default {
           this.model.user = response.data.user,
           this.model.jenis_prestasi = response.data.jenis_prestasi;
           this.model.juara = response.data.master_prestasi.juara;
+          this.model.kode_prestasi = response.data.master_prestasi.kode_prestasi;
           this.model.tingkat = response.data.master_prestasi.tingkat;
           this.model.nilai = response.data.master_prestasi.nilai;
-          this.model.bobot = response.data.master_prestasi.bobot;
         } else {
           alert('Failed');
         }
@@ -148,6 +148,23 @@ export default {
   },
   data() {
     return {
+
+      optionsJuara: [
+        {id: 1, label: 'Juara 1'},
+        {id: 2, label: 'Juara 2'},
+        {id: 3, label: 'Juara 3'},
+        {id: 4, label: 'Juara Harapan 1'},
+      ],
+      selectedJuara: {id: "-", label: 'Pilih Salah Satu'},
+
+      optionsTingkat: [
+        {id: 1, label: 'Tingkat Internasional'},
+        {id: 2, label: 'Tingkat Nasional'},
+        {id: 3, label: 'Tingkat Provinsi'},
+        {id: 4, label: 'Tingkat Kabupaten/Kota'},
+      ],
+      selectedTingkat: {id: "-", label: 'Pilih Salah Satu'},
+
       state: {},
       model: {
         user: "",
@@ -155,7 +172,7 @@ export default {
         juara: "",
         tingkat: "",
         nilai: "",
-        bobot: "",
+        kode_prestasi: ""
       },
       user: [],
       jenis_prestasi: []
@@ -171,10 +188,10 @@ export default {
         axios.put('api/master-prestasi/' + this.$route.params.id, {
             user_id: this.model.user.id,
             jenis_prestasi_id: this.model.jenis_prestasi.id,
-            juara: this.model.juara,
-            tingkat: this.model.tingkat,
+            juara: this.model.juara.id,
+            tingkat: this.model.tingkat.id,
             nilai: this.model.nilai,
-            bobot: this.model.bobot
+            kode_prestasi: this.model.kode_prestasi            
           })
           .then(response => {
             if (response.data.status == true) {
@@ -197,10 +214,8 @@ export default {
       axios.get('api/master-prestasi/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
-            this.model.juara = response.data.master_prestasi.juara;
-            this.model.tingkat = response.data.master_prestasi.tingkat;
+            this.model.kode_prestasi = response.data.master_prestasi.kode_prestasi;
             this.model.nilai = response.data.master_prestasi.nilai;
-            this.model.bobot = response.data.master_prestasi.bobot;
           } else {
             alert('Failed');
           }
