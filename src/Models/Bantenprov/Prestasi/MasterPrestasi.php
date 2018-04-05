@@ -16,13 +16,12 @@ class MasterPrestasi extends Model
         'deleted_at'
     ];
     protected $fillable = [
-        'user_id',
         'jenis_prestasi_id',
         'juara',
         'tingkat',
-        'nama_lomba',
         'nilai',
-        'bobot'
+        'kode_prestasi',
+        'user_id'
     ];
 
     public function jenis_prestasi()

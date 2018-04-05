@@ -24,7 +24,8 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
                 'jenis_prestasi_id' => '1',
                 'juara' => '1',
                 'tingkat' => '1',
-                'nilai' => '10',              
+                'nilai' => '10',  
+                'label' => 'Label 1',            
                 'bobot' => '1'                           
             ],
             (object) [
@@ -33,6 +34,7 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
                 'juara' => '2',
                 'tingkat' => '2',
                 'nilai' => '20', 
+                'label' => 'Label 2',
                 'bobot' => '2'                          
             ]
         ];
@@ -45,6 +47,7 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
                    'juara' => $master_prestasi->juara,
                    'tingkat' => $master_prestasi->tingkat,
                    'nilai' => $master_prestasi->nilai,
+                   'label' => $master_prestasi->label,
                    'bobot' => $master_prestasi->bobot,
 
                 ]

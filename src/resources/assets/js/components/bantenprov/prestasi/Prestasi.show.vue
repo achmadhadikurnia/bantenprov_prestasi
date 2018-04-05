@@ -17,13 +17,13 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Master Prestasi :</b> {{ model.master_prestasi.juara }}
+            <b>Nama Siswa :</b> {{ model.siswa.nama_siswa }}
           </div>
         </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Nomor UN :</b> {{ model.nomor_un }}
+            <b>Master Prestasi :</b> {{ model.master_prestasi.juara }}
           </div>
         </div>
 
@@ -57,7 +57,7 @@ export default {
         if (response.data.status == true) {
           this.model.user = response.data.user;
           this.model.master_prestasi = response.data.master_prestasi;
-          this.model.nomor_un = response.data.prestasi.nomor_un;
+          this.model.siswa = response.data.siswa;
           this.model.nama_lomba = response.data.prestasi.nama_lomba;
           this.model.created_at = response.data.prestasi.created_at;
           this.model.updated_at = response.data.prestasi.updated_at;
@@ -77,13 +77,14 @@ export default {
       model: {
         user: "",
         master_prestasi: "",
-        nomor_un: "",
+        siswa: "",
         nama_lomba: "",
         created_at:       "",
         updated_at:       "",
       },
       user: [],
-      master_prestasi: []
+      master_prestasi: [],
+      siswa: []
     }
   },
   methods: {
@@ -95,7 +96,7 @@ export default {
       } else {
         axios.put('api/prestasi/' + this.$route.params.id, {
             master_prestasi_id: this.model.master_prestasi.id,
-            nomor_un: this.model.nomor_un,
+            siswa: this.model.siswa.id,
             nama_lomba: this.model.old_label,
             user_id: this.model.prestasi.id
           })

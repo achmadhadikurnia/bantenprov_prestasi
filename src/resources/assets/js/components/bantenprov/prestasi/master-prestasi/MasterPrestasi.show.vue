@@ -29,6 +29,12 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
+            <b>Kode Prestasi :</b> {{ model.kode_prestasi }}
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
             <b>Tingkat :</b> {{ model.tingkat }}
           </div>
         </div>
@@ -36,12 +42,6 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <b>Nilai :</b> {{ model.nilai }}
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Bobot :</b> {{ model.bobot }}
           </div>
         </div>
             
@@ -70,9 +70,9 @@ export default {
           this.model.user = response.data.user;
           this.model.jenis_prestasi = response.data.jenis_prestasi;
           this.model.juara = response.data.master_prestasi.juara;
+          this.model.kode_prestasi = response.data.master_prestasi.kode_prestasi;
           this.model.tingkat = response.data.master_prestasi.tingkat;
           this.model.nilai = response.data.master_prestasi.nilai;
-          this.model.bobot = response.data.master_prestasi.bobot;
           this.model.created_at = response.data.master_prestasi.created_at;
           this.model.updated_at = response.data.master_prestasi.updated_at;
         } else {
@@ -92,9 +92,9 @@ export default {
         user: "",
         jenis_prestasi: "",
         juara: "",
+        kode_prestasi: "",
         tingkat: "",
         nilai: "",
-        bobot: "",
         created_at:       "",
         updated_at:       "",
       },
@@ -111,10 +111,10 @@ export default {
       } else {
         axios.put('api/master-prestasi/' + this.$route.params.id, {
             juara: this.model.juara,
+            kode_prestasi: this.model.kode_prestasi,
             jenis_prestasi_id: this.model.jenis_prestasi.id,
             tingkat: this.model.tingkat,
             nilai: this.model.nilai,
-            bobot: this.model.bobot,
             user_id: this.model.master_prestasi.id
           })
           .then(response => {
@@ -138,7 +138,7 @@ export default {
       axios.get('api/master-prestasi/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
-            this.model.label = response.data.prestasi.label;
+            this.model.label = response.data.master_prestasi.label;
             this.model.description = response.data.prestasi.description;
           } else {
             alert('Failed');

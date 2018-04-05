@@ -43,27 +43,33 @@
           </div>
         </div>
 
-    <validate tag="div">
-          <div class="form-group">
-            <label for="model-juara">Juara</label>
-            <input type="text" class="form-control" id="model-juara" v-model="model.juara" name="juara" placeholder="Juara" required autofocus>
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="juara">Juara</label>
+            <v-select v-model="model.juara" :options="optionsJuara" class="mb-4"></v-select>
+
             <field-messages name="juara" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
+              <small class="form-text text-danger" slot="required">Juara is a required field</small>
             </field-messages>
+            </validate>
           </div>
-        </validate>
+        </div>
 
-         <validate tag="div">
-          <div class="form-group">
-            <label for="model-tingkat">Tingkat</label>
-            <input type="text" class="form-control" id="model-tingkat" v-model="model.tingkat" name="tingkat" placeholder="Tingkat" required autofocus>
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="tingkat">Tingkat</label>
+            <v-select v-model="model.tingkat" :options="optionsTingkat" class="mb-4"></v-select>
+
             <field-messages name="tingkat" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
+              <small class="form-text text-danger" slot="required">Tingkat is a required field</small>
             </field-messages>
+            </validate>
           </div>
-        </validate>
+        </div>
 
          <validate tag="div">
           <div class="form-group">
@@ -71,18 +77,18 @@
             <input type="text" class="form-control" id="model-nilai" v-model="model.nilai" name="nilai" placeholder="Nilai" required autofocus>
             <field-messages name="nilai" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
+              <small class="form-text text-danger" slot="required">Nilai is a required field</small>
             </field-messages>
           </div>
         </validate>
 
         <validate tag="div">
           <div class="form-group">
-            <label for="model-bobot">Bobot</label>
-            <input type="text" class="form-control" id="model-bobot" v-model="model.bobot" name="bobot" placeholder="Bobot" required autofocus>
-            <field-messages name="bobot" show="$invalid && $submitted" class="text-danger">
+            <label for="model-kode_prestasi">Kode Prestasi</label>
+            <input type="text" class="form-control" id="model-kode_prestasi" v-model="model.kode_prestasi" name="kode_prestasi" placeholder="Kode Prestasi" required autofocus>
+            <field-messages name="kode_prestasi" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
+              <small class="form-text text-danger" slot="required">Kode Prestasi is a required field</small>
             </field-messages>
           </div>
         </validate>
@@ -118,14 +124,30 @@ export default {
   },
   data() {
     return {
+      optionsJuara: [
+        {id: 1, label: 'Juara 1'},
+        {id: 2, label: 'Juara 2'},
+        {id: 3, label: 'Juara 3'},
+        {id: 4, label: 'Juara Harapan 1'},
+      ],
+      selectedJuara: {id: "-", label: 'Pilih Salah Satu'},
+
+      optionsTingkat: [
+        {id: 1, label: 'Tingkat Internasional'},
+        {id: 2, label: 'Tingkat Nasional'},
+        {id: 3, label: 'Tingkat Provinsi'},
+        {id: 4, label: 'Tingkat Kabupaten/Kota'},
+      ],
+      selectedTingkat: {id: "-", label: 'Pilih Salah Satu'},
+
       state: {},
       model: {
-        juara: "",
         jenis_prestasi: "",
-        user: "",
+        juara: "",
         tingkat: "",
         nilai: "",
-        bobot: "",
+        kode_prestasi: "",
+        user: ""
       },
       user: [],
       jenis_prestasi: []
@@ -141,10 +163,10 @@ export default {
         axios.post('api/master-prestasi/', {
             user_id: this.model.user.id,
             jenis_prestasi_id: this.model.jenis_prestasi.id,
-            juara: this.model.juara,
-            tingkat: this.model.tingkat,
             nilai: this.model.nilai,
-            bobot: this.model.bobot,             
+            juara: this.model.juara.id,
+            tingkat: this.model.tingkat.id,
+            kode_prestasi: this.model.kode_prestasi             
           })
           .then(response => {
             if (response.data.status == true) {
@@ -167,13 +189,12 @@ export default {
       this.model = {
           juara: "",
           tingkat: "",
-          nilai: "",
-          bobot: ""
+          nilai: ""
       };
     },
     back() {
       window.location = '#/admin/master-prestasi/';
-    }
+    },
   }
 }
 </script>

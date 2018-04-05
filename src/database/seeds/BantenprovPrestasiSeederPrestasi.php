@@ -22,13 +22,13 @@ class BantenprovPrestasiSeederPrestasi extends Seeder
             (object) [
                 'user_id' => '1',
                 'master_prestasi_id' => '1',
-                'nomor_un' => '1',
+                'siswa_id' => '1',
                 'nama_lomba' => 'Lomba 2'              
             ],
             (object) [
                 'user_id' => '2',
                 'master_prestasi_id' => '2',
-                'nomor_un' => '2',
+                'siswa_id' => '2',
                 'nama_lomba' => 'Lomba 2'
             ]
         ];
@@ -38,7 +38,7 @@ class BantenprovPrestasiSeederPrestasi extends Seeder
                 [
                    'user_id' => $prestasi->user_id,
                    'master_prestasi_id' => $prestasi->master_prestasi_id,
-                   'nomor_un' => $prestasi->nomor_un,
+                   'siswa_id' => $prestasi->siswa_id,
                    'nama_lomba' => $prestasi->nama_lomba,
                 ]
             );

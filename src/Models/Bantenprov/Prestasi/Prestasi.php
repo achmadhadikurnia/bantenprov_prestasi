@@ -18,13 +18,18 @@ class Prestasi extends Model
     protected $fillable = [
         'user_id',
         'master_prestasi_id',
-        'nomor_un',
+        'siswa_id',
         'nama_lomba'
     ];
 
     public function master_prestasi()
     {
         return $this->belongsTo('Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi','master_prestasi_id');
+    }
+
+    public function siswa()
+    {
+        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','siswa_id');
     }
 
     public function user()
