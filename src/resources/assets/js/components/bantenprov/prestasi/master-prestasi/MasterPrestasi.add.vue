@@ -15,6 +15,20 @@
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
 
+    <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="user_id">Username</label>
+            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
+
+            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">username is a required field</small>
+            </field-messages>
+            </validate>
+          </div>
+        </div>
+
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
@@ -78,20 +92,6 @@
             </field-messages>
           </div>
         </validate>
-
-    <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-            <label for="user_id">Username</label>
-            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
-
-            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">username is a required field</small>
-            </field-messages>
-            </validate>
-          </div>
-        </div>
 
          <div class="form-row mt-4">
           <div class="col-md">
@@ -166,7 +166,7 @@ export default {
             nilai: this.model.nilai,
             juara: this.model.juara.id,
             tingkat: this.model.tingkat.id,
-            kode_prestasi: this.model.kode_prestasi
+            kode_prestasi: this.model.kode_prestasi             
           })
           .then(response => {
             if (response.data.status == true) {
