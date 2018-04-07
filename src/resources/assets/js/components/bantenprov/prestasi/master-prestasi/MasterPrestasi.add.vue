@@ -160,7 +160,7 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.post('api/master-prestasi/', {
+        axios.post('api/master-prestasi', {
             user_id: this.model.user.id,
             jenis_prestasi_id: this.model.jenis_prestasi.id,
             nilai: this.model.nilai,
