@@ -20,57 +20,31 @@ class BantenprovPrestasiSeederPrestasi extends Seeder
 
         $prestasis = (object) [
             (object) [
-                'label' => 'Sektor Sarana dan Prasarana',
-                'description' => '',
+                'user_id' => '1',
+                'master_prestasi_id' => '1',
+                'siswa_id' => '1',
+                'nama_lomba' => 'Lomba 2'              
             ],
             (object) [
-                'label' => 'Sektor Pemerintahan',
-                'description' => '',
-            ],
-            (object) [
-                'label' => 'Sektor Pembangunan',
-                'description' => '',
-            ],
-            (object) [
-                'label' => 'Sektor Pelayanan',
-                'description' => '',
-            ],
-            (object) [
-                'label' => 'Sektor Legislatif',
-                'description' => '',
-            ],
-            (object) [
-                'label' => 'Sektor Kewilayahan',
-                'description' => '',
-            ],
-            (object) [
-                'label' => 'Sektor Keuangan',
-                'description' => '',
-            ],
-            (object) [
-                'label' => 'Sektor Kepegawaian',
-                'description' => '',
-            ],
-            (object) [
-                'label' => 'Sektor Kemasyarakatan',
-                'description' => '',
-            ],
-            (object) [
-                'label' => 'Sektor Administrasi dan Manajemen',
-                'description' => '',
-            ],
+                'user_id' => '2',
+                'master_prestasi_id' => '2',
+                'siswa_id' => '2',
+                'nama_lomba' => 'Lomba 2'
+            ]
         ];
 
         foreach ($prestasis as $prestasi) {
             $model = Prestasi::updateOrCreate(
                 [
-                    'label' => $prestasi->label,
-                ],
-                [
-                    'description' => $prestasi->description,
+                   'user_id' => $prestasi->user_id,
+                   'master_prestasi_id' => $prestasi->master_prestasi_id,
+                   'siswa_id' => $prestasi->siswa_id,
+                   'nama_lomba' => $prestasi->nama_lomba,
                 ]
             );
             $model->save();
         }
 	}
 }
+
+

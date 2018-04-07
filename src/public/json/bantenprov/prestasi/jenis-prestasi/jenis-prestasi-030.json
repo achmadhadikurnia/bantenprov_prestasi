@@ -1,0 +1,115 @@
+[
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Provinsi",
+      "name": "Banten",
+      "yyyy": "2011",
+      "title": "Kejuaraan perorangan (Kemendikbud/Kemenag)",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          6.33,
+          6.38,
+          6.43,
+          6.44,
+          6.45,
+          6.50
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Kejuaraan perorangan (di luar Kemendikbud/Kemenag)",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          5.34,
+          5.58,
+          5.70,
+          5.81,
+          5.84,
+          5.86
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Kejuaraan Beregu (Kemendikbud/Kemenag)",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          5.34,
+          5.58,
+          5.70,
+          5.81,
+          5.84,
+          5.86
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Kejuaraan Beregu (di luar Kemendikbud/Kemenag)",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          5.34,
+          5.58,
+          5.70,
+          5.81,
+          5.84,
+          5.86
+        ]
+      }
+    ]
+  }
+]

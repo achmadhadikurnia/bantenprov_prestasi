@@ -1,12 +1,12 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
+      <i class="fa fa-table" aria-hidden="true"></i> Prestasi
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
           <button class="btn btn-primary btn-sm" role="button" @click="createRow">
-          	<i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
         </li>
       </ul>
@@ -37,10 +37,10 @@
           @vuetable:loading="onLoading"
           @vuetable:loaded="onLoaded">
           <template slot="actions" slot-scope="props">
-            <div class="btn-sector pull-right" role="sector" style="display:flex;">
-              <!--<button class="btn btn-info btn-sm" role="button" @click="viewRow(props.rowData)">
+            <div class="btn-group pull-right" role="group" style="display:flex;">
+              <button class="btn btn-info btn-sm" role="button" @click="viewRow(props.rowData)">
                 <span class="fa fa-eye"></span>
-              </button>-->
+              </button>
               <button class="btn btn-warning btn-sm" role="button" @click="editRow(props.rowData)">
                 <span class="fa fa-pencil"></span>
               </button>
@@ -53,7 +53,8 @@
       </div>
 
       <div class="d-flex justify-content-between align-items-center">
-        <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
+        <vuetable-pagination-info ref="paginationInfo"
+        ></vuetable-pagination-info>
         <vuetable-pagination ref="pagination"
           :css="css.pagination"
           @vuetable-pagination:change-page="onChangePage">
@@ -82,7 +83,6 @@ export default {
   },
   data() {
     return {
-      title: 'Prestasi',
       loading: true,
       fields: [
         {
@@ -92,15 +92,27 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'label',
-          title: 'Label',
-          sortField: 'label',
+          name: 'siswa.nama_siswa',
+          title: 'Nama Siswa',
+          sortField: 'siswa_id',
           titleClass: 'center aligned'
         },
         {
-          name: 'description',
-          title: 'Description',
-          sortField: 'description',
+          name: 'master_prestasi.juara',
+          title: 'Master Prestasi',
+          sortField: 'master_prestasi_id',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'nama_lomba',
+          title: 'Nama Lomba',
+          sortField: 'nama_lomba',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'user.name',
+          title: 'Username',
+          sortField: 'user_id',
           titleClass: 'center aligned'
         },
         {
@@ -111,7 +123,7 @@ export default {
         },
       ],
       sortOrder: [{
-        field: 'label',
+        field: 'id',
         direction: 'asc'
       }],
       moreParams: {},
@@ -122,7 +134,7 @@ export default {
           descendingIcon: 'fa fa-chevron-down'
         },
         pagination: {
-          wrapperClass: 'vuetable-pagination btn-sector',
+          wrapperClass: 'vuetable-pagination btn-group',
           activeClass: 'active',
           disabledClass: 'disabled',
           pageClass: 'btn btn-light',
@@ -153,7 +165,7 @@ export default {
       if (confirm('Do you really want to delete it?')) {
         axios.delete('/api/prestasi/' + rowData.id)
           .then(function(response) {
-            if (response.data.loaded == true) {
+            if (response.data.status == true) {
               app.$refs.vuetable.reload()
             } else {
               alert('Failed');

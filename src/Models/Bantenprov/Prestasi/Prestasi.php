@@ -16,7 +16,24 @@ class Prestasi extends Model
         'deleted_at'
     ];
     protected $fillable = [
-        'label',
-        'description',
+        'user_id',
+        'master_prestasi_id',
+        'siswa_id',
+        'nama_lomba'
     ];
+
+    public function master_prestasi()
+    {
+        return $this->belongsTo('Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi','master_prestasi_id');
+    }
+
+    public function siswa()
+    {
+        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','siswa_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
 }

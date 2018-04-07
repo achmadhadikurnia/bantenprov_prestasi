@@ -9,6 +9,9 @@ use Bantenprov\Prestasi\Facades\PrestasiFacade;
 
 /* Models */
 use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\Prestasi;
+use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi;
+use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
+use App\User;
 
 /* Etc */
 use Validator;
@@ -26,9 +29,17 @@ class PrestasiController extends Controller
      *
      * @return void
      */
-    public function __construct(Prestasi $prestasi)
+    protected $prestasi;
+    protected $master_prestasi;
+    protected $siswa;
+    protected $user;
+
+    public function __construct(Prestasi $prestasi, MasterPrestasi $master_prestasi, User $user, Siswa $siswa)
     {
         $this->prestasi = $prestasi;
+        $this->master_prestasi = $master_prestasi;
+        $this->siswa = $siswa;
+        $this->user = $user;
     }
 
     /**
@@ -38,8 +49,8 @@ class PrestasiController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('sort')) {
-            list($sortCol, $sortDir) = explode('|', $request->sort);
+        if (request()->has('sort')) {
+            list($sortCol, $sortDir) = explode('|', request()->sort);
 
             $query = $this->prestasi->orderBy($sortCol, $sortDir);
         } else {
@@ -49,13 +60,13 @@ class PrestasiController extends Controller
         if ($request->exists('filter')) {
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
-                $q->where('label', 'like', $value)
-                    ->orWhere('description', 'like', $value);
+                $q->where('siswa_id', 'like', $value)
+                    ->orWhere('nama_lomba', 'like', $value);
             });
         }
 
-        $perPage = $request->has('per_page') ? (int) $request->per_page : null;
-        $response = $query->paginate($perPage);
+        $perPage = request()->has('per_page') ? (int) request()->per_page : null;
+        $response = $query->with('user')->with('master_prestasi')->with('siswa')->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -67,15 +78,29 @@ class PrestasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        $prestasi                 = $this->prestasi;
-        $prestasi->id             = null;
-        $prestasi->label          = null;
-        $prestasi->description    = null;
+        $users = $this->user->all();
+        $master_prestasis = $this->master_prestasi->all();
+        $siswas = $this->siswa->all();
 
-        $response['prestasi'] = $prestasi;
-        $response['loaded'] = true;
+        foreach($users as $user){
+            array_set($user, 'label', $user->name);
+        }
+
+        foreach($master_prestasis as $master_prestasi){
+            array_set($master_prestasi, 'label', $master_prestasi->juara);
+        }
+
+        foreach($siswas as $siswa){
+            array_set($siswa, 'label', $siswa->nama_siswa);
+        }
+        
+        $response['master_prestasi'] = $master_prestasis;
+        $response['siswa'] = $siswas;
+        $response['user'] = $users;
+        $response['status'] = true;
 
         return response()->json($response);
     }
@@ -91,23 +116,37 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi;
 
         $validator = Validator::make($request->all(), [
-            'label'         => 'required|max:16|unique:prestasis,label,NULL,id,deleted_at,NULL',
-            'description'   => 'required|max:255',
+            'user_id' => 'required|unique:prestasis,user_id',
+            'master_prestasi_id' => 'required',
+            'siswa_id' => 'required|unique:prestasis,siswa_id',
+            'nama_lomba' => 'required',
         ]);
 
         if($validator->fails()){
-            $response['error'] = true;
-            $response['message'] = $validator->errors()->first();
-        } else {
-            $prestasi->label          = $request->label;
-            $prestasi->description    = $request->description;
-            $prestasi->save();
+            $check = $prestasi->where('user_id',$request->user_id)->orWhere('siswa_id',$request->siswa_id)->whereNull('deleted_at')->count();
 
-            $response['error'] = false;
-            $response['message'] = 'Success';
+            if ($check > 0) {
+                $response['message'] = 'Failed ! Username, Nama Siswa, already exists';
+            } else {
+                $prestasi->user_id = $request->input('user_id');
+                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
+                $prestasi->siswa_id = $request->input('siswa_id');
+                $prestasi->nama_lomba = $request->input('nama_lomba');
+                $prestasi->save();
+
+                $response['message'] = 'success';
+            }
+        } else {
+                $prestasi->user_id = $request->input('user_id');
+                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
+                $prestasi->siswa_id = $request->input('siswa_id');
+                $prestasi->nama_lomba = $request->input('nama_lomba');
+                $prestasi->save();
+
+            $response['message'] = 'success';
         }
 
-        $response['loaded'] = true;
+        $response['status'] = true;
 
         return response()->json($response);
     }
@@ -121,9 +160,12 @@ class PrestasiController extends Controller
     public function show($id)
     {
         $prestasi = $this->prestasi->findOrFail($id);
-
+        
+        $response['user'] = $prestasi->user;
+        $response['master_prestasi'] = $prestasi->master_prestasi;
+        $response['siswa'] = $prestasi->siswa;
         $response['prestasi'] = $prestasi;
-        $response['loaded'] = true;
+        $response['status'] = true;
 
         return response()->json($response);
     }
@@ -134,12 +176,20 @@ class PrestasiController extends Controller
      * @param  \App\Prestasi  $prestasi
      * @return \Illuminate\Http\Response
      */
+
     public function edit($id)
     {
         $prestasi = $this->prestasi->findOrFail($id);
 
+        array_set($prestasi->user, 'label', $prestasi->user->name);
+        array_set($prestasi->master_prestasi, 'label', $prestasi->master_prestasi->juara);
+        array_set($prestasi->siswa, 'label', $prestasi->siswa->nama_siswa);
+        
+        $response['master_prestasi'] = $prestasi->master_prestasi;
+        $response['siswa'] = $prestasi->siswa;
         $response['prestasi'] = $prestasi;
-        $response['loaded'] = true;
+        $response['user'] = $prestasi->user;
+        $response['status'] = true;
 
         return response()->json($response);
     }
@@ -152,27 +202,53 @@ class PrestasiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        $response = array();
+        $message  = array();
+
         $prestasi = $this->prestasi->findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'label'         => 'required|max:16|unique:prestasis,label,'.$id.',id,deleted_at,NULL',
-            'description'   => 'required|max:255',
-        ]);
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|unique:prestasis,user_id,'.$id,
+                'master_prestasi_id' => 'required',
+                'siswa_id' => 'required|unique:prestasis,siswa_id,'.$id,
+                'nama_lomba' => 'required',
+                
+            ]);
 
-        if($validator->fails()){
-            $response['error'] = true;
-            $response['message'] = $validator->errors()->first();
+        if ($validator->fails()) {
+
+            foreach($validator->messages()->getMessages() as $key => $error){
+                        foreach($error AS $error_get) {
+                            array_push($message, $error_get);
+                        }                
+                    } 
+
+             $check_user = $this->prestasi->where('id','!=', $id)->where('user_id', $request->user_id);
+             $check_siswa = $this->prestasi->where('id','!=', $id)->where('siswa_id', $request->siswa_id);
+
+             if($check_user->count() > 0 || $check_siswa->count() > 0){
+                  $response['message'] = implode("\n",$message);
+            } else {
+                $prestasi->user_id = $request->input('user_id');
+                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
+                $prestasi->siswa_id = $request->input('siswa_id');
+                $prestasi->nama_lomba = $request->input('nama_lomba');
+                $prestasi->save();
+
+                $response['message'] = 'success';
+            }
         } else {
-            $prestasi->label          = $request->label;
-            $prestasi->description    = $request->description;
-            $prestasi->save();
+                $prestasi->user_id = $request->input('user_id');
+                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
+                $prestasi->siswa_id = $request->input('siswa_id');
+                $prestasi->nama_lomba = $request->input('nama_lomba');
+                $prestasi->save();
 
-            $response['error'] = false;
-            $response['message'] = 'Success';
+            $response['message'] = 'success';
         }
 
-        $response['loaded'] = true;
+        $response['status'] = true;
 
         return response()->json($response);
     }
@@ -188,9 +264,9 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi->findOrFail($id);
 
         if ($prestasi->delete()) {
-            $response['loaded'] = true;
+            $response['status'] = true;
         } else {
-            $response['loaded'] = false;
+            $response['status'] = false;
         }
 
         return json_encode($response);
