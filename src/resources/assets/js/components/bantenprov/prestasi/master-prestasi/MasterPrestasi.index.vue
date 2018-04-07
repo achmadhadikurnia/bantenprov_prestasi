@@ -80,10 +80,22 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
 export default {
   components: {
     VuetablePaginationInfo
-  },
+  },  
   data() {
     return {
       loading: true,
+      optionsJuara: [
+        {id: 1, label: 'Juara 1'},
+        {id: 2, label: 'Juara 2'},
+        {id: 3, label: 'Juara 3'},
+        {id: 4, label: 'Juara Harapan 1'},
+      ],
+      optionsTingkat: [
+        {id: 1, label: 'Tingkat Internasional'},
+        {id: 2, label: 'Tingkat Nasional'},
+        {id: 3, label: 'Tingkat Provinsi'},
+        {id: 4, label: 'Tingkat Kabupaten/Kota'},
+      ],
       fields: [
         {
           name: '__sequence',
@@ -101,7 +113,8 @@ export default {
           name: 'juara',
           title: 'Juara',
           sortField: 'juara',
-          titleClass: 'center aligned'
+          titleClass: 'center aligned',
+          callback:'getJuaraById'
         },
         {
           name: 'nilai',
@@ -113,7 +126,8 @@ export default {
           name: 'tingkat',
           title: 'Tingkat',
           sortField: 'tingkat',
-          titleClass: 'center aligned'
+          titleClass: 'center aligned',
+          callback:'getTingkatById'
         },
         {
           name: 'user.name',
@@ -155,7 +169,21 @@ export default {
       }
     }
   },
-  methods: {
+  methods: {  
+    getJuaraById(value){
+      var found = this.optionsJuara.find((e) => {
+        return e.id == value
+      })
+      
+      return found.label
+    }, 
+    getTingkatById(value){
+      var found = this.optionsTingkat.find((e) => {
+        return e.id == value
+      })
+      
+      return found.label
+    },  
     createRow() {
       window.location = '#/admin/master-prestasi/create';
     },

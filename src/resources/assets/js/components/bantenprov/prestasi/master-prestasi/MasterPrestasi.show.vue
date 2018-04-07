@@ -87,6 +87,21 @@ export default {
   },
   data() {
     return {
+
+      optionsJuara: [
+        {id: 1, label: 'Juara 1'},
+        {id: 2, label: 'Juara 2'},
+        {id: 3, label: 'Juara 3'},
+        {id: 4, label: 'Juara Harapan 1'},
+      ],
+
+      optionsTingkat: [
+        {id: 1, label: 'Tingkat Internasional'},
+        {id: 2, label: 'Tingkat Nasional'},
+        {id: 3, label: 'Tingkat Provinsi'},
+        {id: 4, label: 'Tingkat Kabupaten/Kota'},
+      ],
+      
       state: {},
       model: {
         user: "",
