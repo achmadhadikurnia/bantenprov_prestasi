@@ -81,31 +81,13 @@ class PrestasiController extends Controller
 
     public function create()
     {
-        $response = [];
-
+        $users = $this->user->all();
         $master_prestasis = $this->master_prestasi->all();
         $siswas = $this->siswa->all();
-        $users_special = $this->user->all();
-        $users_standar = $this->user->find(\Auth::User()->id);
-        $current_user = \Auth::User();
 
-        $role_check = \Auth::User()->hasRole(['superadministrator','administrator']);
-
-        if($role_check){
-            $response['user_special'] = true;
-            foreach($users_special as $user){
-                array_set($user, 'label', $user->name);
-            }
-            $response['user'] = $users_special;
-        }else{
-            $response['user_special'] = false;
-            array_set($users_standar, 'label', $users_standar->name);
-            $response['user'] = $users_standar;
+        foreach($users as $user){
+            array_set($user, 'label', $user->name);
         }
-
-        array_set($current_user, 'label', $current_user->name);
-
-        $response['current_user'] = $current_user;
 
         foreach($master_prestasis as $master_prestasi){
             if($master_prestasi->juara == 1){
@@ -137,6 +119,7 @@ class PrestasiController extends Controller
 
         $response['master_prestasi'] = $master_prestasis;
         $response['siswa'] = $siswas;
+        $response['user'] = $users;
         $response['status'] = true;
 
         return response()->json($response);

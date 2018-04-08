@@ -18,7 +18,7 @@ class Prestasi extends Model
     protected $fillable = [
         'user_id',
         'master_prestasi_id',
-        'siswa_id',
+        'nomor_un',
         'nama_lomba'
     ];
 
@@ -29,7 +29,7 @@ class Prestasi extends Model
 
     public function siswa()
     {
-        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','siswa_id');
+        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un');
     }
 
     public function user()
