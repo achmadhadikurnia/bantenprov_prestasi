@@ -79,19 +79,36 @@ class MasterPrestasiController extends Controller
 
     public function create()
     {
-        $users = $this->user->all();
-        $jenis_prestasis = $this->jenis_prestasi->all();
+        $response = [];
 
-        foreach($users as $user){
-            array_set($user, 'label', $user->name);
+        $jenis_prestasis = $this->jenis_prestasi->all();
+        $users_special = $this->user->all();
+        $users_standar = $this->user->find(\Auth::User()->id);
+        $current_user = \Auth::User();
+
+        $role_check = \Auth::User()->hasRole(['superadministrator','administrator']);
+
+        if($role_check){
+            $response['user_special'] = true;
+            foreach($users_special as $user){
+                array_set($user, 'label', $user->name);
+            }
+            $response['user'] = $users_special;
+        }else{
+            $response['user_special'] = false;
+            array_set($users_standar, 'label', $users_standar->name);
+            $response['user'] = $users_standar;
         }
+
+        array_set($current_user, 'label', $current_user->name);
+
+        $response['current_user'] = $current_user;
 
         foreach($jenis_prestasis as $jenis_prestasi){
             array_set($jenis_prestasi, 'label', $jenis_prestasi->nama_jenis_prestasi);
         }
-        
+
         $response['jenis_prestasi'] = $jenis_prestasis;
-        $response['user'] = $users;
         $response['status'] = true;
 
         return response()->json($response);
@@ -159,7 +176,7 @@ class MasterPrestasiController extends Controller
     public function show($id)
     {
         $master_prestasi = $this->master_prestasi->findOrFail($id);
-        
+
         $response['user'] = $master_prestasi->user;
         $response['jenis_prestasi'] = $master_prestasi->jenis_prestasi;
         $response['master_prestasi'] = $master_prestasi;
@@ -198,7 +215,7 @@ class MasterPrestasiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $response = array();
         $message  = array();
         $master_prestasi = $this->master_prestasi->findOrFail($id);
@@ -211,7 +228,7 @@ class MasterPrestasiController extends Controller
                 'kode_prestasi' => 'required|unique:master_prestasis,kode_prestasi',
                 'tingkat' => 'required',
                 'nilai' => 'required'
-                
+
             ]);
 
         if ($validator->fails()) {
@@ -219,8 +236,8 @@ class MasterPrestasiController extends Controller
             foreach($validator->messages()->getMessages() as $key => $error){
                         foreach($error AS $error_get) {
                             array_push($message, $error_get);
-                        }                
-                    } 
+                        }
+                    }
 
             $check_kode_prestasi = $this->master_prestasi->where('id','!=', $id)->where('kode_prestasi', $request->kode_prestasi);
 
