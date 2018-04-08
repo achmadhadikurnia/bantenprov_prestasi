@@ -101,18 +101,23 @@ export default {
 
       axios.get('api/prestasi/create')
       .then(response => {
-         response.data.master_prestasi.forEach(element => {
+          response.data.master_prestasi.forEach(element => {
             this.master_prestasi.push(element);
           });
-         response.data.siswa.forEach(element => {
+          response.data.siswa.forEach(element => {
             this.siswa.push(element);
           });
-          response.data.user.forEach(user_element => {
-            this.user.push(user_element);
-          });
+          if(response.data.user_special == true){
+            response.data.user.forEach(user_element => {
+              this.user.push(user_element);
+            });
+          }else{
+            this.user.push(response.data.user);
+          }
       })
       .catch(function(response) {
         alert('Break');
+        window.location.href = '#/admin/master-prestasi/';
       })
   },
   data() {

@@ -81,13 +81,31 @@ class PrestasiController extends Controller
 
     public function create()
     {
-        $users = $this->user->all();
+        $response = [];
+
         $master_prestasis = $this->master_prestasi->all();
         $siswas = $this->siswa->all();
+        $users_special = $this->user->all();
+        $users_standar = $this->user->find(\Auth::User()->id);
+        $current_user = \Auth::User();
 
-        foreach($users as $user){
-            array_set($user, 'label', $user->name);
+        $role_check = \Auth::User()->hasRole(['superadministrator','administrator']);
+
+        if($role_check){
+            $response['user_special'] = true;
+            foreach($users_special as $user){
+                array_set($user, 'label', $user->name);
+            }
+            $response['user'] = $users_special;
+        }else{
+            $response['user_special'] = false;
+            array_set($users_standar, 'label', $users_standar->name);
+            $response['user'] = $users_standar;
         }
+
+        array_set($current_user, 'label', $current_user->name);
+
+        $response['current_user'] = $current_user;
 
         foreach($master_prestasis as $master_prestasi){
             array_set($master_prestasi, 'label', $master_prestasi->juara);
@@ -96,10 +114,9 @@ class PrestasiController extends Controller
         foreach($siswas as $siswa){
             array_set($siswa, 'label', $siswa->nama_siswa);
         }
-        
+
         $response['master_prestasi'] = $master_prestasis;
         $response['siswa'] = $siswas;
-        $response['user'] = $users;
         $response['status'] = true;
 
         return response()->json($response);
@@ -160,7 +177,7 @@ class PrestasiController extends Controller
     public function show($id)
     {
         $prestasi = $this->prestasi->findOrFail($id);
-        
+
         $response['user'] = $prestasi->user;
         $response['master_prestasi'] = $prestasi->master_prestasi;
         $response['siswa'] = $prestasi->siswa;
@@ -184,7 +201,7 @@ class PrestasiController extends Controller
         array_set($prestasi->user, 'label', $prestasi->user->name);
         array_set($prestasi->master_prestasi, 'label', $prestasi->master_prestasi->juara);
         array_set($prestasi->siswa, 'label', $prestasi->siswa->nama_siswa);
-        
+
         $response['master_prestasi'] = $prestasi->master_prestasi;
         $response['siswa'] = $prestasi->siswa;
         $response['prestasi'] = $prestasi;
@@ -202,7 +219,7 @@ class PrestasiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $response = array();
         $message  = array();
 
@@ -213,7 +230,7 @@ class PrestasiController extends Controller
                 'master_prestasi_id' => 'required',
                 'siswa_id' => 'required|unique:prestasis,siswa_id,'.$id,
                 'nama_lomba' => 'required',
-                
+
             ]);
 
         if ($validator->fails()) {
@@ -221,8 +238,8 @@ class PrestasiController extends Controller
             foreach($validator->messages()->getMessages() as $key => $error){
                         foreach($error AS $error_get) {
                             array_push($message, $error_get);
-                        }                
-                    } 
+                        }
+                    }
 
              $check_user = $this->prestasi->where('id','!=', $id)->where('user_id', $request->user_id);
              $check_siswa = $this->prestasi->where('id','!=', $id)->where('siswa_id', $request->siswa_id);
