@@ -15,26 +15,12 @@
     <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="siswa_id">Nama Siswa</label>
-            <v-select name="siswa_id" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
+            <label for="nomor_un">Nama Siswa</label>
+            <v-select name="nomor_un" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
 
-            <field-messages name="siswa_id" show="$invalid && $submitted" class="text-danger">
+            <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Nama Siswa is a required field</small>
-            </field-messages>
-            </validate>
-          </div>
-        </div>  
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-            <label for="user_id">Username</label>
-            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
-
-            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Username is a required field</small>
             </field-messages>
             </validate>
           </div>
@@ -63,6 +49,20 @@
                 <small class="form-text text-success">Looks good!</small>
                 <small class="form-text text-danger" slot="required">Nama Lomba is a required field</small>
               </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="user_id">Username</label>
+            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
+
+            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Username is a required field</small>
+            </field-messages>
             </validate>
           </div>
         </div>
@@ -101,18 +101,23 @@ export default {
 
       axios.get('api/prestasi/create')
       .then(response => {
-         response.data.master_prestasi.forEach(element => {
+          response.data.master_prestasi.forEach(element => {
             this.master_prestasi.push(element);
           });
-         response.data.siswa.forEach(element => {
+          response.data.siswa.forEach(element => {
             this.siswa.push(element);
           });
-          response.data.user.forEach(user_element => {
-            this.user.push(user_element);
-          });
+          if(response.data.user_special == true){
+            response.data.user.forEach(user_element => {
+              this.user.push(user_element);
+            });
+          }else{
+            this.user.push(response.data.user);
+          }
       })
       .catch(function(response) {
         alert('Break');
+        window.location.href = '#/admin/master-prestasi/';
       })
   },
   data() {
@@ -139,7 +144,7 @@ export default {
         axios.put('api/prestasi/' + this.$route.params.id, {
             user_id: this.model.user.id,
             master_prestasi_id: this.model.master_prestasi.id,
-            siswa_id: this.model.siswa.id,
+            nomor_un: this.model.siswa.id,
             nama_lomba: this.model.nama_lomba
           })
           .then(response => {

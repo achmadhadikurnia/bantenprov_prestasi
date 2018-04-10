@@ -18,20 +18,6 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="user_id">Username</label>
-            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
-
-            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Username is a required field</small>
-            </field-messages>
-            </validate>
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
               <label for="model-nama_jenis_prestasi">Nama Jenis Prestasi</label>
               <input class="form-control" v-model="model.nama_jenis_prestasi" required autofocus name="nama_jenis_prestasi" type="text" placeholder="Nama Jenis Prestasi">
 
@@ -39,6 +25,20 @@
                 <small class="form-text text-success">Looks good!</small>
                 <small class="form-text text-danger" slot="required">Juara is a required field</small>
               </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="user_id">Username</label>
+            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
+
+            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Username is a required field</small>
+            </field-messages>
             </validate>
           </div>
         </div>
@@ -75,12 +75,17 @@ export default {
 
       axios.get('api/jenis-prestasi/create')
       .then(response => {
-          response.data.user.forEach(user_element => {
-            this.user.push(user_element);
-          });
+          if(response.data.user_special == true){
+            response.data.user.forEach(user_element => {
+              this.user.push(user_element);
+            });
+          }else{
+            this.user.push(response.data.user);
+          }
       })
       .catch(function(response) {
         alert('Break');
+        window.location.href = '#/admin/jenis-prestasi/';
       })
   },
   data() {

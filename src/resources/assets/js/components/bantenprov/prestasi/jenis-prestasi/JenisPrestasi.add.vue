@@ -15,6 +15,17 @@
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
 
+    <validate tag="div">
+          <div class="form-group">
+            <label for="model-nama_jenis_prestasi">Nama Jenis Prestasi</label>
+            <input type="text" class="form-control" id="model-nama_jenis_prestasi" v-model="model.nama_jenis_prestasi" name="nama_jenis_prestasi" placeholder="Nama Jenis Prestasi" required autofocus>
+            <field-messages name="nama_jenis_prestasi" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">This field is a required field</small>
+            </field-messages>
+          </div>
+        </validate>
+
     <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
@@ -28,17 +39,6 @@
             </validate>
           </div>
         </div>
-
-    <validate tag="div">
-          <div class="form-group">
-            <label for="model-nama_jenis_prestasi">Nama Jenis Prestasi</label>
-            <input type="text" class="form-control" id="model-nama_jenis_prestasi" v-model="model.nama_jenis_prestasi" name="nama_jenis_prestasi" placeholder="Nama Jenis Prestasi" required autofocus>
-            <field-messages name="nama_jenis_prestasi" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">This field is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
 
          <div class="form-row mt-4">
           <div class="col-md">
@@ -58,12 +58,23 @@ export default {
   mounted(){
     axios.get('api/jenis-prestasi/create')
     .then(response => {
-        response.data.user.forEach(user_element => {
+      if (response.data.status == true) {
+        this.model.user = response.data.current_user;
+
+        if(response.data.user_special == true){
+          response.data.user.forEach(user_element => {
             this.user.push(user_element);
-        });
+          });
+        }else{
+          this.user.push(response.data.user);
+        }
+      } else {
+        alert('Failed');
+      }
     })
     .catch(function(response) {
       alert('Break');
+      window.location.href = '#/admin/jenis-prestasi';
     });
   },
   data() {
@@ -85,7 +96,7 @@ export default {
       } else {
         axios.post('api/jenis-prestasi', {
             user_id: this.model.user.id,
-            nama_jenis_prestasi: this.model.nama_jenis_prestasi,            
+            nama_jenis_prestasi: this.model.nama_jenis_prestasi,
           })
           .then(response => {
             if (response.data.status == true) {
