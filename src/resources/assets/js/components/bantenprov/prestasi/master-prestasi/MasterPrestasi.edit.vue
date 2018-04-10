@@ -12,6 +12,9 @@
       </ul>
     </div>
 
+    <div class="card-body">
+      <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
+
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
@@ -81,9 +84,6 @@
             </validate>
           </div>
         </div>
-
-    <div class="card-body">
-      <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
 
         <div class="form-row mt-4">
           <div class="col-md">
