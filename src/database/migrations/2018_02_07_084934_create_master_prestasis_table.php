@@ -15,12 +15,12 @@ class CreateMasterPrestasisTable extends Migration
     {
         Schema::create('master_prestasis', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('jenis_prestasi_id');
+            $table->integer('jenis_prestasi_id')->nullable();
             $table->integer('juara');
             $table->integer('tingkat');
             $table->integer('nilai');
             $table->integer('kode_prestasi');
-            $table->integer('user_id');
+            $table->integer('user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

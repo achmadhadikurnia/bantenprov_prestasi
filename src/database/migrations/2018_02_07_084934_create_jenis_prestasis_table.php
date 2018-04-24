@@ -15,8 +15,8 @@ class CreateJenisPrestasisTable extends Migration
     {
         Schema::create('jenis_prestasis', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nama_jenis_prestasi');
-            $table->integer('user_id');
+            $table->string('nama_jenis_prestasi')->nullable();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
