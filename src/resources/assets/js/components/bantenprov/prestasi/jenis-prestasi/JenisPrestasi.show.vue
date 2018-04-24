@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Jenis Prestasi 
+      <i class="fa fa-table" aria-hidden="true"></i> Jenis Prestasi
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -17,10 +17,10 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Nama Jenis Prestasi :</b> {{ model.nama_jenis_prestasi }}
+            <b>Nama Jenis Prestasi :</b> {{ model.nama }}
           </div>
-        </div> 
-        
+        </div>
+
       </vue-form>
     </div>
        <div class="card-footer text-muted">
@@ -44,7 +44,7 @@ export default {
       .then(response => {
         if (response.data.status == true) {
           this.model.user = response.data.user;
-          this.model.nama_jenis_prestasi = response.data.jenis_prestasi.nama_jenis_prestasi;
+          this.model.nama = response.data.jenis_prestasi.nama;
           this.model.created_at = response.data.jenis_prestasi.created_at;
           this.model.updated_at = response.data.jenis_prestasi.updated_at;
         } else {
@@ -62,7 +62,7 @@ export default {
       state: {},
       model: {
         user: "",
-        nama_jenis_prestasi: "",
+        nama: "",
         created_at:       "",
         updated_at:       "",
       },
@@ -77,7 +77,7 @@ export default {
         return;
       } else {
         axios.put('api/jenis-prestasi/' + this.$route.params.id, {
-            nama_jenis_prestasi: this.model.nama_jenis_prestasi,
+            nama: this.model.nama,
             user_id: this.model.jenis_prestasi.id
           })
           .then(response => {

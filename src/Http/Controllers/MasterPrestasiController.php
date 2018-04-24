@@ -105,7 +105,7 @@ class MasterPrestasiController extends Controller
         $response['current_user'] = $current_user;
 
         foreach($jenis_prestasis as $jenis_prestasi){
-            array_set($jenis_prestasi, 'label', $jenis_prestasi->nama_jenis_prestasi);
+            array_set($jenis_prestasi, 'label', $jenis_prestasi->nama);
         }
 
         $response['jenis_prestasi'] = $jenis_prestasis;
@@ -129,13 +129,13 @@ class MasterPrestasiController extends Controller
             'user_id' => 'required',
             'jenis_prestasi_id' => 'required',
             'juara' => 'required',
-            'kode_prestasi' => 'required|unique:master_prestasis,kode_prestasi',
+            'kode' => 'required|unique:master_prestasis,kode',
             'tingkat' => 'required',
             'nilai' => 'required'
         ]);
 
         if($validator->fails()){
-            $check = $master_prestasi->where('kode_prestasi',$request->kode_prestasi)->whereNull('deleted_at')->count();
+            $check = $master_prestasi->where('kode',$request->kode)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
                 $response['message'] = 'Failed ! Kode Prestasi, already exists';
@@ -143,7 +143,7 @@ class MasterPrestasiController extends Controller
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->juara = $request->input('juara');
-                $master_prestasi->kode_prestasi = $request->input('kode_prestasi');
+                $master_prestasi->kode = $request->input('kode');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');
                 $master_prestasi->save();
@@ -154,7 +154,7 @@ class MasterPrestasiController extends Controller
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->juara = $request->input('juara');
-                $master_prestasi->kode_prestasi = $request->input('kode_prestasi');
+                $master_prestasi->kode = $request->input('kode');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');
                 $master_prestasi->save();
@@ -197,7 +197,7 @@ class MasterPrestasiController extends Controller
         $master_prestasi = $this->master_prestasi->findOrFail($id);
 
         array_set($master_prestasi->user, 'label', $master_prestasi->user->name);
-        array_set($master_prestasi->jenis_prestasi, 'label', $master_prestasi->jenis_prestasi->nama_jenis_prestasi);
+        array_set($master_prestasi->jenis_prestasi, 'label', $master_prestasi->jenis_prestasi->nama);
 
         $response['master_prestasi'] = $master_prestasi;
         $response['jenis_prestasi'] = $master_prestasi->jenis_prestasi;
@@ -225,7 +225,7 @@ class MasterPrestasiController extends Controller
                 'user_id' => 'required',
                 'jenis_prestasi_id' => 'required',
                 'juara' => 'required',
-                'kode_prestasi' => 'required|unique:master_prestasis,kode_prestasi',
+                'kode' => 'required|unique:master_prestasis,kode',
                 'tingkat' => 'required',
                 'nilai' => 'required'
 
@@ -239,16 +239,16 @@ class MasterPrestasiController extends Controller
                         }
                     }
 
-            $check_kode_prestasi = $this->master_prestasi->where('id','!=', $id)->where('kode_prestasi', $request->kode_prestasi);
+            $check_kode = $this->master_prestasi->where('id','!=', $id)->where('kode', $request->kode);
 
-             if($check_kode_prestasi->count() > 0){
+             if($check_kode->count() > 0){
                   $response['message'] = implode("\n",$message);
 
             } else {
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->juara = $request->input('juara');
-                $master_prestasi->kode_prestasi = $request->input('kode_prestasi');
+                $master_prestasi->kode = $request->input('kode');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');
                 $master_prestasi->save();
@@ -259,7 +259,7 @@ class MasterPrestasiController extends Controller
                 $master_prestasi->user_id = $request->input('user_id');
                 $master_prestasi->jenis_prestasi_id = $request->input('jenis_prestasi_id');
                 $master_prestasi->juara = $request->input('juara');
-                $master_prestasi->kode_prestasi = $request->input('kode_prestasi');
+                $master_prestasi->kode = $request->input('kode');
                 $master_prestasi->tingkat = $request->input('tingkat');
                 $master_prestasi->nilai = $request->input('nilai');
                 $master_prestasi->save();

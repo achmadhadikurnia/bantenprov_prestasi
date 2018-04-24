@@ -44,7 +44,7 @@ class BantenprovPrestasiSeederJenisPrestasi extends Seeder
 
 
         	$this->model->create([
-            	'nama_jenis_prestasi' => $data['nama_jenis_prestasi'],
+            	'nama' => $data['nama'],
 				'user_id' => $data['user_id'],
 
         	]);
@@ -54,7 +54,7 @@ class BantenprovPrestasiSeederJenisPrestasi extends Seeder
 
         if($this->textInfo){
             echo "============[DATA]============\n";
-            $this->orangeText('nama_jenis_prestasi : ').$this->greenText($data['nama_jenis_prestasi']);
+            $this->orangeText('nama : ').$this->greenText($data['nama']);
 			echo"\n";
 			$this->orangeText('user_id : ').$this->greenText($data['user_id']);
 			echo"\n";
@@ -83,7 +83,7 @@ class BantenprovPrestasiSeederJenisPrestasi extends Seeder
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
             $all_data[] = [
-                'nama_jenis_prestasi' => $data[0],
+                'nama' => $data[0],
                 'user_id' => $data[1],
             ];
         }

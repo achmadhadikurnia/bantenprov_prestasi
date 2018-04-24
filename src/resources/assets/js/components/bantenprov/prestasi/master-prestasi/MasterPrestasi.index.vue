@@ -80,7 +80,7 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
 export default {
   components: {
     VuetablePaginationInfo
-  },  
+  },
   data() {
     return {
       loading: true,
@@ -104,7 +104,7 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'jenis_prestasi.nama_jenis_prestasi',
+          name: 'jenis_prestasi.nama',
           title: 'Jenis Prestasi',
           sortField: 'jenis_prestasi_id',
           titleClass: 'center aligned'
@@ -169,21 +169,21 @@ export default {
       }
     }
   },
-  methods: {  
+  methods: {
     getJuaraById(value){
       var found = this.optionsJuara.find((e) => {
         return e.id == value
       })
-      
+
       return found.label
-    }, 
+    },
     getTingkatById(value){
       var found = this.optionsTingkat.find((e) => {
         return e.id == value
       })
-      
+
       return found.label
-    },  
+    },
     createRow() {
       window.location = '#/admin/master-prestasi/create';
     },

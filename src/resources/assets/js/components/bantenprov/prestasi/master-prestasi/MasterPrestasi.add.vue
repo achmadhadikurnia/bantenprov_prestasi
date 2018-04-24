@@ -70,9 +70,9 @@
 
         <validate tag="div">
           <div class="form-group">
-            <label for="model-kode_prestasi">Kode Prestasi</label>
-            <input type="text" class="form-control" id="model-kode_prestasi" v-model="model.kode_prestasi" name="kode_prestasi" placeholder="Kode Prestasi" required autofocus>
-            <field-messages name="kode_prestasi" show="$invalid && $submitted" class="text-danger">
+            <label for="model-kode">Kode Prestasi</label>
+            <input type="text" class="form-control" id="model-kode" v-model="model.kode" name="kode" placeholder="Kode Prestasi" required autofocus>
+            <field-messages name="kode" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Kode Prestasi is a required field</small>
             </field-messages>
@@ -157,7 +157,7 @@ export default {
         juara: "",
         tingkat: "",
         nilai: "",
-        kode_prestasi: "",
+        kode: "",
         user: ""
       },
       user: [],
@@ -177,7 +177,7 @@ export default {
             nilai: this.model.nilai,
             juara: this.model.juara.id,
             tingkat: this.model.tingkat.id,
-            kode_prestasi: this.model.kode_prestasi
+            kode: this.model.kode
           })
           .then(response => {
             if (response.data.status == true) {

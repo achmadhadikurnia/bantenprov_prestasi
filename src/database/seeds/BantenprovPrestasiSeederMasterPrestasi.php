@@ -48,7 +48,7 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
 				'juara' => $data['juara'],
 				'tingkat' => $data['tingkat'],
 				'nilai' => $data['nilai'],
-				'kode_prestasi' => $data['kode_prestasi'],
+				'kode' => $data['kode'],
 				'user_id' => $data['user_id'],
 
         	]);
@@ -66,7 +66,7 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
 			echo"\n";
 			$this->orangeText('nilai : ').$this->greenText($data['nilai']);
 			echo"\n";
-			$this->orangeText('kode_prestasi : ').$this->greenText($data['kode_prestasi']);
+			$this->orangeText('kode : ').$this->greenText($data['kode']);
 			echo"\n";
 			$this->orangeText('user_id : ').$this->greenText($data['user_id']);
 			echo"\n";
@@ -99,7 +99,7 @@ class BantenprovPrestasiSeederMasterPrestasi extends Seeder
                 'juara' => $data[1],
                 'tingkat' => $data[2],
                 'nilai' => $data[3],
-                'kode_prestasi' => $data[4],
+                'kode' => $data[4],
                 'user_id' => $data[5],
             ];
         }

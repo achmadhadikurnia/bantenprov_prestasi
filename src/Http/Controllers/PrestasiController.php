@@ -128,7 +128,7 @@ class PrestasiController extends Controller
                 $tingkat = "Tingkat Kabupaten/Kota";
             }
 
-            array_set($master_prestasi, 'label', "( ".$juara." ".$tingkat." ) - ".$master_prestasi->jenis_prestasi->nama_jenis_prestasi);
+            array_set($master_prestasi, 'label', "( ".$juara." ".$tingkat." ) - ".$master_prestasi->jenis_prestasi->nama);
         }
 
         foreach($siswas as $siswa){
