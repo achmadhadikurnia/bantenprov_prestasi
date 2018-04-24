@@ -135,7 +135,7 @@ export default {
         axios.post('api/prestasi', {
             user_id: this.model.user.id,
             master_prestasi_id: this.model.master_prestasi.id,
-            nomor_un: this.model.siswa.id,
+            nomor_un: this.model.siswa.nomor_un,
             nama_lomba: this.model.nama_lomba
           })
           .then(response => {

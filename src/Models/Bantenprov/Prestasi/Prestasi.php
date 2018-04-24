@@ -29,7 +29,7 @@ class Prestasi extends Model
 
     public function siswa()
     {
-        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un');
+        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un','nomor_un');
     }
 
     public function user()

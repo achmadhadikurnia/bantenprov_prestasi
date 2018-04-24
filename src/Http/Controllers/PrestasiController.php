@@ -13,6 +13,7 @@ use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\Prestasi;
 use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi;
 use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
 use App\User;
+use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
 
 /* Etc */
 use Validator;
@@ -32,16 +33,18 @@ class PrestasiController extends Controller
      * @return void
      */
     protected $prestasi;
-    protected $master_prestasi;
     protected $siswa;
+    protected $master_prestasi;
     protected $user;
+    protected $nilai;
 
-    public function __construct(Prestasi $prestasi, MasterPrestasi $master_prestasi, User $user, Siswa $siswa)
+    public function __construct()
     {
-        $this->prestasi = $prestasi;
-        $this->master_prestasi = $master_prestasi;
-        $this->siswa = $siswa;
-        $this->user = $user;
+        $this->prestasi         = new Prestasi;
+        $this->siswa            = new Siswa;
+        $this->master_prestasi  = new MasterPrestasi;
+        $this->user             = new User;
+        $this->nilai            = new Nilai;
     }
 
     /**
@@ -155,34 +158,51 @@ class PrestasiController extends Controller
         $prestasi = $this->prestasi;
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:prestasis,user_id',
-            'master_prestasi_id' => 'required',
-            'nomor_un' => 'required|unique:prestasis,nomor_un',
-            'nama_lomba' => 'required',
+            'nomor_un'              => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->prestasi->getTable()},nomor_un,NULL,id,deleted_at,NULL",
+            'master_prestasi_id'    => "required|exists:{$this->master_prestasi->getTable()},id",
+            'nama_lomba'            => 'required|max:255',
+            // 'nilai'             => 'required|numeric|min:0|max:100',
+            'user_id'               => "required|exists:{$this->user->getTable()},id",
         ]);
 
-        if($validator->fails()){
-            $check = $prestasi->where('user_id',$request->user_id)->orWhere('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
-
-            if ($check > 0) {
-                $response['message'] = 'Failed ! Username, Nama Siswa, already exists';
-            } else {
-                $prestasi->user_id = $request->input('user_id');
-                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
-                $prestasi->nomor_un = $request->input('nomor_un');
-                $prestasi->nama_lomba = $request->input('nama_lomba');
-                $prestasi->save();
-
-                $response['message'] = 'success';
-            }
+        if ($validator->fails()) {
+            $error                  = true;
+            $response['message']    = $validator->errors()->first();
         } else {
-                $prestasi->user_id = $request->input('user_id');
-                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
-                $prestasi->nomor_un = $request->input('nomor_un');
-                $prestasi->nama_lomba = $request->input('nama_lomba');
-                $prestasi->save();
+            $prestasi_master_prestasi_id    = $request->input('master_prestasi_id');
+            $master_prestasi                = $this->master_prestasi->findOrFail($prestasi_master_prestasi_id);
 
-            $response['message'] = 'success';
+            $prestasi->nomor_un             = $request->input('nomor_un');
+            $prestasi->master_prestasi_id   = $prestasi_master_prestasi_id;
+            $prestasi->nama_lomba           = $request->input('nama_lomba');
+            $prestasi->nilai                = $master_prestasi->nilai;
+            $prestasi->user_id              = $request->input('user_id');
+
+            $nilai = $this->nilai->updateOrCreate(
+                [
+                    'nomor_un'  => $prestasi->nomor_un,
+                ],
+                [
+                    'prestasi'  => $prestasi->nilai,
+                    'total'     => null,
+                    'user_id'   => $prestasi->user_id,
+                ]
+            );
+
+            DB::beginTransaction();
+
+            if ($prestasi->save() && $nilai->save())
+            {
+                DB::commit();
+
+                $error      = false;
+                $response['message'] = 'success';
+            } else {
+                DB::rollBack();
+
+                $error                  = true;
+                $response['message']    = 'Failed';
+            }
         }
 
         $response['status'] = true;
@@ -242,49 +262,54 @@ class PrestasiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $response = array();
-        $message  = array();
+        $prestasi = $this->prestasi;
 
-        $prestasi = $this->prestasi->findOrFail($id);
-
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required|unique:prestasis,user_id,'.$id,
-                'master_prestasi_id' => 'required',
-                'nomor_un' => 'required|unique:prestasis,nomor_un,'.$id,
-                'nama_lomba' => 'required',
-
-            ]);
+        $validator = Validator::make($request->all(), [
+            'nomor_un'              => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->prestasi->getTable()},nomor_un,{$id},id,deleted_at,NULL",
+            'master_prestasi_id'    => "required|exists:{$this->master_prestasi->getTable()},id",
+            'nama_lomba'            => 'required|max:255',
+            // 'nilai'             => 'required|numeric|min:0|max:100',
+            'user_id'               => "required|exists:{$this->user->getTable()},id",
+        ]);
 
         if ($validator->fails()) {
-
-            foreach($validator->messages()->getMessages() as $key => $error){
-                        foreach($error AS $error_get) {
-                            array_push($message, $error_get);
-                        }
-                    }
-
-             $check_user = $this->prestasi->where('id','!=', $id)->where('user_id', $request->user_id);
-             $check_siswa = $this->prestasi->where('id','!=', $id)->where('nomor_un', $request->nomor_un);
-
-             if($check_user->count() > 0 || $check_siswa->count() > 0){
-                  $response['message'] = implode("\n",$message);
-            } else {
-                $prestasi->user_id = $request->input('user_id');
-                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
-                $prestasi->nomor_un = $request->input('nomor_un');
-                $prestasi->nama_lomba = $request->input('nama_lomba');
-                $prestasi->save();
-
-                $response['message'] = 'success';
-            }
+            $error                  = true;
+            $response['message']    = $validator->errors()->first();
         } else {
-                $prestasi->user_id = $request->input('user_id');
-                $prestasi->master_prestasi_id = $request->input('master_prestasi_id');
-                $prestasi->nomor_un = $request->input('nomor_un');
-                $prestasi->nama_lomba = $request->input('nama_lomba');
-                $prestasi->save();
+            $prestasi_master_prestasi_id    = $request->input('master_prestasi_id');
+            $master_prestasi                = $this->master_prestasi->findOrFail($prestasi_master_prestasi_id);
 
-            $response['message'] = 'success';
+            $prestasi->nomor_un             = $request->input('nomor_un');
+            $prestasi->master_prestasi_id   = $prestasi_master_prestasi_id;
+            $prestasi->nama_lomba           = $request->input('nama_lomba');
+            $prestasi->nilai                = $master_prestasi->nilai;
+            $prestasi->user_id              = $request->input('user_id');
+
+            $nilai = $this->nilai->updateOrCreate(
+                [
+                    'nomor_un'  => $prestasi->nomor_un,
+                ],
+                [
+                    'prestasi'  => $prestasi->nilai,
+                    'total'     => null,
+                    'user_id'   => $prestasi->user_id,
+                ]
+            );
+
+            DB::beginTransaction();
+
+            if ($prestasi->save() && $nilai->save())
+            {
+                DB::commit();
+
+                $error      = false;
+                $response['message'] = 'success';
+            } else {
+                DB::rollBack();
+
+                $error                  = true;
+                $response['message']    = 'Failed';
+            }
         }
 
         $response['status'] = true;
