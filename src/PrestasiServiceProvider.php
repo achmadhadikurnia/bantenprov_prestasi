@@ -35,6 +35,7 @@ class PrestasiServiceProvider extends ServiceProvider
         $this->migrationHandle();
         $this->publicHandle();
         $this->seedHandle();
+        $this->publishHandle();
     }
 
     /**
@@ -73,16 +74,20 @@ class PrestasiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configHandle()
+    protected function configHandle($publish = '')
     {
-        $packageConfigPath = __DIR__.'/config/config.php';
-        $appConfigPath     = config_path('prestasi.php');
+        $packageConfigPath = __DIR__.'/config';
+        $appConfigPath     = config_path('bantenprov/prestasi');
 
-        $this->mergeConfigFrom($packageConfigPath, 'prestasi');
+        $this->mergeConfigFrom($packageConfigPath.'/prestasi.php', 'prestasi');
+        $this->mergeConfigFrom($packageConfigPath.'/master-prestasi.php', 'master-prestasi');
+        $this->mergeConfigFrom($packageConfigPath.'/jenis-prestasi.php', 'jenis-prestasi');
 
         $this->publishes([
-            $packageConfigPath => $appConfigPath,
-        ], 'prestasi-config');
+            $packageConfigPath.'/prestasi.php' => $appConfigPath.'/prestasi.php',
+            $packageConfigPath.'/master-prestasi.php' => $appConfigPath.'/master-prestasi.php',
+            $packageConfigPath.'/jenis-prestasi.php' => $appConfigPath.'/jenis-prestasi.php',
+        ], $publish ? $publish : 'prestasi-config');
     }
 
     /**
@@ -100,7 +105,7 @@ class PrestasiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function langHandle()
+    protected function langHandle($publish = '')
     {
         $packageTranslationsPath = __DIR__.'/resources/lang';
 
@@ -108,7 +113,7 @@ class PrestasiServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageTranslationsPath => resource_path('lang/vendor/prestasi'),
-        ], 'prestasi-lang');
+        ], $publish ? $publish : 'prestasi-lang');
     }
 
     /**
@@ -116,7 +121,7 @@ class PrestasiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function viewHandle()
+    protected function viewHandle($publish = '')
     {
         $packageViewsPath = __DIR__.'/resources/views';
 
@@ -124,7 +129,7 @@ class PrestasiServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageViewsPath => resource_path('views/vendor/prestasi'),
-        ], 'prestasi-views');
+        ], $publish ? $publish : 'prestasi-views');
     }
 
     /**
@@ -132,13 +137,13 @@ class PrestasiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function assetHandle()
+    protected function assetHandle($publish = '')
     {
         $packageAssetsPath = __DIR__.'/resources/assets';
 
         $this->publishes([
             $packageAssetsPath => resource_path('assets'),
-        ], 'prestasi-assets');
+        ], $publish ? $publish : 'prestasi-assets');
     }
 
     /**
@@ -146,7 +151,7 @@ class PrestasiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function migrationHandle()
+    protected function migrationHandle($publish = '')
     {
         $packageMigrationsPath = __DIR__.'/database/migrations';
 
@@ -154,24 +159,53 @@ class PrestasiServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageMigrationsPath => database_path('migrations')
-        ], 'prestasi-migrations');
+        ], $publish ? $publish : 'prestasi-migrations');
     }
 
-    public function publicHandle()
+    /**
+     * Publishing package's publics (JavaScript, CSS, images...)
+     *
+     * @return void
+     */
+    public function publicHandle($publish = '')
     {
         $packagePublicPath = __DIR__.'/public';
 
         $this->publishes([
             $packagePublicPath => base_path('public')
-        ], 'prestasi-public');
+        ], $publish ? $publish : 'prestasi-public');
     }
 
-    public function seedHandle()
+    /**
+     * Publishing package's seeds
+     *
+     * @return void
+     */
+    public function seedHandle($publish = '')
     {
         $packageSeedPath = __DIR__.'/database/seeds';
 
         $this->publishes([
             $packageSeedPath => base_path('database/seeds')
-        ], 'prestasi-seeds');
+        ], $publish ? $publish : 'prestasi-seeds');
+    }
+
+    /**
+     * Publishing package's all files
+     *
+     * @return void
+     */
+    public function publishHandle()
+    {
+        $publish = 'prestasi-publish';
+
+        $this->routeHandle($publish);
+        $this->configHandle($publish);
+        $this->langHandle($publish);
+        $this->viewHandle($publish);
+        $this->assetHandle($publish);
+        // $this->migrationHandle($publish);
+        $this->publicHandle($publish);
+        $this->seedHandle($publish);
     }
 }

@@ -5,29 +5,25 @@
       "region": "Provinsi",
       "name": "Banten",
       "yyyy": "2011",
-      "title": "Kejuaraan Perorangan (Kemendikbud/Kemenag)  Tahun 2017",
+      "title": "Sekolah 1 Kabupaten Pandeglang",
       "data": [
-        "Kab. Pandeglang",
-        "Kab. Lebak",
-        "Kab. Tangerang",
-        "Kab. Serang",
-        "Kota Tangerang",
-        "Kota Cilegon",
-        "Kota Serang",
-        "Kota Tangerang Selatan"
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
       ]
     },
     "series": [
       {
         "data": [
-          6454,
-          6505,
-          6683,
-          6783,
-          7898,
-          7897,
-          7864,
-          7856
+          6.33,
+          6.38,
+          6.43,
+          6.44,
+          6.45,
+          6.50
         ]
       }
     ]
@@ -36,30 +32,26 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Kejuaraan Perorangan (Kemendikbud/Kemenag)  Tahun 2018",
+      "title": "Sekolah 1 Kabupaten Lebak",
       "yyyy": "2011",
       "data": [
-        "Kab. Pandeglang",
-        "Kab. Lebak",
-        "Kab. Tangerang",
-        "Kab. Serang",
-        "Kota Tangerang",
-        "Kota Cilegon",
-        "Kota Serang",
-        "Kota Tangerang Selatan"
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
       ]
     },
     "series": [
       {
         "data": [
-          5846,
-          5865,
-          5897,
-          5983,
-          6489,
-          6643,
-          6789,
-          8764
+          5.34,
+          5.58,
+          5.70,
+          5.81,
+          5.84,
+          5.86
         ]
       }
     ]
@@ -68,30 +60,26 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Kejuaraan Perorangan (di luar Kemendikbud/Kemenag) Tahun 2017",
+      "title": "Sekolah 1 Kesenian Kabupaten Tangerang",
       "yyyy": "2011",
       "data": [
-        "Kab. Pandeglang",
-        "Kab. Lebak",
-        "Kab. Tangerang",
-        "Kab. Serang",
-        "Kota Tangerang",
-        "Kota Cilegon",
-        "Kota Serang",
-        "Kota Tangerang Selatan"
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
       ]
     },
     "series": [
       {
         "data": [
-          8250,
-          8232,
-          8483,
-          8563,
-          8584,
-          8748,
-          8747,
-          8746
+          7.85,
+          7.96,
+          8.07,
+          8.18,
+          8.20,
+          8.22
         ]
       }
     ]
@@ -100,31 +88,26 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Kejuaraan Perorangan (di luar Kemendikbud/Kemenag) Tahun 2018",
+      "title": "Sekolah 1 Kabupaten Serang",
       "yyyy": "2011",
       "data": [
-        "Kab. Pandeglang",
-        "Kab. Lebak",
-        "Kab. Tangerang",
-        "Kab. Serang",
-        "Kota Tangerang",
-        "Kota Cilegon",
-        "Kota Serang",
-        "Kota Tangerang Selatan"
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
       ]
     },
     "series": [
       {
         "data": [
-          
-          6659,
-          6906,
-          7213,
-          7234,
-          7463,
-          7563,
-          7374,
-          7832
+          6.07,
+          6.31,
+          6.57,
+          6.65,
+          6.69,
+          6.90
         ]
       }
     ]
@@ -133,30 +116,26 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Kejuaraan Beregu (Kemendikbud/Kemenag) Tahun 2017",
+      "title": "Sekolah 1 Kota Tangerang",
       "yyyy": "2011",
       "data": [
-        "Kab. Pandeglang",
-        "Kab. Lebak",
-        "Kab. Tangerang",
-        "Kab. Serang",
-        "Kota Tangerang",
-        "Kota Cilegon",
-        "Kota Serang",
-        "Kota Tangerang Selatan"
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
       ]
     },
     "series": [
       {
-        "data": [ 
-          10207,
-          10204,
-          11982,
-          12432,
-          11847,
-          12374,
-          18474,
-          17364
+        "data": [
+          9.64,
+          9.75,
+          9.76,
+          9.82,
+          10.20,
+          10.20
         ]
       }
     ]
@@ -165,30 +144,26 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Kejuaraan Beregu (Kemendikbud/Kemenag) Tahun 2018",
+      "title": "Sekolah 1 Kota Cilegon",
       "yyyy": "2011",
       "data": [
-        "Kab. Pandeglang",
-        "Kab. Lebak",
-        "Kab. Tangerang",
-        "Kab. Serang",
-        "Kota Tangerang",
-        "Kota Cilegon",
-        "Kota Serang",
-        "Kota Tangerang Selatan"
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
       ]
     },
     "series": [
       {
         "data": [
-          9665,
-          9657,
-          9738,
-          9872,
-          9836,
-          9827,
-          9736,
-          9287
+          8.71,
+          8.93,
+          9.29,
+          9.60,
+          9.66,
+          9.67
         ]
       }
     ]
@@ -197,30 +172,26 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Kejuaraan Beregu (di luar Kemendikbud/Kemenag) Tahun 2017",
+      "title": "Sekolah 1 Kota Serang",
       "yyyy": "2011",
       "data": [
-        "Kab. Pandeglang",
-        "Kab. Lebak",
-        "Kab. Tangerang",
-        "Kab. Serang",
-        "Kota Tangerang",
-        "Kota Cilegon",
-        "Kota Serang",
-        "Kota Tangerang Selatan"
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
       ]
     },
     "series": [
       {
         "data": [
-          8558,
-          8594,
-          8657,
-          8726,
-          9827,
-          9873,
-          9872,
-          9764  
+          8.32,
+          8.39,
+          8.48,
+          8.56,
+          8.58,
+          8.59  
         ]
       }
     ]
@@ -229,35 +200,253 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Kejuaraan Beregu (di luar Kemendikbud/Kemenag) Tahun 2018",
+      "title": "Sekolah 1 Kota Tangerang Selatan",
       "yyyy": "2011",
       "data": [
-        "Kab. Pandeglang",
-        "Kab. Lebak",
-        "Kab. Tangerang",
-        "Kab. Serang",
-        "Kota Tangerang",
-        "Kota Cilegon",
-        "Kota Serang",
-        "Kota Tangerang Selatan"
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
       ]
     },
     "series": [
       {
         "data": [
-          11546,
-          11537,
-          12361,
-          11263,
-          13425,
-          11162,
-          13425,
-          12313 
+          10.86,
+          10.87,
+          11.09,
+          11.48,
+          11.56,
+          11.57  
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Provinsi",
+      "name": "Banten",
+      "yyyy": "2011",
+      "title": "Sekolah 2 Kabupaten Pandeglang",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          6.33,
+          6.38,
+          6.43,
+          6.44,
+          6.45,
+          6.50
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Sekolah 2 Kabupaten Lebak",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          5.34,
+          5.58,
+          5.70,
+          5.81,
+          5.84,
+          5.86
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Sekolah 2 Kabupaten Tangerang",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          7.85,
+          7.96,
+          8.07,
+          8.18,
+          8.20,
+          8.22
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Sekolah 2 Kabupaten Serang",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          6.07,
+          6.31,
+          6.57,
+          6.65,
+          6.69,
+          6.90
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Sekolah 2 Kota Tangerang",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          9.64,
+          9.75,
+          9.76,
+          9.82,
+          10.20,
+          10.20
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Sekolah 2 Kota Cilegon",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          8.71,
+          8.93,
+          9.29,
+          9.60,
+          9.66,
+          9.67
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Sekolah 2 Kota Serang",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          8.32,
+          8.39,
+          8.48,
+          8.56,
+          8.58,
+          8.59  
+        ]
+      }
+    ]
+  },
+  {
+    "xAxis": {
+      "type": "category",
+      "region": "Negara",
+      "title": "Sekolah 2 Kota Tangerang Selatan",
+      "yyyy": "2011",
+      "data": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015"
+      ]
+    },
+    "series": [
+      {
+        "data": [
+          10.86,
+          10.87,
+          11.09,
+          11.48,
+          11.56,
+          11.57  
         ]
       }
     ]
   }
 ]
-
-
-
