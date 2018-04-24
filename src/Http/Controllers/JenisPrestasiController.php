@@ -5,6 +5,7 @@ namespace Bantenprov\Prestasi\Http\Controllers;
 /* Require */
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Bantenprov\Prestasi\Facades\PrestasiFacade;
 
 /* Models */
@@ -13,6 +14,7 @@ use App\User;
 
 /* Etc */
 use Validator;
+use Auth;
 
 /**
  * The PrestasiController class.
