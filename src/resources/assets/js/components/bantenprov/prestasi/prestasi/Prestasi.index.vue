@@ -110,6 +110,12 @@ export default {
           titleClass: 'center aligned'
         },
         {
+          name: 'nilai',
+          title: 'Nilai',
+          sortField: 'nilai',
+          titleClass: 'center aligned'
+        },
+        {
           name: 'user.name',
           title: 'Username',
           sortField: 'user_id',

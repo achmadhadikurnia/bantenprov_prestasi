@@ -5,7 +5,7 @@
       "region": "Provinsi",
       "name": "Banten",
       "yyyy": "2011",
-      "title": "Prestasi 1 Kabupaten Pandeglang",
+      "title": "Sekolah 1 Kabupaten Pandeglang",
       "data": [
         "2010",
         "2011",
@@ -32,7 +32,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 1 Kabupaten Lebak",
+      "title": "Sekolah 1 Kabupaten Lebak",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -60,7 +60,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 1 Kesenian Kabupaten Tangerang",
+      "title": "Sekolah 1 Kesenian Kabupaten Tangerang",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -88,7 +88,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 1 Kabupaten Serang",
+      "title": "Sekolah 1 Kabupaten Serang",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -116,7 +116,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 1 Kota Tangerang",
+      "title": "Sekolah 1 Kota Tangerang",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -144,7 +144,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 1 Kota Cilegon",
+      "title": "Sekolah 1 Kota Cilegon",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -172,7 +172,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 1 Kota Serang",
+      "title": "Sekolah 1 Kota Serang",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -200,7 +200,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 1 Kota Tangerang Selatan",
+      "title": "Sekolah 1 Kota Tangerang Selatan",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -230,7 +230,7 @@
       "region": "Provinsi",
       "name": "Banten",
       "yyyy": "2011",
-      "title": "Prestasi 2 Kabupaten Pandeglang",
+      "title": "Sekolah 2 Kabupaten Pandeglang",
       "data": [
         "2010",
         "2011",
@@ -257,7 +257,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 2 Kabupaten Lebak",
+      "title": "Sekolah 2 Kabupaten Lebak",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -285,7 +285,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 2 Kabupaten Tangerang",
+      "title": "Sekolah 2 Kabupaten Tangerang",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -313,7 +313,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 2 Kabupaten Serang",
+      "title": "Sekolah 2 Kabupaten Serang",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -341,7 +341,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 2 Kota Tangerang",
+      "title": "Sekolah 2 Kota Tangerang",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -369,7 +369,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 2 Kota Cilegon",
+      "title": "Sekolah 2 Kota Cilegon",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -397,7 +397,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 2 Kota Serang",
+      "title": "Sekolah 2 Kota Serang",
       "yyyy": "2011",
       "data": [
         "2010",
@@ -425,7 +425,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Prestasi 2 Kota Tangerang Selatan",
+      "title": "Sekolah 2 Kota Tangerang Selatan",
       "yyyy": "2011",
       "data": [
         "2010",

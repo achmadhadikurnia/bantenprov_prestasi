@@ -20,7 +20,7 @@ class MasterPrestasi extends Model
         'juara',
         'tingkat',
         'nilai',
-        'kode_prestasi',
+        'kode',
         'user_id'
     ];
 

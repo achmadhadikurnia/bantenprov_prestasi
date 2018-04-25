@@ -5,6 +5,7 @@ namespace Bantenprov\Prestasi\Http\Controllers;
 /* Require */
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Bantenprov\Prestasi\Facades\PrestasiFacade;
 
 /* Models */
@@ -13,6 +14,7 @@ use App\User;
 
 /* Etc */
 use Validator;
+use Auth;
 
 /**
  * The PrestasiController class.
@@ -55,7 +57,7 @@ class JenisPrestasiController extends Controller
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
                 $q->where('user_id', 'like', $value)
-                    ->orWhere('nama_jenis_prestasi', 'like', $value);
+                    ->orWhere('nama', 'like', $value);
             });
         }
 
@@ -116,7 +118,7 @@ class JenisPrestasiController extends Controller
         $validator = Validator::make($request->all(), [
             /*'user_id' => 'required|unique:jenis_prestasis,user_id',*/
             'user_id' => 'required',
-            'nama_jenis_prestasi' => 'required',
+            'nama' => 'required',
         ]);
 
         if($validator->fails()){
@@ -126,14 +128,14 @@ class JenisPrestasiController extends Controller
                 $response['message'] = 'Failed ! Username, already exists';
             } else {
                 $jenis_prestasi->user_id = $request->input('user_id');
-                $jenis_prestasi->nama_jenis_prestasi = $request->input('nama_jenis_prestasi');
+                $jenis_prestasi->nama = $request->input('nama');
                 $jenis_prestasi->save();
 
                 $response['message'] = 'success';
             }
         } else {
                 $jenis_prestasi->user_id = $request->input('user_id');
-                $jenis_prestasi->nama_jenis_prestasi = $request->input('nama_jenis_prestasi');
+                $jenis_prestasi->nama = $request->input('nama');
                 $jenis_prestasi->save();
 
             $response['message'] = 'success';
@@ -197,7 +199,7 @@ class JenisPrestasiController extends Controller
             $validator = Validator::make($request->all(), [
                 /*'user_id' => 'required|unique:jenis_prestasis,user_id,'.$id,*/
                 'user_id' => 'required',
-                'nama_jenis_prestasi' => 'required',
+                'nama' => 'required',
 
             ]);
 
@@ -215,14 +217,14 @@ class JenisPrestasiController extends Controller
                   $response['message'] = implode("\n",$message);
             } else {
                 $jenis_prestasi->user_id = $request->input('user_id');
-                $jenis_prestasi->nama_jenis_prestasi = $request->input('nama_jenis_prestasi');
+                $jenis_prestasi->nama = $request->input('nama');
                 $jenis_prestasi->save();
 
                 $response['message'] = 'success';
             }
         } else {
                 $jenis_prestasi->user_id = $request->input('user_id');
-                $jenis_prestasi->nama_jenis_prestasi = $request->input('nama_jenis_prestasi');
+                $jenis_prestasi->nama = $request->input('nama');
                 $jenis_prestasi->save();
 
             $response['message'] = 'success';

@@ -14,10 +14,11 @@ class CreatePrestasisTable extends Migration
 	{
 		Schema::create('prestasis', function(Blueprint $table) {
 			$table->increments('id');
-			$table->integer('user_id');
+			$table->string('nomor_un');
 			$table->integer('master_prestasi_id');
-			$table->bigInteger('nomor_un');
 			$table->string('nama_lomba');
+            $table->integer('nilai');
+			$table->integer('user_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});

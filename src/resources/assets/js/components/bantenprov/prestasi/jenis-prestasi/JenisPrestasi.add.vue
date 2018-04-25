@@ -17,9 +17,9 @@
 
     <validate tag="div">
           <div class="form-group">
-            <label for="model-nama_jenis_prestasi">Nama Jenis Prestasi</label>
-            <input type="text" class="form-control" id="model-nama_jenis_prestasi" v-model="model.nama_jenis_prestasi" name="nama_jenis_prestasi" placeholder="Nama Jenis Prestasi" required autofocus>
-            <field-messages name="nama_jenis_prestasi" show="$invalid && $submitted" class="text-danger">
+            <label for="model-nama">Nama Jenis Prestasi</label>
+            <input type="text" class="form-control" id="model-nama" v-model="model.nama" name="nama" placeholder="Nama Jenis Prestasi" required autofocus>
+            <field-messages name="nama" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">This field is a required field</small>
             </field-messages>
@@ -81,7 +81,7 @@ export default {
     return {
       state: {},
       model: {
-        nama_jenis_prestasi: "",
+        nama: "",
         user: "",
       },
       user: []
@@ -96,7 +96,7 @@ export default {
       } else {
         axios.post('api/jenis-prestasi', {
             user_id: this.model.user.id,
-            nama_jenis_prestasi: this.model.nama_jenis_prestasi,
+            nama: this.model.nama,
           })
           .then(response => {
             if (response.data.status == true) {
@@ -117,7 +117,7 @@ export default {
     },
     reset() {
       this.model = {
-          nama_jenis_prestasi: ""
+          nama: ""
       };
     },
     back() {

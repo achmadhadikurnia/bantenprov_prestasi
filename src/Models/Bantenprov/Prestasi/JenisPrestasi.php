@@ -17,7 +17,7 @@ class JenisPrestasi extends Model
     ];
     protected $fillable = [
         'user_id',
-        'nama_jenis_prestasi'
+        'nama'
     ];
 
     public function user()
