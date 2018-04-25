@@ -3,9 +3,9 @@ use Illuminate\Database\Seeder;
 /**
  * Usage :
  * [1] $ composer dump-autoload -o
- * [2] $ php artisan db:seed --class=BantenprovJenisPrestasiSeeder
+ * [2] $ php artisan db:seed --class=BantenprovPrestasiSeederMasterPrestasi
  */
-class BantenprovJenisPrestasiSeeder extends Seeder
+class BantenprovPrestasiSeederMasterPrestasi extends Seeder
 {
     /* text color */
     protected $RED     ="\033[0;31m";
@@ -18,14 +18,14 @@ class BantenprovJenisPrestasiSeeder extends Seeder
     protected $NC      ="\033[0m";
     /* File name */
     /* location : /databse/seeds/file_name.csv */
-    protected $fileName = "BantenprovJenisPrestasiSeeder.csv";
+    protected $fileName = "BantenprovPrestasiSeederMasterPrestasi.csv";
     /* text info : default (true) */
     protected $textInfo = true;
     /* model class */
     protected $model;
     /* __construct */
     public function __construct(){
-        $this->model = new Bantenprov\Prestasi\Models\Bantenprov\Prestasi\JenisPrestasi;
+        $this->model = new Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi;
     }
     /**
      * Run the database seeds.
@@ -42,23 +42,35 @@ class BantenprovJenisPrestasiSeeder extends Seeder
         /* silahkan di rubah sesuai kebutuhan */
         foreach($this->readCSV() as $data){
 
-            
+
         	$this->model->create([
-            	'nama_jenis_prestasi' => $data['nama_jenis_prestasi'],
+            	'jenis_prestasi_id' => $data['jenis_prestasi_id'],
+				'juara' => $data['juara'],
+				'tingkat' => $data['tingkat'],
+				'nilai' => $data['nilai'],
+				'kode' => $data['kode'],
 				'user_id' => $data['user_id'],
 
         	]);
-        
+
 
         }
 
-        if($this->textInfo){                
+        if($this->textInfo){
             echo "============[DATA]============\n";
-            $this->orangeText('nama_jenis_prestasi : ').$this->greenText($data['nama_jenis_prestasi']);
+            $this->orangeText('jenis_prestasi_id : ').$this->greenText($data['jenis_prestasi_id']);
+			echo"\n";
+			$this->orangeText('juara : ').$this->greenText($data['juara']);
+			echo"\n";
+			$this->orangeText('tingkat : ').$this->greenText($data['tingkat']);
+			echo"\n";
+			$this->orangeText('nilai : ').$this->greenText($data['nilai']);
+			echo"\n";
+			$this->orangeText('kode : ').$this->greenText($data['kode']);
 			echo"\n";
 			$this->orangeText('user_id : ').$this->greenText($data['user_id']);
 			echo"\n";
-        
+
             echo "============[DATA]============\n\n";
         }
 
@@ -82,7 +94,14 @@ class BantenprovJenisPrestasiSeeder extends Seeder
         $all_data = array();
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
-            $all_data[] = ['nama_jenis_prestasi' => $data[0],'user_id' => $data[1],];
+            $all_data[] = [
+                'jenis_prestasi_id' => $data[0],
+                'juara' => $data[1],
+                'tingkat' => $data[2],
+                'nilai' => $data[3],
+                'kode' => $data[4],
+                'user_id' => $data[5],
+            ];
         }
         fclose($file);
         return  $all_data;

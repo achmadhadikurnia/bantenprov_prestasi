@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 200px;">
+  <div style="width: 100%; height: 400px;">
     <IEcharts :option="pie" :resizable="true"></IEcharts>
   </div>
 </template>
@@ -55,15 +55,15 @@ export default {
         visualMap: {
           show: true,
           type: 'continuous',
-          orient: 'vertical',
-          right: 0,
-          y: 'center',
+          orient: 'horizontal',
+          bottom: 30,
+          x: 'center',
           min: 100,
-          max: 700,
+          max: 600,
           text: ['High', 'Low'],
           calculable : false,
           inRange: {
-            color: ['#F0F4C3', '#DCE775', '#CDDC39'],
+            color: ['#B9F6CA', '#69F0AE', '#00C853'],
           },
           textStyle: {
             color: '#fff'
@@ -104,7 +104,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/prestasi/prestasi-pie-030.json').then(response => {
+    axios.get('/json/bantenprov/prestasi/prestasi/prestasi-pie-010.json').then(response => {
 
       let ke = 0;
 

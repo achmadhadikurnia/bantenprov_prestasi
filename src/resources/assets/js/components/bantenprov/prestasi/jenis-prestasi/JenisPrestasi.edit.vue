@@ -18,10 +18,10 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="model-nama_jenis_prestasi">Nama Jenis Prestasi</label>
-              <input class="form-control" v-model="model.nama_jenis_prestasi" required autofocus name="nama_jenis_prestasi" type="text" placeholder="Nama Jenis Prestasi">
+              <label for="model-nama">Nama Jenis Prestasi</label>
+              <input class="form-control" v-model="model.nama" required autofocus name="nama" type="text" placeholder="Nama Jenis Prestasi">
 
-              <field-messages name="nama_jenis_prestasi" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="nama" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
                 <small class="form-text text-danger" slot="required">Juara is a required field</small>
               </field-messages>
@@ -63,7 +63,7 @@ export default {
       .then(response => {
         if (response.data.status == true) {
           this.model.user = response.data.user,
-          this.model.nama_jenis_prestasi = response.data.jenis_prestasi.nama_jenis_prestasi;
+          this.model.nama = response.data.jenis_prestasi.nama;
         } else {
           alert('Failed');
         }
@@ -93,7 +93,7 @@ export default {
       state: {},
       model: {
         user: "",
-        nama_jenis_prestasi: ""
+        nama: ""
       },
       user: []
     }
@@ -107,7 +107,7 @@ export default {
       } else {
         axios.put('api/jenis-prestasi/' + this.$route.params.id, {
             user_id: this.model.user.id,
-            nama_jenis_prestasi: this.model.nama_jenis_prestasi
+            nama: this.model.nama
           })
           .then(response => {
             if (response.data.status == true) {
@@ -130,7 +130,7 @@ export default {
       axios.get('api/jenis-prestasi/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
-            this.model.nama_jenis_prestasi = response.data.jenis_prestasi.nama_jenis_prestasi;
+            this.model.nama = response.data.jenis_prestasi.nama;
           } else {
             alert('Failed');
           }
