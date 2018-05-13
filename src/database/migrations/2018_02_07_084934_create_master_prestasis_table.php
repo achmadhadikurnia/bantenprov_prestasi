@@ -18,7 +18,7 @@ class CreateMasterPrestasisTable extends Migration
             $table->integer('jenis_prestasi_id')->nullable();
             $table->integer('juara');
             $table->integer('tingkat');
-            $table->integer('nilai');
+            $table->double('nilai');
             $table->integer('kode');
             $table->integer('user_id')->nullable();
             $table->timestamps();
