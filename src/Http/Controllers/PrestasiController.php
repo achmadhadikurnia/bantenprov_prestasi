@@ -14,6 +14,7 @@ use Bantenprov\Prestasi\Models\Bantenprov\Prestasi\MasterPrestasi;
 use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
 use App\User;
 use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
+use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\AdminSekolah;
 
 /* Etc */
 use Validator;
@@ -37,6 +38,7 @@ class PrestasiController extends Controller
     protected $master_prestasi;
     protected $user;
     protected $nilai;
+    protected $admin_sekolah;
 
     public function __construct()
     {
@@ -45,6 +47,8 @@ class PrestasiController extends Controller
         $this->master_prestasi  = new MasterPrestasi;
         $this->user             = new User;
         $this->nilai            = new Nilai;
+        $this->admin_sekolah            = new AdminSekolah;
+
     }
 
     /**
@@ -54,20 +58,47 @@ class PrestasiController extends Controller
      */
     public function index(Request $request)
     {
+        $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->first();
+
+        if(is_null($admin_sekolah) && $this->checkRole(['superadministrator']) === false){
+            $response = [];
+            return response()->json($response)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET');
+        }
+
         if (request()->has('sort')) {
             list($sortCol, $sortDir) = explode('|', request()->sort);
 
-            $query = $this->prestasi->orderBy($sortCol, $sortDir);
+            if($this->checkRole(['superadministrator'])){
+                $query = $this->prestasi->orderBy($sortCol, $sortDir);
+            }else{
+                $query = $this->prestasi->where('user_id', $admin_sekolah->admin_sekolah_id)->orderBy($sortCol, $sortDir);
+            }
         } else {
-            $query = $this->prestasi->orderBy('id', 'asc');
+            if($this->checkRole(['superadministrator'])){
+                $query = $this->prestasi->orderBy('id', 'asc');
+            }else{
+                $query = $this->prestasi->where('user_id', $admin_sekolah->admin_sekolah_id)->orderBy('id', 'asc');            
+            }
         }
 
         if ($request->exists('filter')) {
-            $query->where(function($q) use($request) {
-                $value = "%{$request->filter}%";
-                $q->where('nomor_un', 'like', $value)
-                    ->orWhere('nama_lomba', 'like', $value);
-            });
+            if($this->checkRole(['superadministrator'])){
+                $query->where(function($q) use($request) {
+                    $value = "%{$request->filter}%";
+
+                    $q->where('sekolah_id', 'like', $value)
+                        ->orWhere('admin_sekolah_id', 'like', $value);
+                });
+            }else{
+                $query->where(function($q) use($request, $admin_sekolah) {
+                    $value = "%{$request->filter}%";
+
+                    $q->where('sekolah_id', $admin_sekolah->sekolah_id)->where('sekolah_id', 'like', $value);
+                });
+            }
+
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
@@ -89,23 +120,17 @@ class PrestasiController extends Controller
         $response = [];
 
         $master_prestasis = $this->master_prestasi->all();
-        $siswas = $this->siswa->all();
         $users_special = $this->user->all();
         $users_standar = $this->user->find(\Auth::User()->id);
         $current_user = \Auth::User();
-
-        $role_check = \Auth::User()->hasRole(['superadministrator','administrator']);
-
-        if($role_check){
-            $response['user_special'] = true;
-            foreach($users_special as $user){
-                array_set($user, 'label', $user->name);
-            }
-            $response['user'] = $users_special;
+       
+        $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->first();
+        
+        if($this->checkRole(['superadministrator'])){
+            $siswas = $this->siswa->all();
         }else{
-            $response['user_special'] = false;
-            array_set($users_standar, 'label', $users_standar->name);
-            $response['user'] = $users_standar;
+            $sekolah_id = $admin_sekolah->sekolah_id;
+            $siswas     = $this->siswa->where('sekolah_id', $sekolah_id)->get();
         }
 
         array_set($current_user, 'label', $current_user->name);
@@ -334,5 +359,10 @@ class PrestasiController extends Controller
         }
 
         return json_encode($response);
+    }
+
+    protected function checkRole($role = array())
+    {
+        return Auth::user()->hasRole($role);
     }
 }
