@@ -79,7 +79,7 @@ class PrestasiController extends Controller
             if($this->checkRole(['superadministrator'])){
                 $query = $this->prestasi->orderBy('id', 'asc');
             }else{
-                $query = $this->prestasi->where('user_id', $admin_sekolah->admin_sekolah_id)->orderBy('id', 'asc');            
+                $query = $this->prestasi->where('user_id', $admin_sekolah->admin_sekolah_id)->orderBy('id', 'asc');
             }
         }
 
@@ -123,9 +123,9 @@ class PrestasiController extends Controller
         $users_special = $this->user->all();
         $users_standar = $this->user->find(\Auth::User()->id);
         $current_user = \Auth::User();
-       
+
         $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->first();
-        
+
         if($this->checkRole(['superadministrator'])){
             $siswas = $this->siswa->all();
         }else{
@@ -208,9 +208,10 @@ class PrestasiController extends Controller
                     'nomor_un'  => $prestasi->nomor_un,
                 ],
                 [
-                    'prestasi'  => $prestasi->nilai,
-                    'total'     => null,
-                    'user_id'   => $prestasi->user_id,
+                    'prestasi'      => $prestasi->nilai,
+                    'kegiatan_id'   => null,
+                    'total'         => null,
+                    'user_id'       => $prestasi->user_id,
                 ]
             );
 
@@ -315,9 +316,10 @@ class PrestasiController extends Controller
                     'nomor_un'  => $prestasi->nomor_un,
                 ],
                 [
-                    'prestasi'  => $prestasi->nilai,
-                    'total'     => null,
-                    'user_id'   => $prestasi->user_id,
+                    'prestasi'      => $prestasi->nilai,
+                    'kegiatan_id'   => null,
+                    'total'         => null,
+                    'user_id'       => $prestasi->user_id,
                 ]
             );
 
