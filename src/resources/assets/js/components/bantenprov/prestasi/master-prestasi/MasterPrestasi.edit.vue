@@ -74,8 +74,8 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="model-kode_prestasi">Kode Prestasi</label>
-              <input class="form-control" v-model="model.kode_prestasi" required autofocus name="kode_prestasi" type="text" placeholder="Kode Prestasi">
+              <label for="model-kode">Kode Prestasi</label>
+              <input class="form-control" v-model="model.kode" required autofocus name="kode" type="text" placeholder="Kode Prestasi">
 
               <field-messages name="Kode Prestasi" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
@@ -121,7 +121,7 @@ export default {
           this.model.user = response.data.user,
           this.model.jenis_prestasi = response.data.jenis_prestasi;
           this.model.juara = response.data.master_prestasi.juara;
-          this.model.kode_prestasi = response.data.master_prestasi.kode_prestasi;
+          this.model.kode = response.data.master_prestasi.kode;
           this.model.tingkat = response.data.master_prestasi.tingkat;
           this.model.nilai = response.data.master_prestasi.nilai;
         } else {
@@ -177,7 +177,7 @@ export default {
         juara: "",
         tingkat: "",
         nilai: "",
-        kode_prestasi: ""
+        kode: ""
       },
       user: [],
       jenis_prestasi: []
@@ -196,7 +196,7 @@ export default {
             juara: this.model.juara.id,
             tingkat: this.model.tingkat.id,
             nilai: this.model.nilai,
-            kode_prestasi: this.model.kode_prestasi
+            kode: this.model.kode
           })
           .then(response => {
             if (response.data.status == true) {
@@ -219,7 +219,7 @@ export default {
       axios.get('api/master-prestasi/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
-            this.model.kode_prestasi = response.data.master_prestasi.kode_prestasi;
+            this.model.kode = response.data.master_prestasi.kode;
             this.model.nilai = response.data.master_prestasi.nilai;
           } else {
             alert('Failed');

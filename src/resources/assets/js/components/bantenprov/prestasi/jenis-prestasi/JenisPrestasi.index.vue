@@ -92,9 +92,9 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'nama_jenis_prestasi',
+          name: 'nama',
           title: 'Nama Jenis Prestasi',
-          sortField: 'nama_jenis_prestasi',
+          sortField: 'nama',
           titleClass: 'center aligned'
         },
         {

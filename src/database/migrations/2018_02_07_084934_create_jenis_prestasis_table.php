@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMasterPrestasisTable extends Migration
+class CreateJenisPrestasisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,12 @@ class CreateMasterPrestasisTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_prestasis', function (Blueprint $table) {
+        Schema::create('jenis_prestasis', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('jenis_prestasi_id');
-            $table->integer('juara');
-            $table->integer('tingkat');
-            $table->integer('nilai');
-            $table->integer('kode_prestasi');
-            $table->integer('user_id');
+            $table->string('nama')->nullable();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
@@ -34,6 +29,6 @@ class CreateMasterPrestasisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_prestasis');
+        Schema::dropIfExists('jenis_prestasis');
     }
 }

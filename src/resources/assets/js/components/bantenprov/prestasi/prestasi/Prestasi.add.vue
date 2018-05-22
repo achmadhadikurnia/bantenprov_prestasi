@@ -92,9 +92,9 @@ export default {
         response.data.master_prestasi.forEach(element => {
           this.master_prestasi.push(element);
         });
-        response.data.siswa.forEach(element => {
-          this.siswa.push(element);
-        });
+         response.data.siswa.forEach(element => {
+           this.siswa.push(element);
+         });
         if(response.data.user_special == true){
           response.data.user.forEach(user_element => {
             this.user.push(user_element);
@@ -135,7 +135,7 @@ export default {
         axios.post('api/prestasi', {
             user_id: this.model.user.id,
             master_prestasi_id: this.model.master_prestasi.id,
-            nomor_un: this.model.siswa.id,
+            nomor_un: this.model.siswa.nomor_un,
             nama_lomba: this.model.nama_lomba
           })
           .then(response => {
