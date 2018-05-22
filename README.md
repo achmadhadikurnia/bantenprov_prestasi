@@ -17,19 +17,19 @@ Prestasi
 - Development snapshot
 
 ```bash
-$ composer require bantenprov/prestasi:dev-master
+composer require bantenprov/prestasi:dev-master
 ```
 
 - Latest release:
 
 ```bash
-$ composer require bantenprov/prestasi
+composer require bantenprov/prestasi
 ```
 
 ### Download via github
 
 ```bash
-$ git clone https://github.com/bantenprov/prestasi.git
+git clone https://github.com/bantenprov/prestasi.git
 ```
 
 #### Edit `config/app.php` :
@@ -48,30 +48,59 @@ $ git clone https://github.com/bantenprov/prestasi.git
     //...
     Bantenprov\Prestasi\PrestasiServiceProvider::class,
     //...
+],
+```
+
+#### Edit `app/Http/Kernel.php`
+
+```php
+protected $routeMiddleware = [
+    'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
+    'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+    'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    'can' => \Illuminate\Auth\Middleware\Authorize::class,
+    'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+    'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+    //...
+    'role' => \Laratrust\Middleware\LaratrustRole::class,
+    'permission' => \Laratrust\Middleware\LaratrustPermission::class,
+    'ability' => \Laratrust\Middleware\LaratrustAbility::class,
+    //...
+];
 ```
 
 #### Lakukan migrate :
 
 ```bash
-$ php artisan migrate
+php artisan migrate
 ```
 
 #### Lakukan publish semua komponen :
 
 ```bash
-$ php artisan vendor:publish --tag=prestasi-publish
+php artisan vendor:publish --tag=prestasi-publish
 ```
 
 #### Lakukan auto dump :
 
 ```bash
-$ composer dump-autoload
+composer dump-autoload
 ```
 
 #### Lakukan seeding :
 
+- Seeding semua seeder
+
 ```bash
-$ php artisan db:seed --class=BantenprovPrestasiSeeder
+php artisan db:seed --class=BantenprovPrestasiSeeder
+```
+
+- Seeding secara individual
+
+```bash
+php artisan db:seed --class=BantenprovPrestasiSeederJenisPrestasi
+php artisan db:seed --class=BantenprovPrestasiSeederMasterPrestasi
+php artisan db:seed --class=BantenprovPrestasiSeederPrestasi
 ```
 
 #### Edit menu `resources/assets/js/menu.js`
@@ -87,19 +116,19 @@ $ php artisan db:seed --class=BantenprovPrestasiSeeder
         {
             name: 'Jenis Prestasi',
             link: '/dashboard/jenis-prestasi',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         // Master Prestasi
         {
             name: 'Master Prestasi',
             link: '/dashboard/master-prestasi',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         // Prestasi
         {
             name: 'Prestasi',
             link: '/dashboard/prestasi',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         //...
     ]
@@ -117,19 +146,19 @@ $ php artisan db:seed --class=BantenprovPrestasiSeeder
         {
             name: 'Jenis Prestasi',
             link: '/admin/jenis-prestasi',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         // Master Prestasi
         {
             name: 'Master Prestasi',
             link: '/admin/master-prestasi',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         // Prestasi
         {
             name: 'Prestasi',
             link: '/admin/prestasi',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         //...
     ]
@@ -269,11 +298,11 @@ Vue.component('prestasi-pie-03', PrestasiPie03);
             components: {
                 main: resolve => require(['~/components/views/bantenprov/prestasi/jenis-prestasi/JenisPrestasiDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Jenis Prestasi"
-            }
+                title: "Jenis Prestasi",
+            },
         },
         // Master Prestasi
         {
@@ -281,11 +310,11 @@ Vue.component('prestasi-pie-03', PrestasiPie03);
             components: {
                 main: resolve => require(['~/components/views/bantenprov/prestasi/master-prestasi/MasterPrestasiDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Master Prestasi"
-            }
+                title: "Master Prestasi",
+            },
         },
         // Prestasi
         {
@@ -293,11 +322,11 @@ Vue.component('prestasi-pie-03', PrestasiPie03);
             components: {
                 main: resolve => require(['~/components/views/bantenprov/prestasi/prestasi/PrestasiDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Prestasi"
-            }
+                title: "Prestasi",
+            },
         },
         //...
     ]
@@ -317,44 +346,44 @@ Vue.component('prestasi-pie-03', PrestasiPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/jenis-prestasi/JenisPrestasi.index.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Jenis Prestasi"
-            }
+                title: "Jenis Prestasi",
+            },
         },
         {
             path: '/admin/jenis-prestasi/create',
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/jenis-prestasi/JenisPrestasi.add.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Add Jenis Prestasi"
-            }
+                title: "Add Jenis Prestasi",
+            },
         },
         {
             path: '/admin/jenis-prestasi/:id',
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/jenis-prestasi/JenisPrestasi.show.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "View Jenis Prestasi"
-            }
+                title: "View Jenis Prestasi",
+            },
         },
         {
             path: '/admin/jenis-prestasi/:id/edit',
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/jenis-prestasi/JenisPrestasi.edit.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Edit Jenis Prestasi"
-            }
+                title: "Edit Jenis Prestasi",
+            },
         },
         // Master Prestasi
         {
@@ -362,44 +391,44 @@ Vue.component('prestasi-pie-03', PrestasiPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/master-prestasi/MasterPrestasi.index.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Master Prestasi"
-            }
+                title: "Master Prestasi",
+            },
         },
         {
             path: '/admin/master-prestasi/create',
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/master-prestasi/MasterPrestasi.add.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Add Master Prestasi"
-            }
+                title: "Add Master Prestasi",
+            },
         },
         {
             path: '/admin/master-prestasi/:id',
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/master-prestasi/MasterPrestasi.show.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "View Master Prestasi"
-            }
+                title: "View Master Prestasi",
+            },
         },
         {
             path: '/admin/master-prestasi/:id/edit',
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/master-prestasi/MasterPrestasi.edit.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Edit Master Prestasi"
-            }
+                title: "Edit Master Prestasi",
+            },
         },
         // Prestasi
         {
@@ -407,44 +436,44 @@ Vue.component('prestasi-pie-03', PrestasiPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/prestasi/Prestasi.index.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Prestasi"
-            }
+                title: "Prestasi",
+            },
         },
         {
             path: '/admin/prestasi/create',
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/prestasi/Prestasi.add.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Add Prestasi"
-            }
+                title: "Add Prestasi",
+            },
         },
         {
             path: '/admin/prestasi/:id',
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/prestasi/Prestasi.show.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "View Prestasi"
-            }
+                title: "View Prestasi",
+            },
         },
         {
             path: '/admin/prestasi/:id/edit',
             components: {
                 main: resolve => require(['~/components/bantenprov/prestasi/prestasi/Prestasi.edit.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Edit Prestasi"
-            }
+                title: "Edit Prestasi",
+            },
         },
         //...
     ]
