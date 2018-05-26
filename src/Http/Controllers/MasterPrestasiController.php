@@ -289,57 +289,45 @@ class MasterPrestasiController extends Controller
         } else {
             $response['status'] = false;
         }
-
         return json_encode($response);
     }
 
     public function juara(){
-        return array(
+        return json_encode(array(
             array('id' => 1, 'label' => 'Juara 1'),
             array('id' => 2, 'label' => 'Juara 2'),
             array('id' => 3, 'label' => 'Juara 3'),
             array('id' => 4, 'label' => 'Juara Harapan 1'),
-        );            
+        ));            
     }
 
     public function juara_label($id){
-        $juaras  = array(
-            array('id' => 1, 'label' => 'Juara 1'),
-            array('id' => 2, 'label' => 'Juara 2'),
-            array('id' => 3, 'label' => 'Juara 3'),
-            array('id' => 4, 'label' => 'Juara Harapan 1'),
-        );
+        $juaras     = json_decode($this->juara(),true);
         foreach($juaras as $key => $val){
             if($val['id'] == $id){
                 return $val['label'];
             }else{
-                return FALSE;
+                return NULL;
             }    
         }
     }
     
     public function tingkat(){
-        return array(
+        return json_encode(array(
             array('id' => 1, 'label' => 'Tingkat Internasional'),
             array('id' => 2, 'label' => 'Tingkat Nasional'),
             array('id' => 3, 'label' => 'Tingkat Provinsi'),
             array('id' => 4, 'label' => 'Tingkat Kabupaten/Kota')
-        );
+        ));
     }
 
     public function tingkat_label($id){
-        $tingkats   = array(
-            array('id' => 1, 'label' => 'Tingkat Internasional'),
-            array('id' => 2, 'label' => 'Tingkat Nasional'),
-            array('id' => 3, 'label' => 'Tingkat Provinsi'),
-            array('id' => 4, 'label' => 'Tingkat Kabupaten/Kota')
-        );
-
+        $tingkats   = json_decode($this->tingkat(),true);
         foreach($tingkats as $key => $val){
             if($val['id'] == $id){
                 return $val['label'];
             }else{
-                return FALSE;
+                return NULL;
             }    
         }
     }
