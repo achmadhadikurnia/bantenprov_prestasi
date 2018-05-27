@@ -34,11 +34,11 @@ class MasterPrestasiController extends Controller
     protected $jenis_prestasi;
     protected $user;
 
-    public function __construct(MasterPrestasi $master_prestasi, JenisPrestasi $jenis_prestasi, User $user)
+    public function __construct()
     {
-        $this->master_prestasi = $master_prestasi;
-        $this->jenis_prestasi = $jenis_prestasi;
-        $this->user = $user;
+        $this->master_prestasi  = new MasterPrestasi;
+        $this->jenis_prestasi   = new JenisPrestasi;
+        $this->user             = new User;
     }
 
     /**
@@ -289,7 +289,47 @@ class MasterPrestasiController extends Controller
         } else {
             $response['status'] = false;
         }
-
         return json_encode($response);
     }
+
+    public function juara(){
+        return json_encode(array(
+            array('id' => 1, 'label' => 'Juara 1'),
+            array('id' => 2, 'label' => 'Juara 2'),
+            array('id' => 3, 'label' => 'Juara 3'),
+            array('id' => 4, 'label' => 'Juara Harapan 1'),
+        ));            
+    }
+
+    public function juara_label($id){
+        $juaras     = json_decode($this->juara(),true);
+        foreach($juaras as $key => $val){
+            if($val['id'] == $id){
+                return $val['label'];
+            }else{
+                return NULL;
+            }    
+        }
+    }
+    
+    public function tingkat(){
+        return json_encode(array(
+            array('id' => 1, 'label' => 'Tingkat Internasional'),
+            array('id' => 2, 'label' => 'Tingkat Nasional'),
+            array('id' => 3, 'label' => 'Tingkat Provinsi'),
+            array('id' => 4, 'label' => 'Tingkat Kabupaten/Kota')
+        ));
+    }
+
+    public function tingkat_label($id){
+        $tingkats   = json_decode($this->tingkat(),true);
+        foreach($tingkats as $key => $val){
+            if($val['id'] == $id){
+                return $val['label'];
+            }else{
+                return NULL;
+            }    
+        }
+    }
+    
 }
